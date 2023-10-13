@@ -17,7 +17,8 @@
 		E9434AB92AD5E64600EF821F /* GeometricParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9434AB82AD5E64600EF821F /* GeometricParams.swift */; };
 		E9434ABB2AD5EAAE00EF821F /* EmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9434ABA2AD5EAAE00EF821F /* EmptyView.swift */; };
 		E9434ABD2AD6749600EF821F /* NewTrackerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9434ABC2AD6749600EF821F /* NewTrackerViewController.swift */; };
-		E9434ABF2AD91AEA00EF821F /* ActionBlackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9434ABE2AD91AEA00EF821F /* ActionBlackButton.swift */; };
+		E9434ABF2AD91AEA00EF821F /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9434ABE2AD91AEA00EF821F /* ActionButton.swift */; };
+		E9434AC12ADA063F00EF821F /* NewHabitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9434AC02ADA063E00EF821F /* NewHabitViewController.swift */; };
 		E9718F152AD19E9400853947 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9718F142AD19E9400853947 /* AppDelegate.swift */; };
 		E9718F172AD19E9400853947 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9718F162AD19E9400853947 /* SceneDelegate.swift */; };
 		E9718F192AD19E9400853947 /* TrackersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9718F182AD19E9400853947 /* TrackersViewController.swift */; };
@@ -35,7 +36,8 @@
 		E9434AB82AD5E64600EF821F /* GeometricParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometricParams.swift; sourceTree = "<group>"; };
 		E9434ABA2AD5EAAE00EF821F /* EmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
 		E9434ABC2AD6749600EF821F /* NewTrackerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTrackerViewController.swift; sourceTree = "<group>"; };
-		E9434ABE2AD91AEA00EF821F /* ActionBlackButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionBlackButton.swift; sourceTree = "<group>"; };
+		E9434ABE2AD91AEA00EF821F /* ActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
+		E9434AC02ADA063E00EF821F /* NewHabitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewHabitViewController.swift; sourceTree = "<group>"; };
 		E9718F112AD19E9400853947 /* Tracker-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Tracker-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9718F142AD19E9400853947 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E9718F162AD19E9400853947 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -72,6 +74,7 @@
 				E9718F182AD19E9400853947 /* TrackersViewController.swift */,
 				E9434AB12AD51FDC00EF821F /* StatisticViewController.swift */,
 				E9434ABC2AD6749600EF821F /* NewTrackerViewController.swift */,
+				E9434AC02ADA063E00EF821F /* NewHabitViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -99,7 +102,7 @@
 			children = (
 				E9434AAA2AD2BB9A00EF821F /* TrackerCell.swift */,
 				E9434ABA2AD5EAAE00EF821F /* EmptyView.swift */,
-				E9434ABE2AD91AEA00EF821F /* ActionBlackButton.swift */,
+				E9434ABE2AD91AEA00EF821F /* ActionButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -240,13 +243,14 @@
 				E9718F152AD19E9400853947 /* AppDelegate.swift in Sources */,
 				E9434AB92AD5E64600EF821F /* GeometricParams.swift in Sources */,
 				E9718F172AD19E9400853947 /* SceneDelegate.swift in Sources */,
-				E9434ABF2AD91AEA00EF821F /* ActionBlackButton.swift in Sources */,
+				E9434ABF2AD91AEA00EF821F /* ActionButton.swift in Sources */,
 				E9434AA82AD2B3A500EF821F /* UIColor+Extensions.swift in Sources */,
 				E9434AAE2AD2C3F300EF821F /* Resources.swift in Sources */,
 				E9434ABD2AD6749600EF821F /* NewTrackerViewController.swift in Sources */,
 				E9434AB02AD50E0100EF821F /* Tracker.swift in Sources */,
 				E9434AB62AD520FB00EF821F /* TabBarViewController.swift in Sources */,
 				E9434AB22AD51FDC00EF821F /* StatisticViewController.swift in Sources */,
+				E9434AC12ADA063F00EF821F /* NewHabitViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -388,7 +392,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "";
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
-				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDarkContent;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationPortrait";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
@@ -424,7 +428,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "";
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
-				INFOPLIST_KEY_UIStatusBarStyle = UIStatusBarStyleDarkContent;
+				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationPortrait";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;

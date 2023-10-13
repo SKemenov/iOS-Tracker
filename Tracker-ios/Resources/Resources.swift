@@ -18,7 +18,8 @@ enum Resources {
     static let statistic = "Статистика"
     static let trackers = "Трекеры"
     static let searchBar = "Поиск"
-    static let searchBarCancel = "Отменить"
+    static let cancel = "Отменить"
+    static let create = "Создать"
   }
 
   // MARK: - UI element's SF symbols

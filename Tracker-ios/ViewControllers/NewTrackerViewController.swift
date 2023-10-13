@@ -7,6 +7,8 @@
 
 import UIKit
 
+// MARK: - Class
+
 final class NewTrackerViewController: UIViewController {
   // MARK: - Private properties
   private var titleLabel = UILabel()
@@ -16,26 +18,39 @@ final class NewTrackerViewController: UIViewController {
   private let hSpacing: CGFloat = 20
   private let buttonHeight: CGFloat = 60
 
-  // MARK: - Life
+  // MARK: - Life circle
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    print("Run (viewDidLoad)")
-    view.backgroundColor = .ypLightGray
+    print("Run viewDidLoad()")
+    view.backgroundColor = .ypWhite
 
     configureTitleLabel()
     configureStackView()
   }
 }
 
+// MARK: - Private methods for button's actions
+
 private extension NewTrackerViewController {
   @objc func newHabitButtonClicked() {
     print("Run newHabitButtonClicked()")
+    let nextController = NewHabitViewController()
+    nextController.modalPresentationStyle = .popover
+    navigationController?.present(nextController, animated: true)
   }
 
   @objc func newEventButtonClicked() {
     print("Run newEventButtonClicked()")
+    let nextController = NewHabitViewController()
+    nextController.modalPresentationStyle = .popover
+    navigationController?.present(nextController, animated: true)
   }
+}
+
+// MARK: - Private methods to configure UI elements
+
+private extension NewTrackerViewController {
 
   func configureTitleLabel() {
     print("Run setupTitleLabel()")
@@ -60,16 +75,21 @@ private extension NewTrackerViewController {
   }
 
   func addButtonsToStackView() {
-    let newHabitButton = ActionBlackButton()
+    let newHabitButton = ActionButton()
     newHabitButton.setTitle(Resources.Labels.habit, for: .normal)
     newHabitButton.addTarget(self, action: #selector(newHabitButtonClicked), for: .touchUpInside)
     stackView.addArrangedSubview(newHabitButton)
 
-    let newEventButton = ActionBlackButton()
+    let newEventButton = ActionButton()
     newEventButton.setTitle(Resources.Labels.event, for: .normal)
     newEventButton.addTarget(self, action: #selector(newEventButtonClicked), for: .touchUpInside)
     stackView.addArrangedSubview(newEventButton)
   }
+}
+
+// MARK: - Private methods to configure constraints
+
+private extension NewTrackerViewController {
 
   func configureTitleLabelConstraints() {
     print("Run setupTitleLabelConstraints()")

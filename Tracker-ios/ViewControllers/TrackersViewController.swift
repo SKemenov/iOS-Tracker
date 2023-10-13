@@ -26,7 +26,7 @@ final class TrackersViewController: UIViewController {
   private var searchBar: UISearchController = {
     $0.hidesNavigationBarDuringPresentation = false
     $0.searchBar.placeholder = Resources.Labels.searchBar
-    $0.searchBar.setValue(Resources.Labels.searchBarCancel, forKey: "cancelButtonText")
+    $0.searchBar.setValue(Resources.Labels.cancel, forKey: "cancelButtonText")
     return $0
   }(UISearchController(searchResultsController: nil))
 
@@ -97,7 +97,6 @@ private extension TrackersViewController {
   }
 
   func setupAddButton() {
-
     addButton.tintColor = .ypBlack
     addButton.setImage(Resources.SfSymbols.addTracker, for: .normal)
     addButton.frame = CGRect(x: 0, y: 0, width: 42, height: 42)
