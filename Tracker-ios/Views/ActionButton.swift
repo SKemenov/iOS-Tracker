@@ -1,5 +1,5 @@
 //
-//  ActionBlackButton.swift
+//  ActionButton.swift
 //  Tracker-ios
 //
 //  Created by Sergey Kemenov on 13.10.2023.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ActionBlackButton: UIButton {
+final class ActionButton: UIButton {
   override init(frame: CGRect) {
     super.init(frame: frame)
     setupButton()
