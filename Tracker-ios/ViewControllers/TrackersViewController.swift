@@ -16,6 +16,10 @@ final class TrackersViewController: UIViewController {
   private let datePicker = UIDatePicker()
   private let emptyView = EmptyView()
 
+  private lazy var safeArea: UILayoutGuide = {
+    view.safeAreaLayoutGuide
+  }()
+
   private lazy var collectionView: UICollectionView = {
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
     collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -56,7 +60,7 @@ final class TrackersViewController: UIViewController {
     setupDatePicker()
 
     if trackers.isEmpty {
-      emptyView.makeStack(for: self, title: "Что будем отслеживать?", imageName: Resources.Images.dummyTrackers)
+      emptyView.makeStack(for: self, title: "Что будем отслеживать?", image: Resources.Images.dummyTrackers)
     }
   }
 }
@@ -68,6 +72,7 @@ private extension TrackersViewController {
     // nextController.providesPresentationContextTransitionStyle = true
     // nextController.definesPresentationContext = true
     nextController.modalPresentationStyle = .popover
+    nextController.delegate = self
     navigationController?.present(nextController, animated: true)
   }
 
@@ -75,6 +80,10 @@ private extension TrackersViewController {
     let selectedDate = Resources.dateFormatter.string(from: sender.date)
     print("Selected date is \(selectedDate)")
     dismiss(animated: true)
+  }
+
+  func fetchTracker(from tracker: String) {
+    print("TVC run fetchTracker() with tracker value \(tracker)")
   }
 
   func setupNavigationBar() {
@@ -107,14 +116,14 @@ private extension TrackersViewController {
 
   func setupDatePicker() {
     datePicker.sizeThatFits(CGSize(width: 77, height: 64))
-    datePicker.backgroundColor = .ypLightGray
+    datePicker.backgroundColor = .ypBackground
     datePicker.tintColor = .ypBlack
     datePicker.datePickerMode = .date
     datePicker.preferredDatePickerStyle = .compact
     datePicker.locale = Locale(identifier: "ru_RU")
     datePicker.setDate(currentDate, animated: true)
     datePicker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
-    datePicker.layer.cornerRadius = 10
+    datePicker.layer.cornerRadius = Resources.Dimensions.smallCornerRadius
     datePicker.layer.masksToBounds = true
     datePicker.translatesAutoresizingMaskIntoConstraints = false
     view.addSubview(datePicker)
@@ -125,7 +134,6 @@ private extension TrackersViewController {
     collectionView.delegate = self
     view.addSubview(collectionView)
 
-    let safeArea = view.safeAreaLayoutGuide
     NSLayoutConstraint.activate([
       collectionView.topAnchor.constraint(equalTo: safeArea.topAnchor),
       collectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
@@ -167,4 +175,13 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
     return 2
   }
+}
+
+extension TrackersViewController: NewTrackerViewControllerDelegate {
+  func newTrackerViewController(_ viewController: NewTrackerViewController, didFilledTracker tracker: String) {
+    dismiss(animated: true) {
+      [weak self] in
+      guard let self else { return }
+      self.fetchTracker(from: tracker)
+    }  }
 }

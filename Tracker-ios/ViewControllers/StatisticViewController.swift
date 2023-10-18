@@ -36,6 +36,8 @@ final class StatisticViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    print("SVC Run viewDidLoad()")
+
     view.backgroundColor = .ypWhite
     view.addSubview(statisticTitle)
     NSLayoutConstraint.activate([
@@ -46,7 +48,7 @@ final class StatisticViewController: UIViewController {
     ])
 
     if isEmpty {
-      emptyView.makeStack(for: self, title: "Анализировать пока нечего", imageName: Resources.Images.dummyStatistic)
+      emptyView.makeStack(for: self, title: "Анализировать пока нечего", image: Resources.Images.dummyStatistic)
     }
   }
 }

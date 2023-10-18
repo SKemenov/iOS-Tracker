@@ -7,6 +7,13 @@
 
 import UIKit
 
+// MARK: - Protocol
+
+protocol NewTrackerViewControllerDelegate: AnyObject {
+  func newTrackerViewController(_ viewController: NewTrackerViewController, didFilledTracker tracker: String)
+}
+
+
 // MARK: - Class
 
 final class NewTrackerViewController: UIViewController {
@@ -14,15 +21,28 @@ final class NewTrackerViewController: UIViewController {
   private var titleLabel = UILabel()
   private var stackView = UIStackView()
 
-  private let vSpacing: CGFloat = 16
-  private let hSpacing: CGFloat = 20
-  private let buttonHeight: CGFloat = 60
+  private lazy var safeArea: UILayoutGuide = {
+    view.safeAreaLayoutGuide
+  }()
+
+  private lazy var stackWidth: CGFloat = {
+    view.frame.width - 2 * Resources.Layouts.leadingButton
+  }()
+
+  private lazy var stackHeight: CGFloat = {
+    2 * Resources.Dimensions.buttonHeight + Resources.Layouts.vSpacingButton
+  }()
+
+
+  // MARK: - Public properties
+
+  weak var delegate: NewTrackerViewControllerDelegate?
 
   // MARK: - Life circle
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    print("Run viewDidLoad()")
+    print("NTVC Run viewDidLoad()")
     view.backgroundColor = .ypWhite
 
     configureTitleLabel()
@@ -34,17 +54,17 @@ final class NewTrackerViewController: UIViewController {
 
 private extension NewTrackerViewController {
   @objc func newHabitButtonClicked() {
-    print("Run newHabitButtonClicked()")
-    let nextController = NewHabitViewController()
-    nextController.modalPresentationStyle = .popover
-    navigationController?.present(nextController, animated: true)
+    print("NTVC Run newHabitButtonClicked()")
+    let nextController = CreateTrackerViewController(isEvent: true)
+    nextController.delegate = self
+    present(nextController, animated: true)
   }
 
   @objc func newEventButtonClicked() {
-    print("Run newEventButtonClicked()")
-    let nextController = NewHabitViewController()
-    nextController.modalPresentationStyle = .popover
-    navigationController?.present(nextController, animated: true)
+    print("NTVC Run newEventButtonClicked()")
+    let nextController = CreateTrackerViewController(isEvent: false)
+    nextController.delegate = self
+    present(nextController, animated: true)
   }
 }
 
@@ -53,7 +73,7 @@ private extension NewTrackerViewController {
 private extension NewTrackerViewController {
 
   func configureTitleLabel() {
-    print("Run setupTitleLabel()")
+    print("NTVC Run setupTitleLabel()")
     view.addSubview(titleLabel)
     titleLabel.text = Resources.Labels.newTracker
     titleLabel.font = Resources.Fonts.titleUsual
@@ -65,11 +85,11 @@ private extension NewTrackerViewController {
   }
 
   func configureStackView() {
-    print("Run configureStackViewConstraints()")
+    print("NTVC Run configureStackViewConstraints()")
     view.addSubview(stackView)
     stackView.axis = .vertical
     stackView.distribution = .fillEqually
-    stackView.spacing = vSpacing
+    stackView.spacing = Resources.Layouts.vSpacingButton
     addButtonsToStackView()
     configureStackViewConstraints()
   }
@@ -92,28 +112,33 @@ private extension NewTrackerViewController {
 private extension NewTrackerViewController {
 
   func configureTitleLabelConstraints() {
-    print("Run setupTitleLabelConstraints()")
+    print("NTVC Run setupTitleLabelConstraints()")
     titleLabel.translatesAutoresizingMaskIntoConstraints = false
-    let saveArea = view.safeAreaLayoutGuide
+
     NSLayoutConstraint.activate([
-      titleLabel.topAnchor.constraint(equalTo: saveArea.topAnchor, constant: vSpacing),
-      titleLabel.leadingAnchor.constraint(equalTo: saveArea.leadingAnchor, constant: hSpacing),
-      titleLabel.trailingAnchor.constraint(equalTo: saveArea.trailingAnchor, constant: -hSpacing)
+      titleLabel.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: Resources.Layouts.vSpacingTitle),
+      titleLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+      titleLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor)
     ])
   }
 
   func configureStackViewConstraints() {
-    print("Run configureStackViewConstraints()")
+    print("NTVC Run configureStackViewConstraints()")
     stackView.translatesAutoresizingMaskIntoConstraints = false
-    let saveArea = view.safeAreaLayoutGuide
-    let stackWidth = view.frame.width - 2 * hSpacing
-    let stackHeight = 2 * buttonHeight + vSpacing
 
     NSLayoutConstraint.activate([
-      stackView.centerXAnchor.constraint(equalTo: saveArea.centerXAnchor),
-      stackView.centerYAnchor.constraint(equalTo: saveArea.centerYAnchor),
+      stackView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
+      stackView.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor),
       stackView.widthAnchor.constraint(equalToConstant: stackWidth),
       stackView.heightAnchor.constraint(equalToConstant: stackHeight)
     ])
+  }
+}
+
+// MARK: - CreateTrackerViewControllerDelegate
+
+extension NewTrackerViewController: CreateTrackerViewControllerDelegate {
+  func createTrackerViewController(_ viewController: CreateTrackerViewController, didFilledTracker tracker: String) {
+    delegate?.newTrackerViewController(self, didFilledTracker: tracker)
   }
 }

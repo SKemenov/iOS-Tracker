@@ -22,7 +22,7 @@ final class ActionButton: UIButton {
     setTitleColor(.ypLightGray, for: .disabled)
     backgroundColor = .ypBlack
     titleLabel?.font = Resources.Fonts.titleUsual
-    layer.cornerRadius = 16
+    layer.cornerRadius = Resources.Dimensions.cornerRadius
     layer.masksToBounds = true
   }
 }
