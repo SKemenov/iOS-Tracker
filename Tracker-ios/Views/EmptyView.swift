@@ -7,54 +7,81 @@
 
 import UIKit
 
-final class EmptyView {
+// MARK: - Class
 
-  func makeStack(for viewController: UIViewController, title: String, image: UIImage?) {
+final class EmptyView: UIView {
+  // MARK: - Private properties
 
-    guard let view = viewController.view else { return }
+  private let fullView: UIView = {
+    let view = UIView()
+    // view.backgroundColor = .ypRed
+    view.translatesAutoresizingMaskIntoConstraints = false
+    return view
+  }()
 
-    lazy var viewWidth: CGFloat = {
-      view.frame.width - 2 * Resources.Layouts.leadingElement
-    }()
+  private let centeredView: UIView = {
+    let view = UIView()
+    view.translatesAutoresizingMaskIntoConstraints = false
+    return view
+  }()
 
-    lazy var stackView: UIStackView = {
-      let stack = UIStackView()
-      stack.translatesAutoresizingMaskIntoConstraints = false
-      stack.axis = .vertical
-      stack.spacing = Resources.Layouts.spacingElement
-      stack.alignment = .center
-      stack.distribution = .equalCentering
-      [imageView, subtitleView].forEach { stack.addArrangedSubview($0) }
-      return stack
-    }()
+  // MARK: - Public properties
 
-    lazy var imageView: UIImageView = {
-      $0.translatesAutoresizingMaskIntoConstraints = false
-      $0.image = image
-      $0.frame = CGRect(x: 0, y: 0, width: Resources.Dimensions.bigIcon, height: Resources.Dimensions.bigIcon)
-      return $0
-    }(UIImageView())
+  let iconImageView: UIImageView = {
+    let imageView = UIImageView()
+    imageView.translatesAutoresizingMaskIntoConstraints = false
+    return imageView
+  }()
 
+  let primaryLabel: UILabel = {
+    let label = UILabel()
+    label.numberOfLines = 1
+    label.textAlignment = .center
+    label.textColor = .ypBlack
+    label.font = Resources.Fonts.textNotification
+    label.translatesAutoresizingMaskIntoConstraints = false
+    return label
+  }()
 
-    lazy var subtitleView: UILabel = {
-      $0.translatesAutoresizingMaskIntoConstraints = false
-      $0.text = title
-      $0.textAlignment = .center
-      $0.textColor = .ypBlack
-      $0.font = Resources.Fonts.textNotification
-      $0.frame = CGRect(x: 0, y: 0, width: viewWidth, height: Resources.Dimensions.notificationHeight)
-      return $0
-    }(UILabel())
+  // MARK: - Inits
 
-    view.addSubview(stackView)
+  override init(frame: CGRect) {
+    super.init(frame: frame)
+    addSubview(fullView)
+    fullView.addSubview(centeredView)
+    centeredView.addSubview(iconImageView)
+    centeredView.addSubview(primaryLabel)
+
+    let imageSize = Resources.Dimensions.bigIcon
+    let titleHeight = Resources.Dimensions.notificationHeight
+    let spacing = Resources.Layouts.spacingElement
+    let height = imageSize + spacing + titleHeight
+    let width = Resources.Dimensions.iPhoneSeWidth - spacing * 2
 
     NSLayoutConstraint.activate([
-      stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-      stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-      imageView.widthAnchor.constraint(equalToConstant: Resources.Dimensions.bigIcon),
-      imageView.heightAnchor.constraint(equalToConstant: Resources.Dimensions.bigIcon),
-      subtitleView.widthAnchor.constraint(equalToConstant: viewWidth),
-      subtitleView.heightAnchor.constraint(equalToConstant: Resources.Dimensions.notificationHeight)
+      fullView.leadingAnchor.constraint(equalTo: leadingAnchor),
+      fullView.trailingAnchor.constraint(equalTo: trailingAnchor),
+      fullView.topAnchor.constraint(equalTo: topAnchor),
+      fullView.bottomAnchor.constraint(equalTo: bottomAnchor),
+
+      centeredView.centerXAnchor.constraint(equalTo: fullView.centerXAnchor),
+      centeredView.centerYAnchor.constraint(equalTo: fullView.centerYAnchor),
+      centeredView.widthAnchor.constraint(equalToConstant: width),
+      centeredView.heightAnchor.constraint(equalToConstant: height),
+
+      iconImageView.centerXAnchor.constraint(equalTo: centeredView.centerXAnchor),
+      iconImageView.topAnchor.constraint(equalTo: centeredView.topAnchor),
+      iconImageView.widthAnchor.constraint(equalToConstant: imageSize),
+      iconImageView.heightAnchor.constraint(equalToConstant: imageSize),
+
+      primaryLabel.leadingAnchor.constraint(equalTo: centeredView.leadingAnchor, constant: spacing),
+      primaryLabel.trailingAnchor.constraint(equalTo: centeredView.trailingAnchor, constant: -spacing),
+      primaryLabel.bottomAnchor.constraint(equalTo: centeredView.bottomAnchor),
+      primaryLabel.heightAnchor.constraint(equalToConstant: titleHeight)
     ])
+  }
+
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
   }
 }
