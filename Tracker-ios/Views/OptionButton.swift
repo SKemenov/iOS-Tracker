@@ -8,12 +8,10 @@
 
 import UIKit
 
-struct OptionButtonViewModel {
-  let primaryText: String
-  let secondaryText: String
-}
+// MARK: - Class
 
 final class OptionButton: UIButton {
+  // MARK: - Private properties
 
   private let primaryLabel: UILabel = {
     let label = UILabel()
@@ -45,6 +43,8 @@ final class OptionButton: UIButton {
     return imageView
   }()
 
+  // MARK: - Inits
+
   override init(frame: CGRect) {
     super.init(frame: frame)
     addSubview(primaryLabel)
@@ -55,6 +55,8 @@ final class OptionButton: UIButton {
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
+
+  // MARK: - Public methods
 
   func configure(title: String) {
     primaryLabel.text = title
