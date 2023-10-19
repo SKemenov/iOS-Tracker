@@ -98,6 +98,7 @@ enum Resources {
   static let emojis = [
     "🙂", "😻", "🌺", "🐶", "❤️", "😱", "😇", "😡", "🥶", "🤔", "🙌", "🍔", "🥦", "🏓", "🥇", "🎸", "🏝️", "😪"
   ]
+  static let textFieldLimit = 38
 
   // MARK: - Default date formatter
   static let dateFormat = "dd.MM.YY"

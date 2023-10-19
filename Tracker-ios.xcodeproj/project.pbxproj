@@ -26,6 +26,7 @@
 		E9718F172AD19E9400853947 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9718F162AD19E9400853947 /* SceneDelegate.swift */; };
 		E9718F192AD19E9400853947 /* TrackersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9718F182AD19E9400853947 /* TrackersViewController.swift */; };
 		E9718F1E2AD19E9600853947 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E9718F1D2AD19E9600853947 /* Assets.xcassets */; };
+		E99AEB342AE17AAA00A72F4F /* TrackersFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99AEB332AE17AAA00A72F4F /* TrackersFactory.swift */; };
 		E9E899D02ADB1CC5003D464E /* OptionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E899CF2ADB1CC5003D464E /* OptionButton.swift */; };
 /* End PBXBuildFile section */
 
@@ -51,6 +52,7 @@
 		E9718F182AD19E9400853947 /* TrackersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersViewController.swift; sourceTree = "<group>"; };
 		E9718F1D2AD19E9600853947 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E9718F222AD19E9700853947 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E99AEB332AE17AAA00A72F4F /* TrackersFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersFactory.swift; sourceTree = "<group>"; };
 		E9E899CF2ADB1CC5003D464E /* OptionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -150,11 +152,20 @@
 				E9434AB72AD5E61E00EF821F /* Models */,
 				E9434AA32AD1A0D300EF821F /* Application */,
 				E9434AAC2AD2BBA000EF821F /* Views */,
+				E99AEB352AE17AB100A72F4F /* Services */,
 				E9434AA42AD1A12000EF821F /* ViewControllers */,
 				E9434AA52AD1A1CC00EF821F /* Resources */,
 				E9434AA92AD2B3AA00EF821F /* Extensions */,
 			);
 			path = "Tracker-ios";
+			sourceTree = "<group>";
+		};
+		E99AEB352AE17AB100A72F4F /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				E99AEB332AE17AAA00A72F4F /* TrackersFactory.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -256,6 +267,7 @@
 				E9718F192AD19E9400853947 /* TrackersViewController.swift in Sources */,
 				E9718F152AD19E9400853947 /* AppDelegate.swift in Sources */,
 				E9434AB92AD5E64600EF821F /* GeometricParams.swift in Sources */,
+				E99AEB342AE17AAA00A72F4F /* TrackersFactory.swift in Sources */,
 				E93C3FED2ADFD27300579917 /* BorderView.swift in Sources */,
 				E9718F172AD19E9400853947 /* SceneDelegate.swift in Sources */,
 				E9434ABF2AD91AEA00EF821F /* ActionButton.swift in Sources */,
