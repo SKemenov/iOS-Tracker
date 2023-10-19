@@ -20,6 +20,7 @@ final class ScheduleViewController: UIViewController {
   private var titleLabel = UILabel()
   private var optionsView = UIView()
   private var doneButton = ActionButton()
+  // private var emptyView = EmptyView()
 
   private lazy var safeArea: UILayoutGuide = {
     view.safeAreaLayoutGuide
@@ -95,7 +96,7 @@ private extension ScheduleViewController {
     // print("SVC Run updateFormState()")
     let trues = schedule.filter { $0 == true }.count
     formIsFulfilled = trues > 0 ? true : false
-    print("trues \(trues), formIsFulfilled \(formIsFulfilled)")
+    // print("trues \(trues), formIsFulfilled \(formIsFulfilled)")
   }
 
   func updateDoneButtonState() {
@@ -110,7 +111,7 @@ private extension ScheduleViewController {
 private extension ScheduleViewController {
   @objc func doneButtonClicked() {
     // print("SVC Run doneButtonClicked()")
-    print("schedule \(schedule)")
+    // print("schedule \(schedule)")
     delegate?.scheduleViewController(self, didSelectSchedule: schedule)
   }
 
@@ -118,7 +119,7 @@ private extension ScheduleViewController {
     // print("SVC Run onSwitchChange()")
     schedule[sender.tag] = sender.isOn
     updateFormState()
-    print(" switch tapped \(sender.tag), schedule[\(sender.tag)] \(schedule[sender.tag])")
+    // print(" switch tapped \(sender.tag), schedule[\(sender.tag)] \(schedule[sender.tag])")
   }
 }
 
@@ -126,23 +127,27 @@ private extension ScheduleViewController {
 
 private extension ScheduleViewController {
   func configureTitleSection() {
-    // print("SVC Run configureTitleSection()")
+    configureTitleLabel()
+    view.addSubview(titleLabel)
+    configureTitleSectionConstraints()
+  }
+
+  func configureTitleLabel() {
+    // print("SVC Run configureTitleLabel()")
     titleLabel.text = Resources.Labels.schedule
     titleLabel.font = Resources.Fonts.titleUsual
     titleLabel.textAlignment = .center
+    titleLabel.translatesAutoresizingMaskIntoConstraints = false
     titleLabel.frame = CGRect(
       x: 0,
       y: 0,
       width: view.frame.width,
       height: Resources.Dimensions.titleHeight + Resources.Layouts.vSpacingTitle
     )
-    view.addSubview(titleLabel)
-    configureTitleSectionConstraints()
   }
 
   func configureTitleSectionConstraints() {
     // print("SVC Run configureTitleSectionConstraints()")
-    titleLabel.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       titleLabel.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: Resources.Layouts.vSpacingTitle),
       titleLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
@@ -157,6 +162,7 @@ private extension ScheduleViewController {
   func configureOptionsSection() {
     // print("SVC Run configureOptionsSection()")
     configureOptionsView()
+    view.addSubview(optionsView)
     configureOptionsSectionConstraints()
     for day in 0..<daysOfWeek {
       configureOptionsLabel(index: day)
@@ -172,53 +178,52 @@ private extension ScheduleViewController {
 
   func configureOptionsView() {
     // print("SVC Run configureOptionsView()")
+    optionsView.backgroundColor = .ypBackground
+    optionsView.layer.cornerRadius = Resources.Dimensions.cornerRadius
+    optionsView.layer.masksToBounds = true
+    optionsView.translatesAutoresizingMaskIntoConstraints = false
     optionsView.frame = CGRect(
       x: 0,
       y: 0,
       width: optionsViewWidth,
       height: optionsViewHeight
     )
-    optionsView.backgroundColor = .ypBackground
-    optionsView.layer.cornerRadius = Resources.Dimensions.cornerRadius
-    optionsView.layer.masksToBounds = true
-    view.addSubview(optionsView)
   }
 
   func configureOptionsLabel(index: Int) {
     // print("SVC Run configureOptionsLabel()")
     let label = UILabel()
+    label.textColor = .ypBlack
+    label.text = weekDays[index]
+    label.textAlignment = .natural
     label.frame = CGRect(
       x: leadSpacing,
       y: Resources.Dimensions.fieldHeight * CGFloat(index),
       width: optionsViewWidth,
       height: Resources.Dimensions.fieldHeight
     )
-    label.textColor = .ypBlack
-    label.text = weekDays[index]
-    label.textAlignment = .natural
     optionsView.addSubview(label)
   }
 
   func configureOptionsSwitch(index: Int) {
     // print("SVC Run configureOptionsSwitch()")
     let daySwitch = UISwitch()
+    daySwitch.isOn = false
+    daySwitch.tag = index
+    daySwitch.thumbTintColor = .ypWhite
+    daySwitch.onTintColor = .ypBlue
+    daySwitch.addTarget(self, action: #selector(onSwitchChange(_:)), for: .touchUpInside)
     daySwitch.frame = CGRect(
       x: optionsViewWidth - leadSpacing - switchWidth,
       y: Resources.Dimensions.fieldHeight * CGFloat(index) + switchHeight,
       width: switchWidth,
       height: switchHeight
     )
-    daySwitch.isOn = false
-    daySwitch.tag = index
-    daySwitch.thumbTintColor = .ypWhite
-    daySwitch.onTintColor = .ypBlue
-    daySwitch.addTarget(self, action: #selector(onSwitchChange(_:)), for: .touchUpInside)
     optionsView.addSubview(daySwitch)
   }
 
   func configureOptionsSectionConstraints() {
     // print("SVC Run configureOptionsSectionConstraints()")
-    optionsView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       optionsView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Resources.Layouts.vSpacingElement),
       optionsView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: leadSpacing),
@@ -234,6 +239,8 @@ private extension ScheduleViewController {
   func configureDoneButtonSection() {
     // print("SVC Run configureDoneButtonSection()")
     configureDoneButton()
+    updateDoneButtonState()
+    view.addSubview(doneButton)
     configureDoneButtonConstraints()
   }
 
@@ -242,21 +249,19 @@ private extension ScheduleViewController {
     doneButton.setTitle(Resources.Labels.done, for: .normal)
     doneButton.setTitleColor(.ypLightGray, for: .disabled)
     doneButton.addTarget(self, action: #selector(doneButtonClicked), for: .touchUpInside)
-    updateDoneButtonState()
-    view.addSubview(doneButton)
+    doneButton.translatesAutoresizingMaskIntoConstraints = false
   }
 
   func configureDoneButtonConstraints() {
     // print("SVC Run configureDoneButtonConstraints()")
-    doneButton.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       doneButton.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
+      doneButton.widthAnchor.constraint(equalToConstant: buttonWidth),
+      doneButton.heightAnchor.constraint(equalToConstant: Resources.Dimensions.buttonHeight),
       doneButton.bottomAnchor.constraint(
         equalTo: safeArea.bottomAnchor,
         constant: -Resources.Layouts.vSpacingButton
-      ),
-      doneButton.widthAnchor.constraint(equalToConstant: buttonWidth),
-      doneButton.heightAnchor.constraint(equalToConstant: Resources.Dimensions.buttonHeight)
+      )
     ])
   }
 }
