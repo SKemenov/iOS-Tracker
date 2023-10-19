@@ -7,48 +7,88 @@
 
 import UIKit
 
+// MARK: - Class
+
 final class StatisticViewController: UIViewController {
+  // MARK: - Private properties
 
   private var isEmpty = true
-  private let emptyView = EmptyView()
+  private var emptyView = EmptyView()
+  private lazy var titleLabel = UILabel()
 
-  private lazy var statisticTitle: UILabel = {
-    $0.text = Resources.Labels.statistic
-    $0.textColor = .ypBlack
-    $0.translatesAutoresizingMaskIntoConstraints = false
-    $0.font = UIFont.systemFont(ofSize: 34, weight: .bold)
-    $0.frame = CGRect(x: 0, y: 0, width: 254, height: 44)
-    return $0
-  }(UILabel())
+  private lazy var safeArea: UILayoutGuide = {
+    view.safeAreaLayoutGuide
+  }()
 
-
-  // MARK: - Inits
-
-  init() {
-    super.init(nibName: nil, bundle: nil)
-  }
-
-  required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
-
-  // MARK: - Life
+  // MARK: - Life circle
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    print("SVC Run viewDidLoad()")
+    print("StVC Run viewDidLoad()")
 
     view.backgroundColor = .ypWhite
-    view.addSubview(statisticTitle)
-    NSLayoutConstraint.activate([
-      statisticTitle.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 44),
-      statisticTitle.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-      statisticTitle.trailingAnchor.constraint(
-        lessThanOrEqualTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -105)
-    ])
+    configureTitleSection()
+    configureEmptyViewSection()
+  }
 
-    if isEmpty {
-      emptyView.makeStack(for: self, title: "Анализировать пока нечего", image: Resources.Images.dummyStatistic)
-    }
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    print("StVC Run viewWillAppear()")
+    emptyView.isHidden = !isEmpty
+  }
+}
+
+// MARK: - Private methods to configure Title section
+
+private extension StatisticViewController {
+  func configureTitleSection() {
+    print("StVC Run configureTitleSection()")
+    titleLabel.text = Resources.Labels.statistic
+    titleLabel.font = Resources.Fonts.titleLarge
+    titleLabel.textAlignment = .natural
+    titleLabel.frame = CGRect(
+      x: 0,
+      y: 0,
+      width: view.frame.width,
+      height: Resources.Dimensions.titleHeight
+    )
+    view.addSubview(titleLabel)
+    configureTitleSectionConstraints()
+  }
+
+  func configureTitleSectionConstraints() {
+    print("StVC Run configureTitleSectionConstraints()")
+    let leading = Resources.Layouts.leadingElement
+    titleLabel.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      titleLabel.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: Resources.Layouts.vSpacingLargeTitle),
+      titleLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: leading),
+      titleLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -leading),
+      titleLabel.heightAnchor.constraint(equalToConstant: Resources.Dimensions.titleHeight)
+    ])
+  }
+}
+
+// MARK: - Private methods to configure EmptyView section
+
+private extension StatisticViewController {
+  func configureEmptyViewSection() {
+    print("StVC Run configureEmptyViewSection()")
+    emptyView.translatesAutoresizingMaskIntoConstraints = false
+    emptyView.iconImageView.image = Resources.Images.dummyStatistic
+    emptyView.primaryLabel.text = "Анализировать пока нечего"
+    view.addSubview(emptyView)
+    configureEmptyViewSectionConstraints()
+  }
+
+  func configureEmptyViewSectionConstraints() {
+    print("StVC Run configureEmptyViewSectionConstraints()")
+    emptyView.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      emptyView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: Resources.Layouts.vSpacingTitle * 2),
+      emptyView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+      emptyView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+      emptyView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
+    ])
   }
 }
