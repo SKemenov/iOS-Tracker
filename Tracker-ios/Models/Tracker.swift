@@ -11,9 +11,9 @@ import UIKit.UIColor
 struct Tracker {
   let id: UUID
   let title: String
-  let emoji: String
-  let color: UIColor
-  let schedule: [DateComponents]?
+  let emoji: Int
+  let color: Int
+  let schedule: [Bool]
 }
 
 struct TrackerCategory {
