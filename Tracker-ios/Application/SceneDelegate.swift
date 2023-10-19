@@ -16,7 +16,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     let window = UIWindow(windowScene: windowScene)
     // let viewController = NewTrackerViewController()
     // let viewController = ScheduleViewController()
-    // let viewController = CreateTrackerViewController(isEvent: true)
+    // let viewController = CreateTrackerViewController(isHabit: true)
     let viewController = TabBarViewController()
     window.rootViewController = viewController
     window.makeKeyAndVisible()

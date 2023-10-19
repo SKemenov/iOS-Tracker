@@ -13,7 +13,6 @@ protocol NewTrackerViewControllerDelegate: AnyObject {
   func newTrackerViewController(_ viewController: NewTrackerViewController, didFilledTracker tracker: String)
 }
 
-
 // MARK: - Class
 
 final class NewTrackerViewController: UIViewController {
@@ -45,8 +44,8 @@ final class NewTrackerViewController: UIViewController {
     print("NTVC Run viewDidLoad()")
     view.backgroundColor = .ypWhite
 
-    configureTitleLabel()
-    configureStackView()
+    configureTitleLabelSection()
+    configureStackViewSection()
   }
 }
 
@@ -55,22 +54,27 @@ final class NewTrackerViewController: UIViewController {
 private extension NewTrackerViewController {
   @objc func newHabitButtonClicked() {
     print("NTVC Run newHabitButtonClicked()")
-    let nextController = CreateTrackerViewController(isEvent: true)
+    let nextController = CreateTrackerViewController(isHabit: true)
     nextController.delegate = self
     present(nextController, animated: true)
   }
 
   @objc func newEventButtonClicked() {
     print("NTVC Run newEventButtonClicked()")
-    let nextController = CreateTrackerViewController(isEvent: false)
+    let nextController = CreateTrackerViewController(isHabit: false)
     nextController.delegate = self
     present(nextController, animated: true)
   }
 }
 
-// MARK: - Private methods to configure UI elements
+// MARK: - Private methods to configure Title section
 
 private extension NewTrackerViewController {
+  func configureTitleLabelSection() {
+    print("NTVC Run configureTitleLabelSection()")
+    configureTitleLabel()
+    configureTitleLabelConstraints()
+  }
 
   func configureTitleLabel() {
     print("NTVC Run setupTitleLabel()")
@@ -78,54 +82,56 @@ private extension NewTrackerViewController {
     titleLabel.text = Resources.Labels.newTracker
     titleLabel.font = Resources.Fonts.titleUsual
     titleLabel.textAlignment = .center
-    // titleLabel.numberOfLines = 0
-    // titleLabel.adjustsFontSizeToFitWidth = true
-
-    configureTitleLabelConstraints()
   }
-
-  func configureStackView() {
-    print("NTVC Run configureStackViewConstraints()")
-    view.addSubview(stackView)
-    stackView.axis = .vertical
-    stackView.distribution = .fillEqually
-    stackView.spacing = Resources.Layouts.vSpacingButton
-    addButtonsToStackView()
-    configureStackViewConstraints()
-  }
-
-  func addButtonsToStackView() {
-    let newHabitButton = ActionButton()
-    newHabitButton.setTitle(Resources.Labels.habit, for: .normal)
-    newHabitButton.addTarget(self, action: #selector(newHabitButtonClicked), for: .touchUpInside)
-    stackView.addArrangedSubview(newHabitButton)
-
-    let newEventButton = ActionButton()
-    newEventButton.setTitle(Resources.Labels.event, for: .normal)
-    newEventButton.addTarget(self, action: #selector(newEventButtonClicked), for: .touchUpInside)
-    stackView.addArrangedSubview(newEventButton)
-  }
-}
-
-// MARK: - Private methods to configure constraints
-
-private extension NewTrackerViewController {
 
   func configureTitleLabelConstraints() {
     print("NTVC Run setupTitleLabelConstraints()")
     titleLabel.translatesAutoresizingMaskIntoConstraints = false
-
     NSLayoutConstraint.activate([
       titleLabel.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: Resources.Layouts.vSpacingTitle),
       titleLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
       titleLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor)
     ])
   }
+}
+
+// MARK: - Private methods to configure Stack section
+
+private extension NewTrackerViewController {
+
+  func configureStackViewSection() {
+    print("NTVC Run configureStackViewSection()")
+    configureStackView()
+    addHabitButtonToStackView()
+    addEventButtonToStackView()
+    configureStackViewConstraints()
+  }
+
+  func configureStackView() {
+    print("NTVC Run configureStackView()")
+    view.addSubview(stackView)
+    stackView.axis = .vertical
+    stackView.distribution = .fillEqually
+    stackView.spacing = Resources.Layouts.vSpacingButton
+  }
+
+  func addHabitButtonToStackView() {
+    let newHabitButton = ActionButton()
+    newHabitButton.setTitle(Resources.Labels.habit, for: .normal)
+    newHabitButton.addTarget(self, action: #selector(newHabitButtonClicked), for: .touchUpInside)
+    stackView.addArrangedSubview(newHabitButton)
+  }
+
+  func addEventButtonToStackView() {
+    let newEventButton = ActionButton()
+    newEventButton.setTitle(Resources.Labels.event, for: .normal)
+    newEventButton.addTarget(self, action: #selector(newEventButtonClicked), for: .touchUpInside)
+    stackView.addArrangedSubview(newEventButton)
+  }
 
   func configureStackViewConstraints() {
     print("NTVC Run configureStackViewConstraints()")
     stackView.translatesAutoresizingMaskIntoConstraints = false
-
     NSLayoutConstraint.activate([
       stackView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
       stackView.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor),

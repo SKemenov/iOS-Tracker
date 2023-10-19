@@ -25,6 +25,8 @@ final class CreateTrackerViewController: UIViewController {
   private var cancelButton = ActionButton()
   private var createButton = ActionButton()
 
+  private let factory = TrackersFactory.shared
+
   private lazy var safeArea: UILayoutGuide = {
     view.safeAreaLayoutGuide
   }()
@@ -38,14 +40,15 @@ final class CreateTrackerViewController: UIViewController {
   }()
 
   private lazy var optionsViewHeight: CGFloat = {
-    return isEvent ? Resources.Dimensions.fieldHeight * 2 : Resources.Dimensions.fieldHeight
+    return isHabit ? Resources.Dimensions.fieldHeight * 2 : Resources.Dimensions.fieldHeight
   }()
 
   private lazy var leadSpacing: CGFloat = {
     Resources.Layouts.leadingElement
   }()
 
-  private var isEvent = true
+  private var isHabit = true
+  private var userInput: String?
 
   private var trackerNameIsFulfilled = false {
     didSet {
@@ -82,9 +85,9 @@ final class CreateTrackerViewController: UIViewController {
 
   // MARK: - Inits
 
-  init(isEvent: Bool) {
+  init(isHabit: Bool) {
     super.init(nibName: nil, bundle: nil)
-    self.isEvent = isEvent
+    self.isHabit = isHabit
   }
 
   required init?(coder: NSCoder) {
@@ -96,8 +99,8 @@ final class CreateTrackerViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     print("CTVC Run viewDidLoad()")
-    print("CTVC isEvent \(isEvent)")
-    scheduleIsFulfilled = !isEvent
+    print("CTVC isHabit \(isHabit)")
+    scheduleIsFulfilled = !isHabit
     print("CTVC scheduleIsFulfilled \(scheduleIsFulfilled)")
 
     trackerNameIsFulfilled = true
@@ -171,7 +174,8 @@ private extension CreateTrackerViewController {
 
   @objc func categoryButtonClicked() {
     print("CTVC Run categoryButtonClicked()")
-    categoryButton.configure(value: "Важное")
+    let categoryName = factory.categories[0].name
+    categoryButton.configure(value: categoryName)
     categoryIsSelected = true
   }
 
@@ -188,7 +192,7 @@ private extension CreateTrackerViewController {
 private extension CreateTrackerViewController {
   func configureTitleSection() {
     print("CTVC Run configureTitleSection()")
-    titleLabel.text = isEvent ? Resources.Labels.newHabit : Resources.Labels.newEvent
+    titleLabel.text = isHabit ? Resources.Labels.newHabit : Resources.Labels.newEvent
     titleLabel.font = Resources.Fonts.titleUsual
     titleLabel.textAlignment = .center
     titleLabel.frame = CGRect(
@@ -254,7 +258,7 @@ private extension CreateTrackerViewController {
     configureOptionsView()
     configureOptionsSectionConstraints()
     configureCategorySubview()
-    if isEvent {
+    if isHabit {
       let borderView = BorderView()
       borderView.configure(for: optionsView, width: optionsViewWidth - Resources.Layouts.leadingElement * 2, repeat: 1)
       configureScheduleSubview()
@@ -373,7 +377,14 @@ private extension CreateTrackerViewController {
 // MARK: - UITextFieldDelegate
 
 extension CreateTrackerViewController: UITextFieldDelegate {
-  //
+  func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    let currentCharacterCount = textField.text?.count ?? 0
+    if range.length + range.location > currentCharacterCount {
+      return false
+    }
+    let newLength = currentCharacterCount + string.count - range.length
+    return newLength <= 38
+  }
 }
 
 // MARK: - ScheduleViewControllerDelegate

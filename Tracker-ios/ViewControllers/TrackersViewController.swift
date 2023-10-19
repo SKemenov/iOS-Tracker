@@ -13,6 +13,7 @@ final class TrackersViewController: UIViewController {
   // MARK: - Private properties
 
   private let cellId = "cell"
+  private let factory = TrackersFactory.shared
 
   private let addButton = UIButton()
   private let datePicker = UIDatePicker()
@@ -38,8 +39,6 @@ final class TrackersViewController: UIViewController {
 
   // MARK: - Public properties
 
-  var trackers: [Tracker] = []
-  var categories: [TrackerCategory] = []
   var currentDate = Date()
 
   // MARK: - Inits
@@ -57,6 +56,11 @@ final class TrackersViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .ypWhite
+
+    setupMockCategory()
+    print("TVC categories \(factory.categories)")
+    print("TVC categories[0] \(factory.categories[0])")
+
     setupNavigationBar()
     setupAddButton()
     setupDatePicker()
@@ -68,8 +72,6 @@ final class TrackersViewController: UIViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     print("TVC Run viewWillAppear()")
-    emptyView.isHidden = !trackers.isEmpty
-    collectionView.isHidden = trackers.isEmpty
     updateTrackerCollectionView()
   }
 }
@@ -79,14 +81,12 @@ private extension TrackersViewController {
 
   @objc func addButtonClicked() {
     print("TVC Run addButtonClicked()")
-    emptyView.isHidden.toggle()
-    // emptyView.removeFromSuperview()
     let nextController = NewTrackerViewController()
     // nextController.providesPresentationContextTransitionStyle = true
     // nextController.definesPresentationContext = true
     nextController.modalPresentationStyle = .popover
     nextController.delegate = self
-    // navigationController?.present(nextController, animated: true)
+    navigationController?.present(nextController, animated: true)
   }
 
   @objc func datePickerValueChanged(_ sender: UIDatePicker) {
@@ -96,8 +96,10 @@ private extension TrackersViewController {
   }
 
   func updateTrackerCollectionView() {
+    emptyView.isHidden = !factory.trackers.isEmpty
+    collectionView.isHidden = factory.trackers.isEmpty
     collectionView.reloadData()
-    print("TVC trackers.count \(trackers.count), trackers.isEmpty \(trackers.isEmpty)")
+    print("TVC trackers.count \(factory.trackers.count), trackers.isEmpty \(factory.trackers.isEmpty)")
     print("emptyView.isHidden \(emptyView.isHidden)")
   }
 
@@ -150,20 +152,6 @@ private extension TrackersViewController {
     view.addSubview(datePicker)
   }
 
-//  func setupEmptyView() {
-//    emptyView.backgroundColor = .ypWhite
-//    emptyView.translatesAutoresizingMaskIntoConstraints = false
-//    emptyView.isHidden = false
-//    view.addSubview(emptyView)
-//
-//    NSLayoutConstraint.activate([
-//      emptyView.topAnchor.constraint(equalTo: safeArea.topAnchor),
-//      emptyView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
-//      emptyView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
-//      emptyView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor)
-//    ])
-  // }
-
   func setupCollectionView() {
     collectionView.dataSource = self
     collectionView.delegate = self
@@ -213,8 +201,8 @@ private extension TrackersViewController {
 
 extension TrackersViewController: UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    print("TVC trackers.count \(trackers.count)")
-    return trackers.count
+    print("TVC trackers.count \(factory.trackers.count)")
+    return factory.trackers.count
   }
 
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -222,10 +210,10 @@ extension TrackersViewController: UICollectionViewDataSource {
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? TrackerCell else {
       return UICollectionViewCell()
     }
-    cell.titleView.backgroundColor = Resources.colors[trackers[indexPath.row].color]
-    cell.counterView.backgroundColor = Resources.colors[trackers[indexPath.row].color]
-    cell.titleLabel.text = trackers[indexPath.row].title
-    cell.emojiLabel.text = Resources.emojis[trackers[indexPath.row].emoji]
+    cell.titleView.backgroundColor = Resources.colors[factory.trackers[indexPath.row].color]
+    cell.counterView.backgroundColor = Resources.colors[factory.trackers[indexPath.row].color]
+    cell.titleLabel.text = factory.trackers[indexPath.row].title
+    cell.emojiLabel.text = Resources.emojis[factory.trackers[indexPath.row].emoji]
     cell.counterLabel.text = "\(indexPath.row) дня(дней)"
     return cell
   }
@@ -264,6 +252,10 @@ extension TrackersViewController: NewTrackerViewControllerDelegate {
 // MARK: - Mock methods
 
 private extension TrackersViewController {
+  func setupMockCategory() {
+    factory.categories.append(TrackerCategory(id: UUID(), name: "Важное"))
+  }
+
   func addMockTracker() {
     // MARK: - Mock Properties
     let mockTrackers: [Tracker] = [
@@ -304,7 +296,7 @@ private extension TrackersViewController {
       )
     ]
 
-    trackers.append(mockTrackers[Int.random(in: 0..<mockTrackers.count)])
-    print("TVC trackers \(trackers)")
+    factory.trackers.append(mockTrackers[Int.random(in: 0..<mockTrackers.count)])
+    print("TVC trackers \(factory)")
   }
 }
