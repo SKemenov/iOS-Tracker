@@ -21,9 +21,14 @@ enum Resources {
     static let cancel = "Отменить"
     static let create = "Создать"
     static let category = "Категория"
+    static let newCategory = "Новая категория"
     static let schedule = "Расписание"
     static let textFieldPlaceholder = "Введите название трекера"
+    static let textFieldRestriction = "Ограничение 38 символов"
     static let done = "Готово"
+    static let emoji = "Emoji"
+    static let color = "Цвет"
+    static let filters = "Фильтры"
   }
 
   // MARK: - UI element's SF symbols
@@ -33,6 +38,9 @@ enum Resources {
     static let tracker = UIImage(systemName: "record.circle.fill")
     static let statistic = UIImage(systemName: "hare.fill")
     static let chevron = UIImage(systemName: "chevron.right")
+    static let addCounter = UIImage(systemName: "plus")
+    static let doneCounter = UIImage(systemName: "checkmark")
+    static let pinTracker = UIImage(systemName: "pin")
   }
 
   // MARK: - UI element's images
@@ -45,6 +53,7 @@ enum Resources {
   // MARK: - UI element's dimensions
   enum Dimensions {
     static let cornerRadius: CGFloat = 16
+    static let mediumCornerRadius: CGFloat = 12
     static let smallCornerRadius: CGFloat = 8
     static let smallIcon: CGFloat = 24
     static let bigIcon: CGFloat = 80
@@ -52,6 +61,10 @@ enum Resources {
     static let fieldHeight: CGFloat = 75
     static let notificationHeight: CGFloat = 18
     static let titleHeight: CGFloat = 42
+    static let trackerHeight: CGFloat = 148
+    static let trackerContentHeight: CGFloat = 90
+    static let trackerCounterHeight: CGFloat = 58
+    static let iPhoneSeWidth: CGFloat = 320
   }
 
   // MARK: - UI element's layouts
@@ -63,15 +76,28 @@ enum Resources {
     static let vSpacingButton: CGFloat = 16
     static let hSpacingButton: CGFloat = 8
     static let vSpacingTitle: CGFloat = 28
+    static let vSpacingLargeTitle: CGFloat = 44
+    static let leadingTracker: CGFloat = 12
+    static let trackersPerLine: CGFloat = 2
   }
 
   // MARK: - Fonts
   enum Fonts {
     static let titleUsual = UIFont.systemFont(ofSize: 16, weight: .medium)
+    static let titleLarge = UIFont.systemFont(ofSize: 34, weight: .bold)
     static let textNotification = UIFont.systemFont(ofSize: 12, weight: .medium)
     static let textField = UIFont.systemFont(ofSize: 17, weight: .regular)
     static let sectionHeader = UIFont.systemFont(ofSize: 19, weight: .bold)
   }
+
+  static let colors: [UIColor] = [
+    .ypSelection01, .ypSelection02, .ypSelection03, .ypSelection04, .ypSelection05, .ypSelection06,
+    .ypSelection07, .ypSelection08, .ypSelection09, .ypSelection10, .ypSelection11, .ypSelection12,
+    .ypSelection13, .ypSelection14, .ypSelection15, .ypSelection16, .ypSelection17, .ypSelection18
+  ]
+  static let emojis = [
+    "🙂", "😻", "🌺", "🐶", "❤️", "😱", "😇", "😡", "🥶", "🤔", "🙌", "🍔", "🥦", "🏓", "🥇", "🎸", "🏝️", "😪"
+  ]
 
   // MARK: - Default date formatter
   static let dateFormat = "dd.MM.YY"
