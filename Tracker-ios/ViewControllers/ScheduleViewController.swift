@@ -20,7 +20,6 @@ final class ScheduleViewController: UIViewController {
   private var titleLabel = UILabel()
   private var optionsView = UIView()
   private var doneButton = ActionButton()
-  // private var emptyView = EmptyView()
 
   private lazy var safeArea: UILayoutGuide = {
     view.safeAreaLayoutGuide
@@ -60,7 +59,9 @@ final class ScheduleViewController: UIViewController {
     "Суббота",
     "Воскресенье"
   ]
-  private var schedule = [Bool](repeating: false, count: 7)
+
+  private var schedule: [Bool] = []
+
 
   private lazy var formIsFulfilled = false {
     didSet {
@@ -71,6 +72,17 @@ final class ScheduleViewController: UIViewController {
   // MARK: - Public properties
 
   weak var delegate: ScheduleViewControllerDelegate?
+
+  // MARK: - Inits
+
+  init(with schedule: [Bool]) {
+    super.init(nibName: nil, bundle: nil)
+    self.schedule = schedule
+  }
+
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
 
   // MARK: - Life circle
 
@@ -94,9 +106,7 @@ private extension ScheduleViewController {
 
   func updateFormState() {
     // print("SVC Run updateFormState()")
-    let trues = schedule.filter { $0 == true }.count
-    formIsFulfilled = trues > 0 ? true : false
-    // print("trues \(trues), formIsFulfilled \(formIsFulfilled)")
+    formIsFulfilled = !schedule.filter { $0 == true }.isEmpty
   }
 
   func updateDoneButtonState() {
@@ -208,7 +218,7 @@ private extension ScheduleViewController {
   func configureOptionsSwitch(index: Int) {
     // print("SVC Run configureOptionsSwitch()")
     let daySwitch = UISwitch()
-    daySwitch.isOn = false
+    daySwitch.isOn = schedule[index]
     daySwitch.tag = index
     daySwitch.thumbTintColor = .ypWhite
     daySwitch.onTintColor = .ypBlue
@@ -240,6 +250,7 @@ private extension ScheduleViewController {
     // print("SVC Run configureDoneButtonSection()")
     configureDoneButton()
     updateDoneButtonState()
+    updateFormState()
     view.addSubview(doneButton)
     configureDoneButtonConstraints()
   }
