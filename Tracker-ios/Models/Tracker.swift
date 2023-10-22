@@ -19,10 +19,11 @@ struct Tracker {
 struct TrackerCategory {
   let id: UUID
   let name: String
+  let items: [Tracker]
 }
 
 struct TrackerRecord {
   let id: UUID
   let tracker: Tracker
-  let date: Date
+  let date: [Date]
 }
