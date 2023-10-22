@@ -41,10 +41,12 @@ final class ActionButton: UIButton {
   }
 
   @objc func tapped() {
-    self.setTitleColor(.ypGray, for: .normal)
+    // self.setTitleColor(.ypGray, for: .normal)
+    self.alpha = 0.7
   }
 
   @objc func untapped() {
-    self.setTitleColor(.ypWhite, for: .normal)
+    // self.setTitleColor(.ypWhite, for: .normal)
+    self.alpha = 1
   }
 }

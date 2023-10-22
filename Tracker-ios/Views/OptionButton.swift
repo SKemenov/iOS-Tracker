@@ -113,14 +113,16 @@ final class OptionButton: UIButton {
   }
 
   @objc func tapped() {
-    self.primaryLabel.textColor = .ypGray
-    self.secondaryLabel.textColor = .ypLightGray
-    self.iconImageView.tintColor = .ypLightGray
+    self.alpha = 0.7
+//    self.primaryLabel.textColor = .ypGray
+//    self.secondaryLabel.textColor = .ypLightGray
+//    self.iconImageView.tintColor = .ypLightGray
   }
 
   @objc func untapped() {
-    self.primaryLabel.textColor = .ypBlack
-    self.secondaryLabel.textColor = .ypGray
-    self.iconImageView.tintColor = .ypGray
+    self.alpha = 1
+//    self.primaryLabel.textColor = .ypBlack
+//    self.secondaryLabel.textColor = .ypGray
+//    self.iconImageView.tintColor = .ypGray
   }
 }
