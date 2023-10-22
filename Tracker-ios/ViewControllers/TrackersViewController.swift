@@ -37,6 +37,12 @@ final class TrackersViewController: UIViewController {
     return $0
   }(UISearchController(searchResultsController: nil))
 
+  private var searchBarUserInput = "" {
+    didSet {
+      print("TVC searchBarUserInput \(searchBarUserInput)")
+    }
+  }
+
   // MARK: - Public properties
 
   var currentDate = Date()
@@ -60,6 +66,8 @@ final class TrackersViewController: UIViewController {
     setupMockCategory()
     print("TVC categories \(factory.categories)")
     print("TVC categories[0] \(factory.categories[0])")
+
+    searchBar.searchBar.searchTextField.delegate = self
 
     setupNavigationBar()
     setupAddButton()
@@ -159,7 +167,7 @@ private extension TrackersViewController {
     view.addSubview(collectionView)
 
     NSLayoutConstraint.activate([
-      collectionView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+      collectionView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: Resources.Layouts.vSpacingElement),
       collectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
       collectionView.leadingAnchor.constraint(
         equalTo: safeArea.leadingAnchor,
@@ -194,6 +202,29 @@ private extension TrackersViewController {
       emptyView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
       emptyView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
     ])
+  }
+}
+
+// MARK: - UITextFieldDelegate
+
+extension TrackersViewController: UITextFieldDelegate {
+  func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    searchBarUserInput = textField.text ?? ""
+    print("TVC now textField.text is \(String(describing: textField.text))")
+    print("TVC searchBarUserInput set to \(searchBarUserInput)")
+    return true
+  }
+
+  func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    textField.resignFirstResponder()
+    searchBarUserInput = textField.text ?? ""
+    print("TVC textField.text \(String(describing: textField.text))")
+    print("TVC searchBarUserInput set to \(searchBarUserInput)")
+    return true
+  }
+
+  func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+    true
   }
 }
 
