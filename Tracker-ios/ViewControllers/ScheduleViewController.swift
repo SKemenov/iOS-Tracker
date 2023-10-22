@@ -60,8 +60,7 @@ final class ScheduleViewController: UIViewController {
     "Воскресенье"
   ]
 
-  private var schedule: [Bool] = []
-
+  private var schedule: [Bool]
 
   private lazy var formIsFulfilled = false {
     didSet {
@@ -76,8 +75,8 @@ final class ScheduleViewController: UIViewController {
   // MARK: - Inits
 
   init(with schedule: [Bool]) {
-    super.init(nibName: nil, bundle: nil)
     self.schedule = schedule
+    super.init(nibName: nil, bundle: nil)
   }
 
   required init?(coder: NSCoder) {

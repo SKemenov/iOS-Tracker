@@ -7,7 +7,7 @@
 
 import UIKit
 
-// swiftlint:disable file_length
+// swift lint:disable file_length
 
 // MARK: - Protocol
 protocol CreateTrackerViewControllerDelegate: AnyObject {
@@ -52,7 +52,7 @@ final class CreateTrackerViewController: UIViewController {
     Resources.Layouts.leadingElement
   }()
 
-  private var isHabit = true
+  private var isHabit: Bool
   private var schedule = [Bool](repeating: false, count: 7)
 
   private var userInput = "" {
@@ -98,8 +98,8 @@ final class CreateTrackerViewController: UIViewController {
   // MARK: - Inits
 
   init(isHabit: Bool) {
-    super.init(nibName: nil, bundle: nil)
     self.isHabit = isHabit
+    super.init(nibName: nil, bundle: nil)
   }
 
   required init?(coder: NSCoder) {
@@ -453,6 +453,7 @@ private extension CreateTrackerViewController {
 
 extension CreateTrackerViewController: UITextFieldDelegate {
   func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    userInput = textField.text ?? ""
     let currentCharacterCount = textField.text?.count ?? 0
     if range.length + range.location > currentCharacterCount {
       return false
