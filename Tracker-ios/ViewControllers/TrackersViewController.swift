@@ -241,11 +241,13 @@ extension TrackersViewController: UICollectionViewDataSource {
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? TrackerCell else {
       return UICollectionViewCell()
     }
-    cell.titleView.backgroundColor = Resources.colors[factory.trackers[indexPath.row].color]
-    cell.counterView.backgroundColor = Resources.colors[factory.trackers[indexPath.row].color]
-    cell.titleLabel.text = factory.trackers[indexPath.row].title
-    cell.emojiLabel.text = Resources.emojis[factory.trackers[indexPath.row].emoji]
-    cell.counterLabel.text = "\(indexPath.row) дня(дней)"
+    cell.delegate = self
+    cell.configureCell(
+      bgColor: Resources.colors[factory.trackers[indexPath.row].color],
+      emoji: Resources.emojis[factory.trackers[indexPath.row].emoji],
+      title: factory.trackers[indexPath.row].title,
+      counter: indexPath.row
+    )
     return cell
   }
 }
@@ -280,11 +282,25 @@ extension TrackersViewController: NewTrackerViewControllerDelegate {
     }  }
 }
 
+// MARK: - TrackerCellDelegate
+
+extension TrackersViewController: TrackerCellDelegate {
+  func trackerCellDidTapDone(for cell: TrackerCell) {
+    print("TVC Run trackerCellDidTapDone()")
+    guard let indexPath = collectionView.indexPath(for: cell) else { return }
+    let tracker = factory.trackers[indexPath.row]
+    print("TVC tracker \(tracker)")
+    // let isCompleted = tracker.schedule[0]
+    let isCompleted = Bool.random()
+    cell.makeItDone(isCompleted)
+  }
+}
+
 // MARK: - Mock methods
 
 private extension TrackersViewController {
   func setupMockCategory() {
-    factory.categories.append(TrackerCategory(id: UUID(), name: "Важное"))
+    factory.categories.append(TrackerCategory(id: UUID(), name: "Важное", items: []))
   }
 
   func addMockTracker() {
