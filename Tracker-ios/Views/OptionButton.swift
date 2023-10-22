@@ -104,4 +104,23 @@ final class OptionButton: UIButton {
       )
     }
   }
+
+  // MARK: - Animation effects for custom buttons
+
+  override func draw(_ rect: CGRect) {
+    self.addTarget(self, action: #selector(tapped), for: .touchDown)
+    self.addTarget(self, action: #selector(untapped), for: .touchUpInside)
+  }
+
+  @objc func tapped() {
+    self.primaryLabel.textColor = .ypGray
+    self.secondaryLabel.textColor = .ypLightGray
+    self.iconImageView.tintColor = .ypLightGray
+  }
+
+  @objc func untapped() {
+    self.primaryLabel.textColor = .ypBlack
+    self.secondaryLabel.textColor = .ypGray
+    self.iconImageView.tintColor = .ypGray
+  }
 }
