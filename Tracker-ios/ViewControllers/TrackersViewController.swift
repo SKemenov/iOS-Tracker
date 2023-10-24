@@ -10,23 +10,20 @@ import UIKit
 // MARK: - Class
 
 final class TrackersViewController: UIViewController {
-  // MARK: - Private properties
-
-  private let cellId = "cell"
-  private let factory = TrackersFactory.shared
+  // MARK: - Private UI properties
 
   private let addButton = UIButton()
   private let datePicker = UIDatePicker()
   private var emptyView = EmptyView()
 
-  private lazy var safeArea: UILayoutGuide = {
-    view.safeAreaLayoutGuide
-  }()
-
   private lazy var collectionView: UICollectionView = {
     let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-    collectionView.translatesAutoresizingMaskIntoConstraints = false
-    collectionView.register(TrackerCell.self, forCellWithReuseIdentifier: cellId)
+    collectionView.register(TrackerCell.self, forCellWithReuseIdentifier: cellID)
+    collectionView.register(
+      TrackerHeader.self,
+      forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+      withReuseIdentifier: headerID
+    )
     return collectionView
   }()
 
@@ -37,15 +34,29 @@ final class TrackersViewController: UIViewController {
     return $0
   }(UISearchController(searchResultsController: nil))
 
+  private lazy var safeArea: UILayoutGuide = {
+    view.safeAreaLayoutGuide
+  }()
+
+  // MARK: - Private properties
+
+  private let cellID = "cell"
+  private let headerID = "header"
+  private let factory = TrackersFactory.shared
+
+
   private var searchBarUserInput = "" {
     didSet {
       print("TVC searchBarUserInput \(searchBarUserInput)")
     }
   }
 
+  private var visibleCategories: [TrackerCategory] = []
+
   // MARK: - Public properties
 
   var currentDate = Date()
+  var isCompleted = true
 
   // MARK: - Inits
 
@@ -69,11 +80,7 @@ final class TrackersViewController: UIViewController {
 
     searchBar.searchBar.searchTextField.delegate = self
 
-    setupNavigationBar()
-    setupAddButton()
-    setupDatePicker()
-    configureEmptyViewSection()
-    setupCollectionView()
+    configureUI()
     updateTrackerCollectionView()
   }
 
@@ -104,104 +111,26 @@ private extension TrackersViewController {
   }
 
   func updateTrackerCollectionView() {
-    emptyView.isHidden = !factory.trackers.isEmpty
-    collectionView.isHidden = factory.trackers.isEmpty
+    // emptyView.isHidden = !factory.trackers.isEmpty
+    // collectionView.isHidden = factory.trackers.isEmpty
+    collectionView.isHidden = visibleCategories.isEmpty
+    emptyView.isHidden = !collectionView.isHidden
     collectionView.reloadData()
-    print("TVC trackers.count \(factory.trackers.count), trackers.isEmpty \(factory.trackers.isEmpty)")
+    print("TVC f.trackers.count \(factory.trackers.count), f.trackers.isEmpty \(factory.trackers.isEmpty)")
+    print("TVC f.categories.count \(factory.categories.count), f.categories.isEmpty \(factory.categories.isEmpty)")
     print("emptyView.isHidden \(emptyView.isHidden)")
   }
 
   func fetchTracker(from tracker: String) {
     // print("TVC run fetchTracker() with tracker value \(tracker)")
-    addMockTracker()
+    let tracker = addMockTracker()
+    factory.addNew(tracker: tracker)
+    factory.addTracker(tracker, toCategory: Int.random(in: 0..<factory.categories.count))
+    visibleCategories = factory.categories
+    print("TVC factory.trackers \(factory.trackers)")
+    print("TVC factory.categories \(factory.categories)")
+
     updateTrackerCollectionView()
-  }
-
-  func setupNavigationBar() {
-    guard
-      let navigatorBar = navigationController?.navigationBar,
-      let topItem = navigatorBar.topItem
-    else { return }
-
-    let addButtonItem = UIBarButtonItem(customView: addButton)
-    let dateSelectorButton = UIBarButtonItem(customView: datePicker)
-
-    navigationItem.hidesSearchBarWhenScrolling = false
-    navigatorBar.prefersLargeTitles = true
-
-    topItem.title = Resources.Labels.trackers
-    topItem.titleView?.tintColor = .ypBlack
-    topItem.searchController = searchBar
-    topItem.setRightBarButton(dateSelectorButton, animated: true)
-    topItem.setLeftBarButton(addButtonItem, animated: true)
-  }
-
-  func setupAddButton() {
-    addButton.tintColor = .ypBlack
-    addButton.setImage(Resources.SfSymbols.addTracker, for: .normal)
-    addButton.frame = CGRect(x: 0, y: 0, width: 42, height: 42)
-    addButton.addTarget(self, action: #selector(addButtonClicked), for: .touchUpInside)
-    addButton.translatesAutoresizingMaskIntoConstraints = false
-    view.addSubview(addButton)
-  }
-
-  func setupDatePicker() {
-    datePicker.sizeThatFits(CGSize(width: 77, height: 64))
-    datePicker.backgroundColor = .ypBackground
-    datePicker.tintColor = .ypBlack
-    datePicker.datePickerMode = .date
-    datePicker.preferredDatePickerStyle = .compact
-    datePicker.locale = Locale(identifier: "ru_RU")
-    datePicker.setDate(currentDate, animated: true)
-    datePicker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
-    datePicker.layer.cornerRadius = Resources.Dimensions.smallCornerRadius
-    datePicker.layer.masksToBounds = true
-    datePicker.translatesAutoresizingMaskIntoConstraints = false
-    view.addSubview(datePicker)
-  }
-
-  func setupCollectionView() {
-    collectionView.dataSource = self
-    collectionView.delegate = self
-    collectionView.backgroundColor = .ypWhite
-    view.addSubview(collectionView)
-
-    NSLayoutConstraint.activate([
-      collectionView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: Resources.Layouts.vSpacingElement),
-      collectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
-      collectionView.leadingAnchor.constraint(
-        equalTo: safeArea.leadingAnchor,
-        constant: Resources.Layouts.leadingElement
-      ),
-      collectionView.trailingAnchor.constraint(
-        equalTo: safeArea.trailingAnchor,
-        constant: -Resources.Layouts.leadingElement
-      )
-    ])
-  }
-}
-
-// MARK: - Private methods to configure EmptyView section
-
-private extension TrackersViewController {
-  func configureEmptyViewSection() {
-    print("TVC Run configureEmptyViewSection()")
-    emptyView.translatesAutoresizingMaskIntoConstraints = false
-    emptyView.iconImageView.image = Resources.Images.dummyTrackers
-    emptyView.primaryLabel.text = "Что будем отслеживать?"
-    view.addSubview(emptyView)
-    configureEmptyViewSectionConstraints()
-  }
-
-  func configureEmptyViewSectionConstraints() {
-    print("TVC Run configureEmptyViewSectionConstraints()")
-    emptyView.translatesAutoresizingMaskIntoConstraints = false
-    NSLayoutConstraint.activate([
-      emptyView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: -Resources.Layouts.vSpacingLargeTitle * 2),
-      emptyView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
-      emptyView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-      emptyView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
-    ])
   }
 }
 
@@ -231,14 +160,23 @@ extension TrackersViewController: UITextFieldDelegate {
 // MARK: - UICollectionViewDataSource
 
 extension TrackersViewController: UICollectionViewDataSource {
+  func collectionView(_ collectionView: UICollectionView, numberOfSection section: Int) -> Int {
+    print("TVC visibleCategories.count \(visibleCategories.count)")
+    return visibleCategories.count
+  }
+
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    print("TVC trackers.count \(factory.trackers.count)")
-    return factory.trackers.count
+    // print("TVC visibleCategories[section].items.count \(visibleCategories[section].items.count)")
+    guard !visibleCategories.isEmpty else { return 0 }
+    // visibleCategories.forEach { section in
+      // section.items.count
+    // }
+    return visibleCategories[section].items.count
   }
 
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     guard
-      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath) as? TrackerCell else {
+      let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as? TrackerCell else {
       return UICollectionViewCell()
     }
     cell.delegate = self
@@ -249,6 +187,21 @@ extension TrackersViewController: UICollectionViewDataSource {
       counter: indexPath.row
     )
     return cell
+  }
+
+  func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    var id: String
+    switch kind {
+    case UICollectionView.elementKindSectionHeader:
+      id = headerID
+    default:
+      id = ""
+    }
+    guard
+      let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: id, for: indexPath)
+        as? TrackerHeader else { return TrackerHeader() }
+    view.titleLabel.text = visibleCategories.isEmpty ? "" : visibleCategories[indexPath.section].name
+    return view
   }
 }
 
@@ -269,6 +222,10 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
     return 0
   }
+
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+    CGSize(width: collectionView.bounds.width, height: Resources.Dimensions.sectionHeight)
+  }
 }
 
 // MARK: - NewTrackerViewControllerDelegate
@@ -288,11 +245,129 @@ extension TrackersViewController: TrackerCellDelegate {
   func trackerCellDidTapDone(for cell: TrackerCell) {
     print("TVC Run trackerCellDidTapDone()")
     guard let indexPath = collectionView.indexPath(for: cell) else { return }
-    let tracker = factory.trackers[indexPath.row]
-    print("TVC tracker \(tracker)")
+    // let tracker = factory.trackers[indexPath.row]
     // let isCompleted = tracker.schedule[0]
-    let isCompleted = Bool.random()
+    isCompleted.toggle()
     cell.makeItDone(isCompleted)
+  }
+}
+
+// MARK: - Private methods to configure UI & NavigationBar section
+
+private extension TrackersViewController {
+
+  func configureUI() {
+    configureNavigationBarSection()
+    configureEmptyViewSection()
+    configureCollectionViewSection()
+  }
+
+  func configureNavigationBarSection() {
+    configureNavigationBar()
+    configureAddButton()
+    view.addSubview(addButton)
+    configureDatePicker()
+    view.addSubview(datePicker)
+  }
+
+  func configureNavigationBar() {
+    guard
+      let navigatorBar = navigationController?.navigationBar,
+      let topItem = navigatorBar.topItem
+    else { return }
+
+    let addButtonItem = UIBarButtonItem(customView: addButton)
+    let dateSelectorButton = UIBarButtonItem(customView: datePicker)
+
+    navigationItem.hidesSearchBarWhenScrolling = false
+    navigatorBar.prefersLargeTitles = true
+
+    topItem.title = Resources.Labels.trackers
+    topItem.titleView?.tintColor = .ypBlack
+    topItem.searchController = searchBar
+    topItem.setRightBarButton(dateSelectorButton, animated: true)
+    topItem.setLeftBarButton(addButtonItem, animated: true)
+  }
+
+  func configureAddButton() {
+    addButton.tintColor = .ypBlack
+    addButton.setImage(Resources.SfSymbols.addTracker, for: .normal)
+    addButton.frame = CGRect(x: 0, y: 0, width: 42, height: 42)
+    addButton.addTarget(self, action: #selector(addButtonClicked), for: .touchUpInside)
+    addButton.translatesAutoresizingMaskIntoConstraints = false
+  }
+
+  func configureDatePicker() {
+    datePicker.sizeThatFits(CGSize(width: 77, height: 64))
+    datePicker.backgroundColor = .ypBackground
+    datePicker.tintColor = .ypBlack
+    datePicker.datePickerMode = .date
+    datePicker.preferredDatePickerStyle = .compact
+    datePicker.locale = Locale(identifier: "ru_RU")
+    datePicker.setDate(currentDate, animated: true)
+    datePicker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
+    datePicker.layer.cornerRadius = Resources.Dimensions.smallCornerRadius
+    datePicker.layer.masksToBounds = true
+    datePicker.translatesAutoresizingMaskIntoConstraints = false
+  }
+}
+
+// MARK: - Private methods to configure Collection view section
+
+private extension TrackersViewController {
+
+  func configureCollectionViewSection() {
+    configureCollectionView()
+    view.addSubview(collectionView)
+    configureCollectionViewConstraints()
+  }
+
+  func configureCollectionView() {
+    collectionView.dataSource = self
+    collectionView.delegate = self
+    // collectionView.backgroundColor = .ypWhite
+    collectionView.backgroundColor = .ypBlue
+    collectionView.translatesAutoresizingMaskIntoConstraints = false
+  }
+
+  func configureCollectionViewConstraints() {
+    let leading = Resources.Layouts.leadingElement
+    NSLayoutConstraint.activate([
+      // collectionView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: Resources.Layouts.vSpacingElement),
+      collectionView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+      collectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
+      collectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: leading),
+      collectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -leading)
+    ])
+  }
+}
+
+// MARK: - Private methods to configure EmptyView section
+
+private extension TrackersViewController {
+  func configureEmptyViewSection() {
+    print("TVC Run configureEmptyViewSection()")
+    configureEmptyView()
+    view.addSubview(emptyView)
+    configureEmptyViewSectionConstraints()
+  }
+
+  func configureEmptyView() {
+    print("TVC Run configureEmptyView()")
+    emptyView.translatesAutoresizingMaskIntoConstraints = false
+    emptyView.iconImageView.image = Resources.Images.dummyTrackers
+    emptyView.primaryLabel.text = "Что будем отслеживать?"
+    emptyView.translatesAutoresizingMaskIntoConstraints = false
+  }
+
+  func configureEmptyViewSectionConstraints() {
+    print("TVC Run configureEmptyViewSectionConstraints()")
+    NSLayoutConstraint.activate([
+      emptyView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: -Resources.Layouts.vSpacingLargeTitle * 2),
+      emptyView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+      emptyView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+      emptyView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
+    ])
   }
 }
 
@@ -300,10 +375,11 @@ extension TrackersViewController: TrackerCellDelegate {
 
 private extension TrackersViewController {
   func setupMockCategory() {
-    factory.categories.append(TrackerCategory(id: UUID(), name: "Важное", items: []))
+    factory.addNew(category: TrackerCategory(id: UUID(), name: "Важное", items: []))
+    // factory.addNew(category: TrackerCategory(id: UUID(), name: "Нужное", items: []))
   }
-
-  func addMockTracker() {
+  
+   func addMockTracker() -> Tracker {
     // MARK: - Mock Properties
     let mockTrackers: [Tracker] = [
       Tracker(
@@ -343,7 +419,7 @@ private extension TrackersViewController {
       )
     ]
 
-    factory.trackers.append(mockTrackers[Int.random(in: 0..<mockTrackers.count)])
-    print("TVC trackers \(factory)")
+    return mockTrackers[Int.random(in: 0..<mockTrackers.count)]
+    // print("TVC trackers \(factory)")
   }
 }
