@@ -64,6 +64,7 @@ enum Resources {
     static let trackerHeight: CGFloat = 148
     static let trackerContentHeight: CGFloat = 90
     static let trackerCounterHeight: CGFloat = 58
+    static let sectionHeight: CGFloat = 46
     static let iPhoneSeWidth: CGFloat = 320
   }
 
@@ -78,6 +79,9 @@ enum Resources {
     static let vSpacingTitle: CGFloat = 28
     static let vSpacingLargeTitle: CGFloat = 44
     static let leadingTracker: CGFloat = 12
+    static let leadingSection: CGFloat = 28
+    static let vSpacingSection: CGFloat = 16
+    static let vSpacingTracker: CGFloat = 12
     static let trackersPerLine: CGFloat = 2
   }
 
