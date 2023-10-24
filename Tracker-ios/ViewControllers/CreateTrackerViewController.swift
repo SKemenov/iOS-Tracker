@@ -10,12 +10,15 @@ import UIKit
 // swift lint:disable file_length
 
 // MARK: - Protocol
+
 protocol CreateTrackerViewControllerDelegate: AnyObject {
   func createTrackerViewController(_ viewController: CreateTrackerViewController, didFilledTracker tracker: String)
 }
 
+// MARK: - Class
+
 final class CreateTrackerViewController: UIViewController {
-  // MARK: - Private properties
+  // MARK: - Private  UI properties
   private var titleLabel = UILabel()
 
   private var textFieldStackView = UIStackView()
@@ -30,7 +33,7 @@ final class CreateTrackerViewController: UIViewController {
   private var cancelButton = ActionButton()
   private var createButton = ActionButton()
 
-  private let factory = TrackersFactory.shared
+  // MARK: - Private layout properties
 
   private lazy var safeArea: UILayoutGuide = {
     view.safeAreaLayoutGuide
@@ -52,15 +55,7 @@ final class CreateTrackerViewController: UIViewController {
     Resources.Layouts.leadingElement
   }()
 
-  private var isHabit: Bool
-  private var schedule = [Bool](repeating: false, count: 7)
-
-  private var userInput = "" {
-    didSet {
-      print("CTVC userInput \(userInput)")
-      trackerNameIsFulfilled = true
-    }
-  }
+  // MARK: - Private state properties
 
   private var trackerNameIsFulfilled = false {
     didSet {
@@ -83,11 +78,24 @@ final class CreateTrackerViewController: UIViewController {
   private var emojiIsSelected = true // dummy for now, add didSet after implementation emojis
   private var colorIsSelected = true // dummy for now, add didSet after implementation colours
 
-  private lazy var formIsFulfilled = false {
+  private var formIsFulfilled = false {
     didSet {
       if formIsFulfilled {
         updateCreateButtonState()
       }
+    }
+  }
+
+  // MARK: - Private global properties
+
+  private let factory = TrackersFactory.shared
+
+  private var isHabit: Bool
+  private var schedule = [Bool](repeating: false, count: 7)
+  private var userInput = "" {
+    didSet {
+      print("CTVC userInput \(userInput)")
+      trackerNameIsFulfilled = true
     }
   }
 
@@ -120,8 +128,9 @@ final class CreateTrackerViewController: UIViewController {
     print("CTVC scheduleIsFulfilled \(scheduleIsFulfilled)")
 
     view.backgroundColor = .ypWhite
-    textField.delegate = self
     configureUI()
+    textField.delegate = self
+    textField.becomeFirstResponder()
   }
 }
 
@@ -132,8 +141,8 @@ private extension CreateTrackerViewController {
     configureTitleSection()
     configureTextFieldSection()
     configureOptionsSection()
-    // configureEmojiSection()
-    // configureColorsSection()
+    // configureEmojiSection() // Sprint 15
+    // configureColorsSection() // Sprint 15
     configureButtonsSection()
   }
 
