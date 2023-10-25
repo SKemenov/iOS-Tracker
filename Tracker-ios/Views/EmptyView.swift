@@ -1,5 +1,5 @@
 //
-//  DummyView.swift
+//  EmptyView.swift
 //  Tracker-ios
 //
 //  Created by Sergey Kemenov on 10.10.2023.
@@ -12,28 +12,10 @@ import UIKit
 final class EmptyView: UIView {
   // MARK: - Private properties
 
-  private let fullView: UIView = {
-    let view = UIView()
-    // view.backgroundColor = .ypRed
-    view.translatesAutoresizingMaskIntoConstraints = false
-    return view
-  }()
-
-  private let centeredView: UIView = {
-    let view = UIView()
-    view.translatesAutoresizingMaskIntoConstraints = false
-    return view
-  }()
-
-  // MARK: - Public properties
-
-  let iconImageView: UIImageView = {
-    let imageView = UIImageView()
-    imageView.translatesAutoresizingMaskIntoConstraints = false
-    return imageView
-  }()
-
-  let primaryLabel: UILabel = {
+  private let fullView = UIView()
+  private let centeredView = UIView()
+  private let iconImageView = UIImageView()
+  private let primaryLabel: UILabel = {
     let label = UILabel()
     label.numberOfLines = 1
     label.textAlignment = .center
@@ -47,11 +29,42 @@ final class EmptyView: UIView {
 
   override init(frame: CGRect) {
     super.init(frame: frame)
+    configureUI()
+    configureEmptyViewConstraints()
+  }
+
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+
+  // MARK: - Public methods
+
+  func configure(title: String, iconImage: UIImage?) {
+    primaryLabel.text = title
+    iconImageView.image = iconImage
+  }
+}
+
+// MARK: - Private methods
+
+private extension EmptyView {
+  func configureUI() {
+    configureEmptyView()
     addSubview(fullView)
     fullView.addSubview(centeredView)
     centeredView.addSubview(iconImageView)
     centeredView.addSubview(primaryLabel)
+    configureEmptyViewConstraints()
+  }
 
+  func configureEmptyView() {
+    fullView.translatesAutoresizingMaskIntoConstraints = false
+    centeredView.translatesAutoresizingMaskIntoConstraints = false
+    iconImageView.translatesAutoresizingMaskIntoConstraints = false
+    primaryLabel.translatesAutoresizingMaskIntoConstraints = false
+  }
+
+  func configureEmptyViewConstraints() {
     let imageSize = Resources.Dimensions.bigIcon
     let titleHeight = Resources.Dimensions.notificationHeight
     let spacing = Resources.Layouts.spacingElement
@@ -78,10 +91,5 @@ final class EmptyView: UIView {
       primaryLabel.trailingAnchor.constraint(equalTo: centeredView.trailingAnchor, constant: -spacing),
       primaryLabel.bottomAnchor.constraint(equalTo: centeredView.bottomAnchor),
       primaryLabel.heightAnchor.constraint(equalToConstant: titleHeight)
-    ])
-  }
-
-  required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
+    ])  }
 }
