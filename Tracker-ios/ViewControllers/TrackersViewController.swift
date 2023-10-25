@@ -111,11 +111,9 @@ private extension TrackersViewController {
   }
 
   func updateTrackerCollectionView() {
-    // emptyView.isHidden = !factory.trackers.isEmpty
-    // collectionView.isHidden = factory.trackers.isEmpty
+    collectionView.reloadData()
     collectionView.isHidden = visibleCategories.isEmpty
     emptyView.isHidden = !collectionView.isHidden
-    collectionView.reloadData()
     print("TVC f.trackers.count \(factory.trackers.count), f.trackers.isEmpty \(factory.trackers.isEmpty)")
     print("TVC f.categories.count \(factory.categories.count), f.categories.isEmpty \(factory.categories.isEmpty)")
     print("emptyView.isHidden \(emptyView.isHidden)")
@@ -126,11 +124,18 @@ private extension TrackersViewController {
     let tracker = addMockTracker()
     factory.addNew(tracker: tracker)
     factory.addTracker(tracker, toCategory: Int.random(in: 0..<factory.categories.count))
-    visibleCategories = factory.categories
+    fetchVisibleCategoriesFromFactory()
     print("TVC factory.trackers \(factory.trackers)")
     print("TVC factory.categories \(factory.categories)")
 
     updateTrackerCollectionView()
+  }
+
+  func fetchVisibleCategoriesFromFactory() {
+    visibleCategories = []
+    for eachCategory in factory.categories where !eachCategory.items.isEmpty {
+      visibleCategories.append(eachCategory)
+    }
   }
 }
 
@@ -160,18 +165,14 @@ extension TrackersViewController: UITextFieldDelegate {
 // MARK: - UICollectionViewDataSource
 
 extension TrackersViewController: UICollectionViewDataSource {
-  func collectionView(_ collectionView: UICollectionView, numberOfSection section: Int) -> Int {
+
+  func numberOfSections(in collectionView: UICollectionView) -> Int {
     print("TVC visibleCategories.count \(visibleCategories.count)")
     return visibleCategories.count
   }
 
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    // print("TVC visibleCategories[section].items.count \(visibleCategories[section].items.count)")
-    guard !visibleCategories.isEmpty else { return 0 }
-    // visibleCategories.forEach { section in
-      // section.items.count
-    // }
-    return visibleCategories[section].items.count
+    return visibleCategories.isEmpty ? 0 : visibleCategories[section].items.count
   }
 
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -325,8 +326,7 @@ private extension TrackersViewController {
   func configureCollectionView() {
     collectionView.dataSource = self
     collectionView.delegate = self
-    // collectionView.backgroundColor = .ypWhite
-    collectionView.backgroundColor = .ypBlue
+    collectionView.backgroundColor = .ypWhite
     collectionView.translatesAutoresizingMaskIntoConstraints = false
   }
 
@@ -376,10 +376,10 @@ private extension TrackersViewController {
 private extension TrackersViewController {
   func setupMockCategory() {
     factory.addNew(category: TrackerCategory(id: UUID(), name: "Важное", items: []))
-    // factory.addNew(category: TrackerCategory(id: UUID(), name: "Нужное", items: []))
+    factory.addNew(category: TrackerCategory(id: UUID(), name: "Нужное", items: []))
   }
-  
-   func addMockTracker() -> Tracker {
+
+  func addMockTracker() -> Tracker {
     // MARK: - Mock Properties
     let mockTrackers: [Tracker] = [
       Tracker(

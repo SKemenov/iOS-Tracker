@@ -17,10 +17,10 @@ final class TrackersFactory {
 
   func addTracker(_ tracker: Tracker, toCategory index: Int) {
     var currentCategories = categories
-    var currentCategory = currentCategories[index]
+    let currentCategory = currentCategories[index]
     var categoryTrackers = currentCategory.items
     categoryTrackers.append(tracker)
-    var updatedCategory = TrackerCategory(
+    let updatedCategory = TrackerCategory(
       id: currentCategory.id,
       name: currentCategory.name,
       items: categoryTrackers

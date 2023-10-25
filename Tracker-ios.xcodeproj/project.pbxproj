@@ -114,12 +114,12 @@
 		E9434AAC2AD2BBA000EF821F /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E9A654752AE7CC6C00C692EE /* TrackerHeader.swift */,
 				E9434AAA2AD2BB9A00EF821F /* TrackerCell.swift */,
 				E9434ABA2AD5EAAE00EF821F /* EmptyView.swift */,
 				E9434ABE2AD91AEA00EF821F /* ActionButton.swift */,
 				E9E899CF2ADB1CC5003D464E /* OptionButton.swift */,
 				E93C3FEC2ADFD27300579917 /* BorderView.swift */,
-				E9A654752AE7CC6C00C692EE /* TrackerHeader.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";

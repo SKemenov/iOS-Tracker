@@ -13,7 +13,6 @@ final class TrackerHeader: UICollectionReusableView {
     label.translatesAutoresizingMaskIntoConstraints = false
     label.textColor = .ypBlack
     label.textAlignment = .natural
-    label.backgroundColor = .ypRed
     label.font = Resources.Fonts.sectionHeader
     return label
   }()

@@ -8,7 +8,7 @@
 import Foundation
 import UIKit.UIColor
 
-struct Tracker {
+struct Tracker: Hashable {
   let id: UUID
   let title: String
   let emoji: Int
@@ -16,13 +16,13 @@ struct Tracker {
   let schedule: [Bool]
 }
 
-struct TrackerCategory {
+struct TrackerCategory: Hashable {
   let id: UUID
   let name: String
   let items: [Tracker]
 }
 
-struct TrackerRecord {
+struct TrackerRecord: Hashable {
   let id: UUID
   let tracker: Tracker
   let date: [Date]
