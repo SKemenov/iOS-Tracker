@@ -197,8 +197,8 @@ private extension CreateTrackerViewController {
 
   @objc func categoryButtonClicked() {
     print("CTVC Run categoryButtonClicked()")
-    let categoryName = factory.categories[0].name
-    categoryButton.configure(value: categoryName)
+    let selectedCategory = factory.categories[0]
+    categoryButton.configure(value: selectedCategory.name)
     categoryIsSelected = true
   }
 

@@ -31,6 +31,7 @@ final class TrackersViewController: UIViewController {
     $0.hidesNavigationBarDuringPresentation = false
     $0.searchBar.placeholder = Resources.Labels.searchBar
     $0.searchBar.setValue(Resources.Labels.cancel, forKey: "cancelButtonText")
+    $0.searchBar.searchTextField.clearButtonMode = .never
     return $0
   }(UISearchController(searchResultsController: nil))
 
@@ -44,7 +45,6 @@ final class TrackersViewController: UIViewController {
   private let headerID = "header"
   private let factory = TrackersFactory.shared
 
-
   private var searchBarUserInput = "" {
     didSet {
       print("TVC searchBarUserInput \(searchBarUserInput)")
@@ -52,11 +52,12 @@ final class TrackersViewController: UIViewController {
   }
 
   private var visibleCategories: [TrackerCategory] = []
+  private var isTrackerCompleted = true
+  private var counterTemp = 0
 
   // MARK: - Public properties
 
   var currentDate = Date()
-  var isCompleted = true
 
   // MARK: - Inits
 
@@ -79,6 +80,7 @@ final class TrackersViewController: UIViewController {
     print("TVC categories[0] \(factory.categories[0])")
 
     searchBar.searchBar.searchTextField.delegate = self
+    searchBar.searchBar.delegate = self
 
     configureUI()
     updateTrackerCollectionView()
@@ -91,6 +93,7 @@ final class TrackersViewController: UIViewController {
   }
 }
 
+// MARK: - Private methods
 
 private extension TrackersViewController {
 
@@ -132,10 +135,38 @@ private extension TrackersViewController {
   }
 
   func fetchVisibleCategoriesFromFactory() {
-    visibleCategories = []
+    print("TVC run fetchVisibleCategoriesFromFactory()")
+    print("TVC factory.categories \(factory.categories)")
+    print("TVC visibleCategoriess \(visibleCategories)")
+    clearVisibleCategories()
     for eachCategory in factory.categories where !eachCategory.items.isEmpty {
       visibleCategories.append(eachCategory)
     }
+    updateTrackerCollectionView()
+  }
+
+  func clearVisibleCategories() {
+    visibleCategories = []
+  }
+
+  func searchTextInTrackers() {
+    print("TVC run searchTextInTrackers()")
+    visibleCategories = []
+    updateTrackerCollectionView()
+  }
+
+  func makeEmptyViewForTrackers() {
+    emptyView.configure(
+      title: Resources.Labels.emptyTracker,
+      iconImage: Resources.Images.emptyTrackers
+    )
+  }
+
+  func makeEmptyViewForSearchBar() {
+    emptyView.configure(
+      title: Resources.Labels.emptySearch,
+      iconImage: Resources.Images.emptySearch
+    )
   }
 }
 
@@ -144,6 +175,10 @@ private extension TrackersViewController {
 extension TrackersViewController: UITextFieldDelegate {
   func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
     searchBarUserInput = textField.text ?? ""
+    if searchBarUserInput.count > 2 {
+      makeEmptyViewForSearchBar()
+      searchTextInTrackers()
+    }
     print("TVC now textField.text is \(String(describing: textField.text))")
     print("TVC searchBarUserInput set to \(searchBarUserInput)")
     return true
@@ -161,6 +196,19 @@ extension TrackersViewController: UITextFieldDelegate {
     true
   }
 }
+
+// MARK: - UISearchBarDelegate
+
+extension TrackersViewController: UISearchBarDelegate {
+  func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+    print("TVC run searchBarCancelButtonClicked()")
+    searchBar.text = nil
+    searchBar.endEditing(true)
+    makeEmptyViewForTrackers()
+    fetchVisibleCategoriesFromFactory()
+  }
+}
+
 
 // MARK: - UICollectionViewDataSource
 
@@ -248,8 +296,10 @@ extension TrackersViewController: TrackerCellDelegate {
     guard let indexPath = collectionView.indexPath(for: cell) else { return }
     // let tracker = factory.trackers[indexPath.row]
     // let isCompleted = tracker.schedule[0]
-    isCompleted.toggle()
-    cell.makeItDone(isCompleted)
+    counterTemp += 1
+    isTrackerCompleted.toggle()
+    cell.updateCounter(counterTemp)
+    cell.makeItDone(isTrackerCompleted)
   }
 }
 
@@ -348,15 +398,13 @@ private extension TrackersViewController {
   func configureEmptyViewSection() {
     print("TVC Run configureEmptyViewSection()")
     configureEmptyView()
+    makeEmptyViewForTrackers()
     view.addSubview(emptyView)
     configureEmptyViewSectionConstraints()
   }
 
   func configureEmptyView() {
     print("TVC Run configureEmptyView()")
-    emptyView.translatesAutoresizingMaskIntoConstraints = false
-    emptyView.iconImageView.image = Resources.Images.dummyTrackers
-    emptyView.primaryLabel.text = "Что будем отслеживать?"
     emptyView.translatesAutoresizingMaskIntoConstraints = false
   }
 
