@@ -29,6 +29,12 @@ enum Resources {
     static let emoji = "Emoji"
     static let color = "Цвет"
     static let filters = "Фильтры"
+    static let emptyStatistic = "Анализировать пока нечего"
+    static let emptyTracker = "Что будем отслеживать?"
+    static let emptySearch = "Ничего не найдено"
+    static let oneDay = "день"
+    static let fewDays = "дня"
+    static let manyDays = "дней"
   }
 
   // MARK: - UI element's SF symbols
@@ -45,9 +51,9 @@ enum Resources {
 
   // MARK: - UI element's images
   enum Images {
-    static let dummySearch = UIImage(named: "DummySearch")
-    static let dummyTrackers = UIImage(named: "DummyTrackers")
-    static let dummyStatistic = UIImage(named: "DummyStatistic")
+    static let emptySearch = UIImage(named: "DummySearch")
+    static let emptyTrackers = UIImage(named: "DummyTrackers")
+    static let emptyStatistic = UIImage(named: "DummyStatistic")
   }
 
   // MARK: - UI element's dimensions
