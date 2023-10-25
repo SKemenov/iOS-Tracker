@@ -75,8 +75,10 @@ private extension StatisticViewController {
   func configureEmptyViewSection() {
     print("StVC Run configureEmptyViewSection()")
     emptyView.translatesAutoresizingMaskIntoConstraints = false
-    emptyView.iconImageView.image = Resources.Images.dummyStatistic
-    emptyView.primaryLabel.text = "Анализировать пока нечего"
+    emptyView.configure(
+      title: Resources.Labels.emptyStatistic,
+      iconImage: Resources.Images.emptyStatistic
+    )
     view.addSubview(emptyView)
     configureEmptyViewSectionConstraints()
   }
