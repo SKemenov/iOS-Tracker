@@ -91,6 +91,45 @@ final class TrackerCell: UICollectionViewCell {
     fatalError("init(coder:) has not been implemented")
   }
 }
+
+// MARK: - Public methods
+
+extension TrackerCell {
+  @objc func didTapDoneButton() {
+    print("TC run didTapDoneButton()")
+    delegate?.trackerCellDidTapDone(for: self)
+  }
+
+  func makeItDone(_ isCompleted: Bool) {
+    print("TC run makeItDone()")
+    print("TC isCompleted \(isCompleted)")
+    counterImageView.image = isCompleted ? Resources.SfSymbols.doneCounter : Resources.SfSymbols.addCounter
+    counterButton.alpha = isCompleted ? 0.7 : 1
+  }
+
+  func configureCell(bgColor: UIColor, emoji: String, title: String, counter: Int) {
+    // print("TC run configureCell()")
+    titleView.backgroundColor = bgColor
+    counterButton.backgroundColor = bgColor
+    titleLabel.text = title
+    emojiLabel.text = emoji
+    updateCounter(counter)
+  }
+
+  func updateCounter(_ counter: Int) {
+    switch counter {
+    case _ where counter == 0 || 10...19 ~= counter || 10...19 ~= counter % 100:
+      counterLabel.text = String(counter) + " " + Resources.Labels.manyDays
+    case _ where counter % 10 == 1 || counter == 1:
+      counterLabel.text = String(counter) + " " + Resources.Labels.oneDay
+    case _ where 2...4 ~= counter % 10 || 2...4 ~= counter:
+      counterLabel.text = String(counter) + " " + Resources.Labels.fewDays
+    default:
+      counterLabel.text = String(counter) + " " + Resources.Labels.manyDays
+    }
+  }
+}
+
 // MARK: - Configure TrackerCell UI Section
 
 private extension TrackerCell {
@@ -148,30 +187,5 @@ private extension TrackerCell {
       counterImageView.widthAnchor.constraint(equalToConstant: spacing),
       counterImageView.heightAnchor.constraint(equalToConstant: spacing)
     ])
-  }
-}
-
-// MARK: - Public methods
-
-extension TrackerCell {
-  @objc func didTapDoneButton() {
-    print("TC run didTapDoneButton()")
-    delegate?.trackerCellDidTapDone(for: self)
-  }
-
-  func makeItDone(_ isCompleted: Bool) {
-    print("TC run makeItDone()")
-    print("TC isCompleted \(isCompleted)")
-    counterImageView.image = isCompleted ? Resources.SfSymbols.doneCounter : Resources.SfSymbols.addCounter
-    counterButton.alpha = isCompleted ? 0.7 : 1
-  }
-
-  func configureCell(bgColor: UIColor, emoji: String, title: String, counter: Int) {
-    print("TC run configureCell()")
-    titleView.backgroundColor = bgColor
-    counterButton.backgroundColor = bgColor
-    titleLabel.text = title
-    emojiLabel.text = emoji
-    counterLabel.text = "\(counter) дня(дней)"
   }
 }
