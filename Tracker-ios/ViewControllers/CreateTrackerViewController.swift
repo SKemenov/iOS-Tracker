@@ -8,11 +8,10 @@
 import UIKit
 
 // swift lint:disable file_length
-
 // MARK: - Protocol
 
 protocol CreateTrackerViewControllerDelegate: AnyObject {
-  func createTrackerViewController(_ viewController: CreateTrackerViewController, didFilledTracker tracker: String)
+  func createTrackerViewController(_ viewController: CreateTrackerViewController, didFilledTracker tracker: String, for categoryIndex: Int)
 }
 
 // MARK: - Class
@@ -89,7 +88,7 @@ final class CreateTrackerViewController: UIViewController {
   // MARK: - Private global properties
 
   private let factory = TrackersFactory.shared
-
+  private var selectedCategoryIndex = 0
   private var isHabit: Bool
   private var schedule = [Bool](repeating: false, count: 7)
   private var userInput = "" {
@@ -192,12 +191,12 @@ private extension CreateTrackerViewController {
 
   @objc func createButtonClicked() {
     print("CTVC Run createButtonClicked()")
-    delegate?.createTrackerViewController(self, didFilledTracker: "done")
+    delegate?.createTrackerViewController(self, didFilledTracker: "done", for: selectedCategoryIndex)
   }
 
-  @objc func categoryButtonClicked() {
+  @objc func categoryButtonClicked() { // TODO: Make VC to select category and return it here by selectedCategoryIndex
     print("CTVC Run categoryButtonClicked()")
-    let selectedCategory = factory.categories[0]
+    let selectedCategory = factory.categories[selectedCategoryIndex]
     categoryButton.configure(value: selectedCategory.name)
     categoryIsSelected = true
   }

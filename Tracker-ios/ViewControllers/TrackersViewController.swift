@@ -1,11 +1,13 @@
 //
-//  ViewController.swift
+//  TrackersViewController.swift
 //  Tracker-ios
 //
 //  Created by Sergey Kemenov on 07.10.2023.
 //
 
 import UIKit
+
+// swift lint:disable file_length
 
 // MARK: - Class
 
@@ -75,9 +77,8 @@ final class TrackersViewController: UIViewController {
     super.viewDidLoad()
     view.backgroundColor = .ypWhite
 
+    // print("Current time is \(currentDate)")
     setupMockCategory()
-    print("TVC categories \(factory.categories)")
-    print("TVC categories[0] \(factory.categories[0])")
 
     searchBar.searchBar.searchTextField.delegate = self
     searchBar.searchBar.delegate = self
@@ -88,7 +89,7 @@ final class TrackersViewController: UIViewController {
 
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    print("TVC Run viewWillAppear()")
+    // print("TVC Run viewWillAppear()")
     updateTrackerCollectionView()
   }
 }
@@ -108,36 +109,32 @@ private extension TrackersViewController {
   }
 
   @objc func datePickerValueChanged(_ sender: UIDatePicker) {
-    let selectedDate = Resources.dateFormatter.string(from: sender.date)
-    print("Selected date is \(selectedDate)")
+    currentDate = sender.date
+    let weekday = currentDate.weekday()
+    print("Selected date is \(currentDate), Current weekday is \(weekday)")
+    searchDateInTrackers()
     dismiss(animated: true)
   }
 
   func updateTrackerCollectionView() {
     collectionView.reloadData()
+    collectionView.collectionViewLayout.invalidateLayout()
+    collectionView.layoutSubviews()
     collectionView.isHidden = visibleCategories.isEmpty
     emptyView.isHidden = !collectionView.isHidden
-    print("TVC f.trackers.count \(factory.trackers.count), f.trackers.isEmpty \(factory.trackers.isEmpty)")
-    print("TVC f.categories.count \(factory.categories.count), f.categories.isEmpty \(factory.categories.isEmpty)")
-    print("emptyView.isHidden \(emptyView.isHidden)")
   }
 
-  func fetchTracker(from tracker: String) {
+  func fetchTracker(from tracker: String, for categoryIndex: Int) {
     // print("TVC run fetchTracker() with tracker value \(tracker)")
     let tracker = addMockTracker()
+    let categoryIndex = Int.random(in: 0..<factory.categories.count) // dummy for categoryIndex
     factory.addNew(tracker: tracker)
-    factory.addTracker(tracker, toCategory: Int.random(in: 0..<factory.categories.count))
+    factory.addTracker(tracker, toCategory: categoryIndex)
     fetchVisibleCategoriesFromFactory()
-    print("TVC factory.trackers \(factory.trackers)")
-    print("TVC factory.categories \(factory.categories)")
-
     updateTrackerCollectionView()
   }
 
   func fetchVisibleCategoriesFromFactory() {
-    print("TVC run fetchVisibleCategoriesFromFactory()")
-    print("TVC factory.categories \(factory.categories)")
-    print("TVC visibleCategoriess \(visibleCategories)")
     clearVisibleCategories()
     for eachCategory in factory.categories where !eachCategory.items.isEmpty {
       visibleCategories.append(eachCategory)
@@ -149,9 +146,59 @@ private extension TrackersViewController {
     visibleCategories = []
   }
 
+  func searchDateInTrackers() {
+    let weekday = currentDate.weekday()
+    let currentCategories = factory.categories
+    var newCategories: [TrackerCategory] = []
+    clearVisibleCategories()
+    for eachCategory in currentCategories {
+      var currentTrackers: [Tracker] = []
+      let trackers = eachCategory.items.count
+      for index in 0..<trackers {
+        let tracker = eachCategory.items[index]
+        let trackerHaveThisDay = tracker.schedule[weekday - 1]
+        if trackerHaveThisDay {
+          currentTrackers.append(tracker)
+        }
+      }
+      if !currentTrackers.isEmpty {
+        newCategories.append(
+          TrackerCategory(
+            id: eachCategory.id,
+            name: eachCategory.name,
+            items: currentTrackers
+          )
+        )
+      }
+    }
+    visibleCategories = newCategories
+    updateTrackerCollectionView()
+  }
+
   func searchTextInTrackers() {
     print("TVC run searchTextInTrackers()")
-    visibleCategories = []
+    makeEmptyViewForSearchBar()
+    let currentCategories = factory.categories
+    clearVisibleCategories()
+    for eachCategory in currentCategories {
+      var currentTrackers: [Tracker] = []
+      let trackers = eachCategory.items.count
+      for index in 0..<trackers {
+        let tracker = eachCategory.items[index]
+        if tracker.title.lowercased().contains(searchBarUserInput.lowercased()) {
+          currentTrackers.append(tracker)
+        }
+      }
+      if !currentTrackers.isEmpty {
+        visibleCategories.append(
+          TrackerCategory(
+            id: eachCategory.id,
+            name: eachCategory.name,
+            items: currentTrackers
+          )
+        )
+      }
+    }
     updateTrackerCollectionView()
   }
 
@@ -176,7 +223,6 @@ extension TrackersViewController: UITextFieldDelegate {
   func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
     searchBarUserInput = textField.text ?? ""
     if searchBarUserInput.count > 2 {
-      makeEmptyViewForSearchBar()
       searchTextInTrackers()
     }
     print("TVC now textField.text is \(String(describing: textField.text))")
@@ -224,15 +270,17 @@ extension TrackersViewController: UICollectionViewDataSource {
   }
 
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    print("TVC Run cellForItemAt()")
     guard
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as? TrackerCell else {
       return UICollectionViewCell()
     }
+    let currentTracker = visibleCategories[indexPath.section].items[indexPath.row]
     cell.delegate = self
     cell.configureCell(
-      bgColor: Resources.colors[factory.trackers[indexPath.row].color],
-      emoji: Resources.emojis[factory.trackers[indexPath.row].emoji],
-      title: factory.trackers[indexPath.row].title,
+      bgColor: Resources.colors[currentTracker.color],
+      emoji: Resources.emojis[currentTracker.emoji],
+      title: currentTracker.title,
       counter: indexPath.row
     )
     return cell
@@ -280,11 +328,11 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
 // MARK: - NewTrackerViewControllerDelegate
 
 extension TrackersViewController: NewTrackerViewControllerDelegate {
-  func newTrackerViewController(_ viewController: NewTrackerViewController, didFilledTracker tracker: String) {
+  func newTrackerViewController(_ viewController: NewTrackerViewController, didFilledTracker tracker: String, for categoryIndex: Int) {
     dismiss(animated: true) {
       [weak self] in
       guard let self else { return }
-      self.fetchTracker(from: tracker)
+      self.fetchTracker(from: tracker, for: categoryIndex)
     }  }
 }
 
@@ -294,8 +342,8 @@ extension TrackersViewController: TrackerCellDelegate {
   func trackerCellDidTapDone(for cell: TrackerCell) {
     print("TVC Run trackerCellDidTapDone()")
     guard let indexPath = collectionView.indexPath(for: cell) else { return }
-    // let tracker = factory.trackers[indexPath.row]
-    // let isCompleted = tracker.schedule[0]
+    let tracker = factory.trackers[indexPath.row]
+    let isCompleted = tracker.schedule[0]
     counterTemp += 1
     isTrackerCompleted.toggle()
     cell.updateCounter(counterTemp)
@@ -396,7 +444,7 @@ private extension TrackersViewController {
 
 private extension TrackersViewController {
   func configureEmptyViewSection() {
-    print("TVC Run configureEmptyViewSection()")
+    // print("TVC Run configureEmptyViewSection()")
     configureEmptyView()
     makeEmptyViewForTrackers()
     view.addSubview(emptyView)
@@ -404,12 +452,12 @@ private extension TrackersViewController {
   }
 
   func configureEmptyView() {
-    print("TVC Run configureEmptyView()")
+    // print("TVC Run configureEmptyView()")
     emptyView.translatesAutoresizingMaskIntoConstraints = false
   }
 
   func configureEmptyViewSectionConstraints() {
-    print("TVC Run configureEmptyViewSectionConstraints()")
+    // print("TVC Run configureEmptyViewSectionConstraints()")
     NSLayoutConstraint.activate([
       emptyView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: -Resources.Layouts.vSpacingLargeTitle * 2),
       emptyView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
