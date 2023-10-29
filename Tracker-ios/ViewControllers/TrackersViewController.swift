@@ -54,6 +54,15 @@ final class TrackersViewController: UIViewController {
   }
 
   private var visibleCategories: [TrackerCategory] = []
+  private var weekday = 0
+
+  private var currentDate = Date() {
+    didSet {
+      weekday = currentDate.weekday()
+      print("Selected date is \(currentDate), Current weekday is \(weekday)")
+    }
+  }
+
   private enum Search {
     case text
     case weekday
@@ -61,7 +70,6 @@ final class TrackersViewController: UIViewController {
 
   // MARK: - Public properties
 
-  var currentDate = Date()
 
   // MARK: - Inits
 
@@ -78,8 +86,7 @@ final class TrackersViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .ypWhite
-
-    // print("Current time is \(currentDate)")
+    currentDate = Date() // + TimeInterval(Resources.shiftTimeZone)
     setupMockCategory()
 
     searchBar.searchBar.searchTextField.delegate = self
@@ -111,8 +118,8 @@ private extension TrackersViewController {
   }
 
   @objc func datePickerValueChanged(_ sender: UIDatePicker) {
-    currentDate = sender.date
-    let weekday = currentDate.weekday()
+    currentDate = sender.date // .stripTime()
+    // let weekday = currentDate.weekday()
     print("Selected date is \(currentDate), Current weekday is \(weekday)")
     searchInTrackers(.weekday)
     dismiss(animated: true)
@@ -126,9 +133,9 @@ private extension TrackersViewController {
     emptyView.isHidden = !collectionView.isHidden
   }
 
-  func fetchTracker(from tracker: String, for categoryIndex: Int) {
+  func fetchTracker(from tracker: Tracker, for categoryIndex: Int) {
     // print("TVC run fetchTracker() with tracker value \(tracker)")
-    let tracker = addMockTracker()
+    // let tracker = addMockTracker()
     factory.addTracker(tracker, toCategory: categoryIndex)
     fetchVisibleCategoriesFromFactory()
     updateTrackerCollectionView()
@@ -147,7 +154,7 @@ private extension TrackersViewController {
   }
 
   private func searchInTrackers(_ type: Search) {
-    let weekday = currentDate.weekday()
+    // let weekday = currentDate.weekday()
     let currentCategories = factory.categories
     var newCategories: [TrackerCategory] = []
     clearVisibleCategories()
@@ -313,7 +320,7 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
 // MARK: - NewTrackerViewControllerDelegate
 
 extension TrackersViewController: NewTrackerViewControllerDelegate {
-  func newTrackerViewController(_ viewController: NewTrackerViewController, didFilledTracker tracker: String, for categoryIndex: Int) {
+  func newTrackerViewController(_ viewController: NewTrackerViewController, didFilledTracker tracker: Tracker, for categoryIndex: Int) {
     dismiss(animated: true) {
       [weak self] in
       guard let self else { return }
@@ -326,7 +333,10 @@ extension TrackersViewController: NewTrackerViewControllerDelegate {
 extension TrackersViewController: TrackerCellDelegate {
   func trackerCellDidTapDone(for cell: TrackerCell) {
     print("TVC Run trackerCellDidTapDone()")
-    guard currentDate < Date() else {
+    guard
+      Calendar.current.compare(currentDate, to: Date(), toGranularity: .day) == .orderedAscending
+        || Calendar.current.compare(currentDate, to: Date(), toGranularity: .day) == .orderedSame
+    else {
       print("TVC currentDate \(currentDate) more than \(Date()), abort")
       return
     }
@@ -334,10 +344,14 @@ extension TrackersViewController: TrackerCellDelegate {
     print("TVC visibleCategories \(visibleCategories)")
     guard let indexPath = collectionView.indexPath(for: cell) else { return }
     print("TVC indexPath \(indexPath)")
-    let currentCategory = visibleCategories[indexPath.section]
-    print("TVC currentCategory \(currentCategory)")
+    // let currentCategory = visibleCategories[indexPath.section]
+    // print("TVC currentCategory \(currentCategory)")
     let tracker = visibleCategories[indexPath.section].items[indexPath.row]
     print("TVC tracker \(tracker)")
+    guard tracker.schedule[weekday - 1] else {
+      print("TVC current weekday \(weekday) is \(tracker.schedule[weekday - 1]), abort")
+      return
+    }
     let counter = factory.setTrackerDone(with: tracker.id, on: currentDate)
     cell.updateCounter(counter.0)
     cell.makeItDone(counter.1)
@@ -468,47 +482,47 @@ private extension TrackersViewController {
     factory.addNew(category: TrackerCategory(id: UUID(), name: "Нужное", items: []))
   }
 
-  func addMockTracker() -> Tracker {
-    // MARK: - Mock Properties
-    let mockTrackers: [Tracker] = [
-      Tracker(
-        id: UUID(),
-        title: "test test test all days test test",
-        emoji: Int.random(in: 0...17),
-        color: Int.random(in: 0...17),
-        schedule: [true, true, true, true, true, true, true]
-      ),
-      Tracker(
-        id: UUID(),
-        title: "test test test weekdays test test",
-        emoji: Int.random(in: 0...17),
-        color: Int.random(in: 0...17),
-        schedule: [true, true, true, true, true, false, false]
-      ),
-      Tracker(
-        id: UUID(),
-        title: "test test test weekend test test",
-        emoji: Int.random(in: 0...17),
-        color: Int.random(in: 0...17),
-        schedule: [false, false, false, false, false, true, true]
-      ),
-      Tracker(
-        id: UUID(),
-        title: "test test some days test test test",
-        emoji: Int.random(in: 0...17),
-        color: Int.random(in: 0...17),
-        schedule: [true, false, true, false, true, false, true]
-      ),
-      Tracker(
-        id: UUID(),
-        title: "test test a few days test test test",
-        emoji: Int.random(in: 0...17),
-        color: Int.random(in: 0...17),
-        schedule: [false, false, true, false, false, true, false]
-      )
-    ]
-
-    return mockTrackers[Int.random(in: 0..<mockTrackers.count)]
-    // print("TVC trackers \(factory)")
-  }
+//  func addMockTracker() -> Tracker {
+//    // MARK: - Mock Properties
+//    let mockTrackers: [Tracker] = [
+//      Tracker(
+//        id: UUID(),
+//        title: "test test test all days test test",
+//        emoji: Int.random(in: 0...17),
+//        color: Int.random(in: 0...17),
+//        schedule: [true, true, true, true, true, true, true]
+//      ),
+//      Tracker(
+//        id: UUID(),
+//        title: "test test test weekdays test test",
+//        emoji: Int.random(in: 0...17),
+//        color: Int.random(in: 0...17),
+//        schedule: [true, true, true, true, true, false, false]
+//      ),
+//      Tracker(
+//        id: UUID(),
+//        title: "test test test weekend test test",
+//        emoji: Int.random(in: 0...17),
+//        color: Int.random(in: 0...17),
+//        schedule: [false, false, false, false, false, true, true]
+//      ),
+//      Tracker(
+//        id: UUID(),
+//        title: "test test some days test test test",
+//        emoji: Int.random(in: 0...17),
+//        color: Int.random(in: 0...17),
+//        schedule: [true, false, true, false, true, false, true]
+//      ),
+//      Tracker(
+//        id: UUID(),
+//        title: "test test a few days test test test",
+//        emoji: Int.random(in: 0...17),
+//        color: Int.random(in: 0...17),
+//        schedule: [false, false, true, false, false, true, false]
+//      )
+//    ]
+//
+//    return mockTrackers[Int.random(in: 0..<mockTrackers.count)]
+//    // print("TVC trackers \(factory)")
+//  }
 }

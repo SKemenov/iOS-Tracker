@@ -17,7 +17,6 @@
 		E9434AB22AD51FDC00EF821F /* StatisticViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9434AB12AD51FDC00EF821F /* StatisticViewController.swift */; };
 		E9434AB42AD5205A00EF821F /* SplashScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9434AB32AD5205A00EF821F /* SplashScreenViewController.swift */; };
 		E9434AB62AD520FB00EF821F /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9434AB52AD520FB00EF821F /* TabBarViewController.swift */; };
-		E9434AB92AD5E64600EF821F /* GeometricParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9434AB82AD5E64600EF821F /* GeometricParams.swift */; };
 		E9434ABB2AD5EAAE00EF821F /* EmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9434ABA2AD5EAAE00EF821F /* EmptyView.swift */; };
 		E9434ABD2AD6749600EF821F /* NewTrackerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9434ABC2AD6749600EF821F /* NewTrackerViewController.swift */; };
 		E9434ABF2AD91AEA00EF821F /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9434ABE2AD91AEA00EF821F /* ActionButton.swift */; };
@@ -43,7 +42,6 @@
 		E9434AB12AD51FDC00EF821F /* StatisticViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticViewController.swift; sourceTree = "<group>"; };
 		E9434AB32AD5205A00EF821F /* SplashScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenViewController.swift; sourceTree = "<group>"; };
 		E9434AB52AD520FB00EF821F /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
-		E9434AB82AD5E64600EF821F /* GeometricParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometricParams.swift; sourceTree = "<group>"; };
 		E9434ABA2AD5EAAE00EF821F /* EmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
 		E9434ABC2AD6749600EF821F /* NewTrackerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTrackerViewController.swift; sourceTree = "<group>"; };
 		E9434ABE2AD91AEA00EF821F /* ActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
@@ -131,7 +129,6 @@
 			isa = PBXGroup;
 			children = (
 				E9434AAF2AD50E0100EF821F /* Tracker.swift */,
-				E9434AB82AD5E64600EF821F /* GeometricParams.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -273,7 +270,6 @@
 				E9434AAB2AD2BB9A00EF821F /* TrackerCell.swift in Sources */,
 				E9718F192AD19E9400853947 /* TrackersViewController.swift in Sources */,
 				E9718F152AD19E9400853947 /* AppDelegate.swift in Sources */,
-				E9434AB92AD5E64600EF821F /* GeometricParams.swift in Sources */,
 				E99AEB342AE17AAA00A72F4F /* TrackersFactory.swift in Sources */,
 				E93C3FED2ADFD27300579917 /* BorderView.swift in Sources */,
 				E9718F172AD19E9400853947 /* SceneDelegate.swift in Sources */,
