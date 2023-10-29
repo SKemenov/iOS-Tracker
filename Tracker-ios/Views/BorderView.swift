@@ -7,7 +7,10 @@
 
 import UIKit
 
+// MARK: - Class
+
 final class BorderView {
+  // MARK: - Public method
 
   func configure(for containerView: UIView, width: CGFloat, repeat times: Int) {
     for time in 1...times {

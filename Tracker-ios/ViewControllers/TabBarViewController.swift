@@ -10,6 +10,8 @@ import UIKit
 // MARK: - Class
 
 final class TabBarViewController: UITabBarController {
+  // MARK: - Life circle
+
   override func viewDidLoad() {
     super.viewDidLoad()
     setupTabBarView()

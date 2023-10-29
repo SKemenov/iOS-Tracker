@@ -9,16 +9,6 @@ import Foundation
 
 extension Date {
 
-//  func stripTime() -> Date {
-//    let calendar = Calendar.current
-//    let currentDate = self // + TimeInterval(Resources.shiftTimeZone)
-//    var components = calendar.dateComponents([.year, .month, .day, .timeZone, .hour], from: currentDate)
-//    guard let date = calendar.date(from: components) else {
-//      preconditionFailure("Cannot strip the time")
-//    }
-//    return date
-//  }
-
   func weekday() -> Int {
     let systemWeekday = Calendar.current.component(.weekday, from: self)
     if Calendar.current.firstWeekday == 1 {

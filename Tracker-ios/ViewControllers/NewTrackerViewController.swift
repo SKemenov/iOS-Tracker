@@ -32,7 +32,6 @@ final class NewTrackerViewController: UIViewController {
     2 * Resources.Dimensions.buttonHeight + Resources.Layouts.vSpacingButton
   }()
 
-
   // MARK: - Public properties
 
   weak var delegate: NewTrackerViewControllerDelegate?
@@ -41,7 +40,6 @@ final class NewTrackerViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    print("NTVC Run viewDidLoad()")
     view.backgroundColor = .ypWhite
 
     configureTitleLabelSection()
@@ -49,18 +47,24 @@ final class NewTrackerViewController: UIViewController {
   }
 }
 
+// MARK: - CreateTrackerViewControllerDelegate
+
+extension NewTrackerViewController: CreateTrackerViewControllerDelegate {
+  func createTrackerViewController(_ viewController: CreateTrackerViewController, didFilledTracker tracker: Tracker, for categoryIndex: Int) {
+    delegate?.newTrackerViewController(self, didFilledTracker: tracker, for: categoryIndex)
+  }
+}
+
 // MARK: - Private methods for button's actions
 
 private extension NewTrackerViewController {
   @objc func newHabitButtonClicked() {
-    print("NTVC Run newHabitButtonClicked()")
     let nextController = CreateTrackerViewController(isHabit: true)
     nextController.delegate = self
     present(nextController, animated: true)
   }
 
   @objc func newEventButtonClicked() {
-    print("NTVC Run newEventButtonClicked()")
     let nextController = CreateTrackerViewController(isHabit: false)
     nextController.delegate = self
     present(nextController, animated: true)
@@ -71,22 +75,19 @@ private extension NewTrackerViewController {
 
 private extension NewTrackerViewController {
   func configureTitleLabelSection() {
-    print("NTVC Run configureTitleLabelSection()")
     configureTitleLabel()
+    view.addSubview(titleLabel)
     configureTitleLabelConstraints()
   }
 
   func configureTitleLabel() {
-    print("NTVC Run setupTitleLabel()")
-    view.addSubview(titleLabel)
     titleLabel.text = Resources.Labels.newTracker
     titleLabel.font = Resources.Fonts.titleUsual
     titleLabel.textAlignment = .center
+    titleLabel.translatesAutoresizingMaskIntoConstraints = false
   }
 
   func configureTitleLabelConstraints() {
-    print("NTVC Run setupTitleLabelConstraints()")
-    titleLabel.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       titleLabel.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: Resources.Layouts.vSpacingTitle),
       titleLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
@@ -100,19 +101,18 @@ private extension NewTrackerViewController {
 private extension NewTrackerViewController {
 
   func configureStackViewSection() {
-    print("NTVC Run configureStackViewSection()")
     configureStackView()
+    view.addSubview(stackView)
     addHabitButtonToStackView()
     addEventButtonToStackView()
     configureStackViewConstraints()
   }
 
   func configureStackView() {
-    print("NTVC Run configureStackView()")
-    view.addSubview(stackView)
     stackView.axis = .vertical
     stackView.distribution = .fillEqually
     stackView.spacing = Resources.Layouts.vSpacingButton
+    stackView.translatesAutoresizingMaskIntoConstraints = false
   }
 
   func addHabitButtonToStackView() {
@@ -130,21 +130,11 @@ private extension NewTrackerViewController {
   }
 
   func configureStackViewConstraints() {
-    print("NTVC Run configureStackViewConstraints()")
-    stackView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       stackView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
       stackView.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor),
       stackView.widthAnchor.constraint(equalToConstant: stackWidth),
       stackView.heightAnchor.constraint(equalToConstant: stackHeight)
     ])
-  }
-}
-
-// MARK: - CreateTrackerViewControllerDelegate
-
-extension NewTrackerViewController: CreateTrackerViewControllerDelegate {
-  func createTrackerViewController(_ viewController: CreateTrackerViewController, didFilledTracker tracker: Tracker, for categoryIndex: Int) {
-    delegate?.newTrackerViewController(self, didFilledTracker: tracker, for: categoryIndex)
   }
 }

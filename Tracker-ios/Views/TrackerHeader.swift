@@ -7,7 +7,11 @@
 
 import UIKit
 
+// MARK: - Class
+
 final class TrackerHeader: UICollectionReusableView {
+  // MARK: - Property
+
   let titleLabel: UILabel = {
     let label = UILabel()
     label.translatesAutoresizingMaskIntoConstraints = false
@@ -16,6 +20,8 @@ final class TrackerHeader: UICollectionReusableView {
     label.font = Resources.Fonts.sectionHeader
     return label
   }()
+
+  // MARK: - Inits
 
   override init(frame: CGRect) {
     super.init(frame: frame)
@@ -26,6 +32,8 @@ final class TrackerHeader: UICollectionReusableView {
     fatalError("init(coder:) has not been implemented")
   }
 }
+
+// MARK: - Private methods
 
 private extension TrackerHeader {
   func configureUI() {

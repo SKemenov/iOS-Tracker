@@ -24,8 +24,6 @@ final class StatisticViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    print("StVC Run viewDidLoad()")
-
     view.backgroundColor = .ypWhite
     configureTitleSection()
     configureEmptyViewSection()
@@ -33,7 +31,6 @@ final class StatisticViewController: UIViewController {
 
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    print("StVC Run viewWillAppear()")
     emptyView.isHidden = !isEmpty
   }
 }
@@ -42,7 +39,6 @@ final class StatisticViewController: UIViewController {
 
 private extension StatisticViewController {
   func configureTitleSection() {
-    print("StVC Run configureTitleSection()")
     titleLabel.text = Resources.Labels.statistic
     titleLabel.font = Resources.Fonts.titleLarge
     titleLabel.textAlignment = .natural
@@ -57,7 +53,6 @@ private extension StatisticViewController {
   }
 
   func configureTitleSectionConstraints() {
-    print("StVC Run configureTitleSectionConstraints()")
     let leading = Resources.Layouts.leadingElement
     titleLabel.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
@@ -73,7 +68,6 @@ private extension StatisticViewController {
 
 private extension StatisticViewController {
   func configureEmptyViewSection() {
-    print("StVC Run configureEmptyViewSection()")
     emptyView.translatesAutoresizingMaskIntoConstraints = false
     emptyView.configure(
       title: Resources.Labels.emptyStatistic,
@@ -84,7 +78,6 @@ private extension StatisticViewController {
   }
 
   func configureEmptyViewSectionConstraints() {
-    print("StVC Run configureEmptyViewSectionConstraints()")
     emptyView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       emptyView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: Resources.Layouts.vSpacingTitle * 2),

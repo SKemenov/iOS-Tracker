@@ -19,7 +19,6 @@ final class OptionButton: UIButton {
     label.textAlignment = .natural
     label.textColor = .ypBlack
     label.font = Resources.Fonts.textField
-    // label.backgroundColor = .ypRed
     return label
   }()
 
@@ -30,7 +29,6 @@ final class OptionButton: UIButton {
     label.textColor = .ypGray
     label.font = Resources.Fonts.textField
     label.isHidden = true
-    // label.backgroundColor = .ypBlue
     return label
   }()
 
@@ -39,7 +37,6 @@ final class OptionButton: UIButton {
     imageView.image = Resources.SfSymbols.chevron
     imageView.tintColor = .ypGray
     imageView.contentMode = .scaleAspectFill
-    // imageView.backgroundColor = .ypWhite
     return imageView
   }()
 
@@ -114,15 +111,9 @@ final class OptionButton: UIButton {
 
   @objc func tapped() {
     self.alpha = 0.7
-//    self.primaryLabel.textColor = .ypGray
-//    self.secondaryLabel.textColor = .ypLightGray
-//    self.iconImageView.tintColor = .ypLightGray
   }
 
   @objc func untapped() {
     self.alpha = 1
-//    self.primaryLabel.textColor = .ypBlack
-//    self.secondaryLabel.textColor = .ypGray
-//    self.iconImageView.tintColor = .ypGray
   }
 }

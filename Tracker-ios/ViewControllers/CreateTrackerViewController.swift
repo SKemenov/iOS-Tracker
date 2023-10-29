@@ -93,7 +93,6 @@ final class CreateTrackerViewController: UIViewController {
   private var schedule = [Bool](repeating: false, count: 7)
   private var userInput = "" {
     didSet {
-      print("CTVC userInput \(userInput)")
       trackerNameIsFulfilled = true
     }
   }
@@ -117,15 +116,10 @@ final class CreateTrackerViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    print("CTVC Run viewDidLoad()")
-    print("CTVC isHabit \(isHabit)")
     if !isHabit {
       schedule = schedule.map { $0 || true }
       scheduleIsFulfilled = true
     }
-    print("CTVC schedule for event \(schedule)")
-    print("CTVC scheduleIsFulfilled \(scheduleIsFulfilled)")
-
     view.backgroundColor = .ypWhite
     configureUI()
     textField.delegate = self
@@ -181,290 +175,6 @@ private extension CreateTrackerViewController {
   }
 }
 
-// MARK: - Private methods for button's actions
-
-private extension CreateTrackerViewController {
-  @objc func cancelButtonClicked() {
-    print("CTVC Run cancelButtonClicked()")
-    dismiss(animated: true)
-  }
-
-  @objc func createButtonClicked() {
-    print("CTVC Run createButtonClicked()")
-    let newTracker = Tracker(
-      id: UUID(),
-      title: userInput,
-      emoji: Int.random(in: 0...17), // dummy for now
-      color: Int.random(in: 0...17), // dummy for now
-      schedule: schedule
-    )
-    delegate?.createTrackerViewController(self, didFilledTracker: newTracker, for: selectedCategoryIndex)
-  }
-
-  @objc func categoryButtonClicked() { // TODO: Make VC to select category and return it here by selectedCategoryIndex
-    print("CTVC Run categoryButtonClicked()")
-    selectedCategoryIndex = Int.random(in: 0..<factory.categories.count) // dummy for categoryIndex
-    let selectedCategory = factory.categories[selectedCategoryIndex]
-    categoryButton.configure(value: selectedCategory.name)
-    categoryIsSelected = true
-  }
-
-  @objc func scheduleButtonClicked() {
-    print("CTVC Run scheduleButtonClicked()")
-    let nextController = ScheduleViewController(with: schedule)
-    nextController.delegate = self
-    present(nextController, animated: true)
-  }
-}
-
-// MARK: - Private methods to configure Title section
-
-private extension CreateTrackerViewController {
-  func configureTitleSection() {
-    configureTitleLabel()
-    view.addSubview(titleLabel)
-    configureTitleSectionConstraints()
-  }
-
-  func configureTitleLabel() {
-    print("CTVC Run configureTitleSection()")
-    titleLabel.text = isHabit ? Resources.Labels.newHabit : Resources.Labels.newEvent
-    titleLabel.font = Resources.Fonts.titleUsual
-    titleLabel.textAlignment = .center
-    titleLabel.translatesAutoresizingMaskIntoConstraints = false
-    titleLabel.frame = CGRect(
-      x: 0,
-      y: 0,
-      width: view.frame.width,
-      height: Resources.Dimensions.titleHeight + Resources.Layouts.vSpacingTitle
-    )
-  }
-
-  func configureTitleSectionConstraints() {
-    print("CTVC Run configureTitleSectionConstraints()")
-    NSLayoutConstraint.activate([
-      titleLabel.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: Resources.Layouts.vSpacingTitle),
-      titleLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
-      titleLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor)
-    ])
-  }
-}
-
-// MARK: - Private methods to configure TextField section
-
-private extension CreateTrackerViewController {
-  func configureTextFieldSection() {
-    print("CTVC Run configureTextFieldSection()")
-    configureTextFieldStackView()
-    view.addSubview(textFieldStackView)
-    configureTextField()
-    configureTextFieldWarning()
-    textFieldStackView.addArrangedSubview(textField)
-    textFieldStackView.addArrangedSubview(textFieldWarning)
-    configureTextFieldConstraints()
-    configureTextFieldWarningConstraints()
-    configureTextFieldStackViewConstraints()
-  }
-
-  func configureTextFieldStackView() {
-    print("CTVC Run configureTextFieldStackView()")
-    textFieldStackView.axis = .vertical
-    textFieldStackView.distribution = .fillProportionally
-    textFieldStackView.spacing = .zero
-    textFieldStackView.translatesAutoresizingMaskIntoConstraints = false
-  }
-
-  func configureTextField() {
-    print("CTVC Run configureTextField()")
-    textField.backgroundColor = .ypBackground
-    textField.layer.cornerRadius = Resources.Dimensions.cornerRadius
-    textField.layer.masksToBounds = true
-    textField.placeholder = Resources.Labels.textFieldPlaceholder
-    textField.clearButtonMode = .whileEditing
-    textField.textColor = .ypBlack
-    textField.translatesAutoresizingMaskIntoConstraints = false
-    textField.frame = CGRect(
-      x: 0,
-      y: 0,
-      width: optionsViewWidth,
-      height: Resources.Dimensions.fieldHeight
-    )
-  }
-
-  func configureTextFieldWarning() {
-    print("CTVC Run configureTextFieldWarning()")
-    textFieldWarning.translatesAutoresizingMaskIntoConstraints = false
-    textFieldWarning.text = Resources.Labels.textFieldRestriction
-    textFieldWarning.font = Resources.Fonts.textField
-    textFieldWarning.textAlignment = .center
-    textFieldWarning.textColor = .ypRed
-    textFieldWarning.isHidden = true
-    textFieldWarning.frame = CGRect(
-      x: 0,
-      y: Resources.Dimensions.fieldHeight,
-      width: optionsViewWidth,
-      height: Resources.Dimensions.fieldHeight / 2
-    )
-  }
-
-  func configureTextFieldConstraints() {
-    print("CTVC Run configureTextFieldConstraints()")
-    NSLayoutConstraint.activate([
-      textField.topAnchor.constraint(equalTo: textFieldStackView.topAnchor),
-      textField.leadingAnchor.constraint(equalTo: textFieldStackView.leadingAnchor),
-      textField.trailingAnchor.constraint(equalTo: textFieldStackView.trailingAnchor),
-      textField.heightAnchor.constraint(equalToConstant: Resources.Dimensions.fieldHeight)
-    ])
-  }
-
-  func configureTextFieldWarningConstraints() {
-    print("CTVC Run configureTextFieldWarningConstraints()")
-    NSLayoutConstraint.activate([
-      textFieldWarning.topAnchor.constraint(equalTo: textField.bottomAnchor),
-      textFieldWarning.leadingAnchor.constraint(equalTo: textFieldStackView.leadingAnchor),
-      textFieldWarning.trailingAnchor.constraint(equalTo: textFieldStackView.trailingAnchor),
-      textFieldWarning.heightAnchor.constraint(equalToConstant: Resources.Dimensions.fieldHeight / 2)
-    ])
-  }
-
-  func configureTextFieldStackViewConstraints() {
-    print("CTVC Run configureTextFieldStackViewConstraints()")
-    NSLayoutConstraint.activate([
-      textFieldStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: leadSpacing),
-      textFieldStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -leadSpacing),
-      textFieldStackView.topAnchor.constraint(
-        equalTo: titleLabel.bottomAnchor,
-        constant: Resources.Layouts.vSpacingElement
-      )
-    ])
-  }
-}
-
-// MARK: - Private methods to configure Options section
-
-private extension CreateTrackerViewController {
-  func configureOptionsSection() {
-    print("CTVC Run configureOptionsSection()")
-    configureOptionsView()
-    view.addSubview(optionsView)
-    configureOptionsSectionConstraints()
-    configureCategorySubview()
-    optionsView.addSubview(categoryButton)
-    if isHabit {
-      let borderView = BorderView()
-      borderView.configure(for: optionsView, width: optionsViewWidth - Resources.Layouts.leadingElement * 2, repeat: 1)
-      configureScheduleSubview()
-      optionsView.addSubview(scheduleButton)
-    }
-  }
-
-  func configureOptionsView() {
-    print("CTVC Run configureOptionsView()")
-    optionsView.backgroundColor = .ypBackground
-    optionsView.layer.cornerRadius = Resources.Dimensions.cornerRadius
-    optionsView.layer.masksToBounds = true
-    optionsView.translatesAutoresizingMaskIntoConstraints = false
-    optionsView.frame = CGRect(
-      x: 0,
-      y: 0,
-      width: optionsViewWidth,
-      height: optionsViewHeight
-    )
-  }
-
-  func configureCategorySubview() {
-    print("CTVC Run configureCategorySubview()")
-    categoryButton.configure(title: Resources.Labels.category)
-    categoryButton.addTarget(self, action: #selector(categoryButtonClicked), for: .touchUpInside)
-    categoryButton.frame = CGRect(
-      x: 0,
-      y: 0,
-      width: optionsViewWidth,
-      height: Resources.Dimensions.fieldHeight
-    )
-  }
-
-  func configureScheduleSubview() {
-    print("CTVC Run configureScheduleSubview()")
-    scheduleButton.configure(title: Resources.Labels.schedule)
-    scheduleButton.addTarget(self, action: #selector(scheduleButtonClicked), for: .touchUpInside)
-    scheduleButton.frame = CGRect(
-      x: 0,
-      y: Resources.Dimensions.fieldHeight,
-      width: optionsViewWidth,
-      height: Resources.Dimensions.fieldHeight
-    )
-  }
-
-  func configureOptionsSectionConstraints() {
-    print("CTVC Run configureOptionsSectionConstraints()")
-    NSLayoutConstraint.activate([
-      optionsView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: leadSpacing),
-      optionsView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -leadSpacing),
-      optionsView.heightAnchor.constraint(equalToConstant: optionsViewHeight),
-      optionsView.topAnchor.constraint(
-        equalTo: textFieldStackView.bottomAnchor,
-        constant: Resources.Layouts.vSpacingElement
-      )
-    ])
-  }
-}
-
-// MARK: - Private methods to configure Buttons section
-
-private extension CreateTrackerViewController {
-  func configureButtonsSection() {
-    print("CTVC Run configureButtonsSection()")
-    configureButtonsStackView()
-    view.addSubview(buttonsStackView)
-    configureCancelButton()
-    configureCreateButton()
-    updateCreateButtonState()
-    buttonsStackView.addArrangedSubview(cancelButton)
-    buttonsStackView.addArrangedSubview(createButton)
-    configureButtonsSectionConstraints()
-  }
-
-  func configureButtonsStackView() {
-    print("CTVC Run configureButtonsStackView()")
-    buttonsStackView.axis = .horizontal
-    buttonsStackView.backgroundColor = .ypWhite
-    buttonsStackView.distribution = .fillEqually
-    buttonsStackView.spacing = Resources.Layouts.hSpacingButton
-    buttonsStackView.translatesAutoresizingMaskIntoConstraints = false
-  }
-
-  func configureCancelButton() {
-    print("CTVC Run configureCancelButton()")
-    cancelButton.setTitle(Resources.Labels.cancel, for: .normal)
-    cancelButton.setTitleColor(.ypRed, for: .normal)
-    cancelButton.backgroundColor = .ypWhite
-    cancelButton.layer.borderColor = UIColor.ypRed.cgColor
-    cancelButton.layer.borderWidth = 1
-    cancelButton.addTarget(self, action: #selector(cancelButtonClicked), for: .touchUpInside)
-  }
-
-  func configureCreateButton() {
-    print("CTVC Run configureCreateButton()")
-    createButton.setTitle(Resources.Labels.create, for: .normal)
-    createButton.setTitleColor(.ypLightGray, for: .disabled)
-    createButton.addTarget(self, action: #selector(createButtonClicked), for: .touchUpInside)
-  }
-
-  func configureButtonsSectionConstraints() {
-    print("CTVC Run configureButtonsSectionConstraints()")
-    NSLayoutConstraint.activate([
-      buttonsStackView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
-      buttonsStackView.widthAnchor.constraint(equalToConstant: buttonsStackViewWidth),
-      buttonsStackView.heightAnchor.constraint(equalToConstant: Resources.Dimensions.buttonHeight),
-      buttonsStackView.bottomAnchor.constraint(
-        equalTo: safeArea.bottomAnchor,
-        constant: -Resources.Layouts.vSpacingButton
-      )
-    ])
-  }
-}
-
 // MARK: - UITextFieldDelegate
 
 extension CreateTrackerViewController: UITextFieldDelegate {
@@ -503,5 +213,266 @@ extension CreateTrackerViewController: ScheduleViewControllerDelegate {
       guard let self else { return }
       self.fetchSchedule(from: schedule)
     }
+  }
+}
+
+// MARK: - Private methods for button's actions
+
+private extension CreateTrackerViewController {
+  @objc func cancelButtonClicked() {
+    dismiss(animated: true)
+  }
+
+  @objc func createButtonClicked() {
+    let newTracker = Tracker(
+      id: UUID(),
+      title: userInput,
+      emoji: Int.random(in: 0...17), // dummy for now
+      color: Int.random(in: 0...17), // dummy for now
+      schedule: schedule
+    )
+    delegate?.createTrackerViewController(self, didFilledTracker: newTracker, for: selectedCategoryIndex)
+  }
+
+  @objc func categoryButtonClicked() { // TODO: Make VC to select category and return it here by selectedCategoryIndex
+    selectedCategoryIndex = Int.random(in: 0..<factory.categories.count) // dummy for categoryIndex
+    let selectedCategory = factory.categories[selectedCategoryIndex]
+    categoryButton.configure(value: selectedCategory.name)
+    categoryIsSelected = true
+  }
+
+  @objc func scheduleButtonClicked() {
+    let nextController = ScheduleViewController(with: schedule)
+    nextController.delegate = self
+    present(nextController, animated: true)
+  }
+}
+
+// MARK: - Private methods to configure Title section
+
+private extension CreateTrackerViewController {
+  func configureTitleSection() {
+    configureTitleLabel()
+    view.addSubview(titleLabel)
+    configureTitleSectionConstraints()
+  }
+
+  func configureTitleLabel() {
+    titleLabel.text = isHabit ? Resources.Labels.newHabit : Resources.Labels.newEvent
+    titleLabel.font = Resources.Fonts.titleUsual
+    titleLabel.textAlignment = .center
+    titleLabel.translatesAutoresizingMaskIntoConstraints = false
+    titleLabel.frame = CGRect(
+      x: 0,
+      y: 0,
+      width: view.frame.width,
+      height: Resources.Dimensions.titleHeight + Resources.Layouts.vSpacingTitle
+    )
+  }
+
+  func configureTitleSectionConstraints() {
+    NSLayoutConstraint.activate([
+      titleLabel.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: Resources.Layouts.vSpacingTitle),
+      titleLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+      titleLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor)
+    ])
+  }
+}
+
+// MARK: - Private methods to configure TextField section
+
+private extension CreateTrackerViewController {
+  func configureTextFieldSection() {
+    configureTextFieldStackView()
+    view.addSubview(textFieldStackView)
+    configureTextField()
+    configureTextFieldWarning()
+    textFieldStackView.addArrangedSubview(textField)
+    textFieldStackView.addArrangedSubview(textFieldWarning)
+    configureTextFieldConstraints()
+    configureTextFieldWarningConstraints()
+    configureTextFieldStackViewConstraints()
+  }
+
+  func configureTextFieldStackView() {
+    textFieldStackView.axis = .vertical
+    textFieldStackView.distribution = .fillProportionally
+    textFieldStackView.spacing = .zero
+    textFieldStackView.translatesAutoresizingMaskIntoConstraints = false
+  }
+
+  func configureTextField() {
+    textField.backgroundColor = .ypBackground
+    textField.layer.cornerRadius = Resources.Dimensions.cornerRadius
+    textField.layer.masksToBounds = true
+    textField.placeholder = Resources.Labels.textFieldPlaceholder
+    textField.clearButtonMode = .whileEditing
+    textField.textColor = .ypBlack
+    textField.translatesAutoresizingMaskIntoConstraints = false
+    textField.frame = CGRect(
+      x: 0,
+      y: 0,
+      width: optionsViewWidth,
+      height: Resources.Dimensions.fieldHeight
+    )
+  }
+
+  func configureTextFieldWarning() {
+    textFieldWarning.translatesAutoresizingMaskIntoConstraints = false
+    textFieldWarning.text = Resources.Labels.textFieldRestriction
+    textFieldWarning.font = Resources.Fonts.textField
+    textFieldWarning.textAlignment = .center
+    textFieldWarning.textColor = .ypRed
+    textFieldWarning.isHidden = true
+    textFieldWarning.frame = CGRect(
+      x: 0,
+      y: Resources.Dimensions.fieldHeight,
+      width: optionsViewWidth,
+      height: Resources.Dimensions.fieldHeight / 2
+    )
+  }
+
+  func configureTextFieldConstraints() {
+    NSLayoutConstraint.activate([
+      textField.topAnchor.constraint(equalTo: textFieldStackView.topAnchor),
+      textField.leadingAnchor.constraint(equalTo: textFieldStackView.leadingAnchor),
+      textField.trailingAnchor.constraint(equalTo: textFieldStackView.trailingAnchor),
+      textField.heightAnchor.constraint(equalToConstant: Resources.Dimensions.fieldHeight)
+    ])
+  }
+
+  func configureTextFieldWarningConstraints() {
+    NSLayoutConstraint.activate([
+      textFieldWarning.topAnchor.constraint(equalTo: textField.bottomAnchor),
+      textFieldWarning.leadingAnchor.constraint(equalTo: textFieldStackView.leadingAnchor),
+      textFieldWarning.trailingAnchor.constraint(equalTo: textFieldStackView.trailingAnchor),
+      textFieldWarning.heightAnchor.constraint(equalToConstant: Resources.Dimensions.fieldHeight / 2)
+    ])
+  }
+
+  func configureTextFieldStackViewConstraints() {
+    NSLayoutConstraint.activate([
+      textFieldStackView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: leadSpacing),
+      textFieldStackView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -leadSpacing),
+      textFieldStackView.topAnchor.constraint(
+        equalTo: titleLabel.bottomAnchor,
+        constant: Resources.Layouts.vSpacingElement
+      )
+    ])
+  }
+}
+
+// MARK: - Private methods to configure Options section
+
+private extension CreateTrackerViewController {
+  func configureOptionsSection() {
+    configureOptionsView()
+    view.addSubview(optionsView)
+    configureOptionsSectionConstraints()
+    configureCategorySubview()
+    optionsView.addSubview(categoryButton)
+    if isHabit {
+      let borderView = BorderView()
+      borderView.configure(for: optionsView, width: optionsViewWidth - Resources.Layouts.leadingElement * 2, repeat: 1)
+      configureScheduleSubview()
+      optionsView.addSubview(scheduleButton)
+    }
+  }
+
+  func configureOptionsView() {
+    optionsView.backgroundColor = .ypBackground
+    optionsView.layer.cornerRadius = Resources.Dimensions.cornerRadius
+    optionsView.layer.masksToBounds = true
+    optionsView.translatesAutoresizingMaskIntoConstraints = false
+    optionsView.frame = CGRect(
+      x: 0,
+      y: 0,
+      width: optionsViewWidth,
+      height: optionsViewHeight
+    )
+  }
+
+  func configureCategorySubview() {
+    categoryButton.configure(title: Resources.Labels.category)
+    categoryButton.addTarget(self, action: #selector(categoryButtonClicked), for: .touchUpInside)
+    categoryButton.frame = CGRect(
+      x: 0,
+      y: 0,
+      width: optionsViewWidth,
+      height: Resources.Dimensions.fieldHeight
+    )
+  }
+
+  func configureScheduleSubview() {
+    scheduleButton.configure(title: Resources.Labels.schedule)
+    scheduleButton.addTarget(self, action: #selector(scheduleButtonClicked), for: .touchUpInside)
+    scheduleButton.frame = CGRect(
+      x: 0,
+      y: Resources.Dimensions.fieldHeight,
+      width: optionsViewWidth,
+      height: Resources.Dimensions.fieldHeight
+    )
+  }
+
+  func configureOptionsSectionConstraints() {
+    NSLayoutConstraint.activate([
+      optionsView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: leadSpacing),
+      optionsView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -leadSpacing),
+      optionsView.heightAnchor.constraint(equalToConstant: optionsViewHeight),
+      optionsView.topAnchor.constraint(
+        equalTo: textFieldStackView.bottomAnchor,
+        constant: Resources.Layouts.vSpacingElement
+      )
+    ])
+  }
+}
+
+// MARK: - Private methods to configure Buttons section
+
+private extension CreateTrackerViewController {
+  func configureButtonsSection() {
+    configureButtonsStackView()
+    view.addSubview(buttonsStackView)
+    configureCancelButton()
+    configureCreateButton()
+    updateCreateButtonState()
+    buttonsStackView.addArrangedSubview(cancelButton)
+    buttonsStackView.addArrangedSubview(createButton)
+    configureButtonsSectionConstraints()
+  }
+
+  func configureButtonsStackView() {
+    buttonsStackView.axis = .horizontal
+    buttonsStackView.backgroundColor = .ypWhite
+    buttonsStackView.distribution = .fillEqually
+    buttonsStackView.spacing = Resources.Layouts.hSpacingButton
+    buttonsStackView.translatesAutoresizingMaskIntoConstraints = false
+  }
+
+  func configureCancelButton() {
+    cancelButton.setTitle(Resources.Labels.cancel, for: .normal)
+    cancelButton.setTitleColor(.ypRed, for: .normal)
+    cancelButton.backgroundColor = .ypWhite
+    cancelButton.layer.borderColor = UIColor.ypRed.cgColor
+    cancelButton.layer.borderWidth = 1
+    cancelButton.addTarget(self, action: #selector(cancelButtonClicked), for: .touchUpInside)
+  }
+
+  func configureCreateButton() {
+    createButton.setTitle(Resources.Labels.create, for: .normal)
+    createButton.setTitleColor(.ypLightGray, for: .disabled)
+    createButton.addTarget(self, action: #selector(createButtonClicked), for: .touchUpInside)
+  }
+
+  func configureButtonsSectionConstraints() {
+    NSLayoutConstraint.activate([
+      buttonsStackView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
+      buttonsStackView.widthAnchor.constraint(equalToConstant: buttonsStackViewWidth),
+      buttonsStackView.heightAnchor.constraint(equalToConstant: Resources.Dimensions.buttonHeight),
+      buttonsStackView.bottomAnchor.constraint(
+        equalTo: safeArea.bottomAnchor,
+        constant: -Resources.Layouts.vSpacingButton
+      )
+    ])
   }
 }
