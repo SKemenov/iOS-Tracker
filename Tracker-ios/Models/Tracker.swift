@@ -25,5 +25,5 @@ struct TrackerCategory: Hashable {
 struct TrackerRecord: Hashable {
   let id: UUID
   let tracker: Tracker
-  let date: [Date]
+  let dates: [Date]
 }
