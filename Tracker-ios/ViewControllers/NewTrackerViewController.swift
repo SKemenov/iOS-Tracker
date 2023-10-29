@@ -10,7 +10,7 @@ import UIKit
 // MARK: - Protocol
 
 protocol NewTrackerViewControllerDelegate: AnyObject {
-  func newTrackerViewController(_ viewController: NewTrackerViewController, didFilledTracker tracker: String, for categoryIndex: Int)
+  func newTrackerViewController(_ viewController: NewTrackerViewController, didFilledTracker tracker: Tracker, for categoryIndex: Int)
 }
 
 // MARK: - Class
@@ -144,7 +144,7 @@ private extension NewTrackerViewController {
 // MARK: - CreateTrackerViewControllerDelegate
 
 extension NewTrackerViewController: CreateTrackerViewControllerDelegate {
-  func createTrackerViewController(_ viewController: CreateTrackerViewController, didFilledTracker tracker: String, for categoryIndex: Int) {
+  func createTrackerViewController(_ viewController: CreateTrackerViewController, didFilledTracker tracker: Tracker, for categoryIndex: Int) {
     delegate?.newTrackerViewController(self, didFilledTracker: tracker, for: categoryIndex)
   }
 }

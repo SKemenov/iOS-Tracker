@@ -11,7 +11,7 @@ import UIKit
 // MARK: - Protocol
 
 protocol CreateTrackerViewControllerDelegate: AnyObject {
-  func createTrackerViewController(_ viewController: CreateTrackerViewController, didFilledTracker tracker: String, for categoryIndex: Int)
+  func createTrackerViewController(_ viewController: CreateTrackerViewController, didFilledTracker tracker: Tracker, for categoryIndex: Int)
 }
 
 // MARK: - Class
@@ -191,7 +191,14 @@ private extension CreateTrackerViewController {
 
   @objc func createButtonClicked() {
     print("CTVC Run createButtonClicked()")
-    delegate?.createTrackerViewController(self, didFilledTracker: "done", for: selectedCategoryIndex)
+    let newTracker = Tracker(
+      id: UUID(),
+      title: userInput,
+      emoji: Int.random(in: 0...17), // dummy for now
+      color: Int.random(in: 0...17), // dummy for now
+      schedule: schedule
+    )
+    delegate?.createTrackerViewController(self, didFilledTracker: newTracker, for: selectedCategoryIndex)
   }
 
   @objc func categoryButtonClicked() { // TODO: Make VC to select category and return it here by selectedCategoryIndex
