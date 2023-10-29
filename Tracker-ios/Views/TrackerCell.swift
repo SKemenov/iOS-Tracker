@@ -122,11 +122,9 @@ extension TrackerCell {
 
   func updateCounter(_ counter: Int) {
     switch counter {
-    case _ where counter == 0 || 10...19 ~= counter || 10...19 ~= counter % 100:
-      counterLabel.text = String(counter) + " " + Resources.Labels.manyDays
-    case _ where counter % 10 == 1 || counter == 1:
+    case _ where (1 == counter % 10) && !(10...19 ~= counter % 100):
       counterLabel.text = String(counter) + " " + Resources.Labels.oneDay
-    case _ where 2...4 ~= counter % 10 || 2...4 ~= counter:
+    case _ where (2...4 ~= counter % 10) && !(10...19 ~= counter % 100):
       counterLabel.text = String(counter) + " " + Resources.Labels.fewDays
     default:
       counterLabel.text = String(counter) + " " + Resources.Labels.manyDays
