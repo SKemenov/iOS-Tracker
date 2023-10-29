@@ -54,8 +54,10 @@ final class TrackersViewController: UIViewController {
   }
 
   private var visibleCategories: [TrackerCategory] = []
-  private var isTrackerCompleted = true
-  private var counterTemp = 0
+  private enum Search {
+    case text
+    case weekday
+  }
 
   // MARK: - Public properties
 
@@ -112,7 +114,7 @@ private extension TrackersViewController {
     currentDate = sender.date
     let weekday = currentDate.weekday()
     print("Selected date is \(currentDate), Current weekday is \(weekday)")
-    searchDateInTrackers()
+    searchInTrackers(.weekday)
     dismiss(animated: true)
   }
 
@@ -127,8 +129,6 @@ private extension TrackersViewController {
   func fetchTracker(from tracker: String, for categoryIndex: Int) {
     // print("TVC run fetchTracker() with tracker value \(tracker)")
     let tracker = addMockTracker()
-    let categoryIndex = Int.random(in: 0..<factory.categories.count) // dummy for categoryIndex
-    factory.addNew(tracker: tracker)
     factory.addTracker(tracker, toCategory: categoryIndex)
     fetchVisibleCategoriesFromFactory()
     updateTrackerCollectionView()
@@ -146,7 +146,7 @@ private extension TrackersViewController {
     visibleCategories = []
   }
 
-  func searchDateInTrackers() {
+  private func searchInTrackers(_ type: Search) {
     let weekday = currentDate.weekday()
     let currentCategories = factory.categories
     var newCategories: [TrackerCategory] = []
@@ -156,9 +156,17 @@ private extension TrackersViewController {
       let trackers = eachCategory.items.count
       for index in 0..<trackers {
         let tracker = eachCategory.items[index]
-        let trackerHaveThisDay = tracker.schedule[weekday - 1]
-        if trackerHaveThisDay {
-          currentTrackers.append(tracker)
+        switch type {
+        case .text:
+          let tracker = eachCategory.items[index]
+          if tracker.title.lowercased().contains(searchBarUserInput.lowercased()) {
+            currentTrackers.append(tracker)
+          }
+        case .weekday:
+          let trackerHaveThisDay = tracker.schedule[weekday - 1]
+          if trackerHaveThisDay {
+            currentTrackers.append(tracker)
+          }
         }
       }
       if !currentTrackers.isEmpty {
@@ -172,33 +180,6 @@ private extension TrackersViewController {
       }
     }
     visibleCategories = newCategories
-    updateTrackerCollectionView()
-  }
-
-  func searchTextInTrackers() {
-    print("TVC run searchTextInTrackers()")
-    makeEmptyViewForSearchBar()
-    let currentCategories = factory.categories
-    clearVisibleCategories()
-    for eachCategory in currentCategories {
-      var currentTrackers: [Tracker] = []
-      let trackers = eachCategory.items.count
-      for index in 0..<trackers {
-        let tracker = eachCategory.items[index]
-        if tracker.title.lowercased().contains(searchBarUserInput.lowercased()) {
-          currentTrackers.append(tracker)
-        }
-      }
-      if !currentTrackers.isEmpty {
-        visibleCategories.append(
-          TrackerCategory(
-            id: eachCategory.id,
-            name: eachCategory.name,
-            items: currentTrackers
-          )
-        )
-      }
-    }
     updateTrackerCollectionView()
   }
 
@@ -223,7 +204,7 @@ extension TrackersViewController: UITextFieldDelegate {
   func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
     searchBarUserInput = textField.text ?? ""
     if searchBarUserInput.count > 2 {
-      searchTextInTrackers()
+      searchInTrackers(.text)
     }
     print("TVC now textField.text is \(String(describing: textField.text))")
     print("TVC searchBarUserInput set to \(searchBarUserInput)")
@@ -276,13 +257,17 @@ extension TrackersViewController: UICollectionViewDataSource {
       return UICollectionViewCell()
     }
     let currentTracker = visibleCategories[indexPath.section].items[indexPath.row]
+    let counterSettings = factory.getCounter(with: currentTracker.id, on: currentDate)
+    let totalCounter = counterSettings.0
+    let isCompleted = counterSettings.1
     cell.delegate = self
     cell.configureCell(
       bgColor: Resources.colors[currentTracker.color],
       emoji: Resources.emojis[currentTracker.emoji],
       title: currentTracker.title,
-      counter: indexPath.row
+      counter: totalCounter
     )
+    cell.makeItDone(isCompleted)
     return cell
   }
 
@@ -341,13 +326,21 @@ extension TrackersViewController: NewTrackerViewControllerDelegate {
 extension TrackersViewController: TrackerCellDelegate {
   func trackerCellDidTapDone(for cell: TrackerCell) {
     print("TVC Run trackerCellDidTapDone()")
+    guard currentDate < Date() else {
+      print("TVC currentDate \(currentDate) more than \(Date()), abort")
+      return
+    }
+    print("TVC currentDate \(currentDate) less than \(Date()), continue")
+    print("TVC visibleCategories \(visibleCategories)")
     guard let indexPath = collectionView.indexPath(for: cell) else { return }
-    let tracker = factory.trackers[indexPath.row]
-    let isCompleted = tracker.schedule[0]
-    counterTemp += 1
-    isTrackerCompleted.toggle()
-    cell.updateCounter(counterTemp)
-    cell.makeItDone(isTrackerCompleted)
+    print("TVC indexPath \(indexPath)")
+    let currentCategory = visibleCategories[indexPath.section]
+    print("TVC currentCategory \(currentCategory)")
+    let tracker = visibleCategories[indexPath.section].items[indexPath.row]
+    print("TVC tracker \(tracker)")
+    let counter = factory.setTrackerDone(with: tracker.id, on: currentDate)
+    cell.updateCounter(counter.0)
+    cell.makeItDone(counter.1)
   }
 }
 
