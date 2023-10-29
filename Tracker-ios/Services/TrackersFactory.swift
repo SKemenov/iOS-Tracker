@@ -15,7 +15,7 @@ final class TrackersFactory {
   private (set) var categories: [TrackerCategory] = []
   private (set) var completedTrackers: [TrackerRecord] = []
 
-  // MARK: - Public singletone
+  // MARK: - Public singleton
 
   static let shared = TrackersFactory()
 

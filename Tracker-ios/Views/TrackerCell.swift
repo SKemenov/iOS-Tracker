@@ -100,19 +100,15 @@ final class TrackerCell: UICollectionViewCell {
 
 extension TrackerCell {
   @objc func didTapDoneButton() {
-    print("TC run didTapDoneButton()")
     delegate?.trackerCellDidTapDone(for: self)
   }
 
   func makeItDone(_ isCompleted: Bool) {
-    print("TC run makeItDone()")
-    print("TC isCompleted \(isCompleted)")
     counterImageView.image = isCompleted ? Resources.SfSymbols.doneCounter : Resources.SfSymbols.addCounter
     counterButton.alpha = isCompleted ? 0.7 : 1
   }
 
   func configureCell(bgColor: UIColor, emoji: String, title: String, counter: Int) {
-    // print("TC run configureCell()")
     titleView.backgroundColor = bgColor
     counterButton.backgroundColor = bgColor
     titleLabel.text = title
@@ -136,13 +132,11 @@ extension TrackerCell {
 
 private extension TrackerCell {
   func configureTrackerCell() {
-    print("TC run configureTrackerCell()")
     configureTrackerCellSubviews()
     configureTrackerCellConstraints()
   }
 
   func configureTrackerCellSubviews() {
-    print("TC run configureTrackerCellSubviews()")
     contentView.addSubview(titleView)
     contentView.addSubview(emojiLabel)
     contentView.addSubview(titleLabel)
@@ -152,7 +146,6 @@ private extension TrackerCell {
   }
 
   func configureTrackerCellConstraints() {
-    print("TC run configureTrackerCellConstraints()")
     let height = Resources.Dimensions.trackerContentHeight
     let spacing = Resources.Layouts.leadingTracker
     let smallSpacing = Resources.Layouts.hSpacingButton

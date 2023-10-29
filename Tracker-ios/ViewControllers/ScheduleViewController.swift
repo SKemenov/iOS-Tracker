@@ -87,7 +87,6 @@ final class ScheduleViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    print("schedule \(schedule)")
     view.backgroundColor = .ypWhite
     configureUI()
   }

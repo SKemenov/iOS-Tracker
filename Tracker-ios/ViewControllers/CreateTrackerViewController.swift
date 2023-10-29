@@ -142,7 +142,6 @@ private extension CreateTrackerViewController {
   func updateFormState() {
     formIsFulfilled = trackerNameIsFulfilled && categoryIsSelected && scheduleIsFulfilled && scheduleIsFulfilled
     && emojiIsSelected && colorIsSelected
-    print("CTVC formIsFulfilled \(formIsFulfilled)")
   }
 
   func updateCreateButtonState() {

@@ -49,7 +49,7 @@ final class TrackersViewController: UIViewController {
 
   private var searchBarUserInput = "" {
     didSet {
-      print("TVC searchBarUserInput \(searchBarUserInput)")
+      // print("TVC searchBarUserInput \(searchBarUserInput)")
     }
   }
 
@@ -59,7 +59,6 @@ final class TrackersViewController: UIViewController {
   private var currentDate = Date() {
     didSet {
       weekday = currentDate.weekday()
-      print("Selected date is \(currentDate), Current weekday is \(weekday)")
     }
   }
 
@@ -115,7 +114,6 @@ private extension TrackersViewController {
 
   @objc func datePickerValueChanged(_ sender: UIDatePicker) {
     currentDate = sender.date
-    print("Selected date is \(currentDate), Current weekday is \(weekday)")
     searchInTrackers(.weekday)
     dismiss(animated: true)
   }
