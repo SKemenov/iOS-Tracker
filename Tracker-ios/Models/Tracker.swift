@@ -26,4 +26,5 @@ struct TrackerRecord: Hashable {
   let id: UUID
   let tracker: Tracker
   let dates: [Date]
+  let days: Int
 }
