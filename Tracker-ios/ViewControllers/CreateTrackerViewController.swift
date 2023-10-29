@@ -196,6 +196,7 @@ private extension CreateTrackerViewController {
 
   @objc func categoryButtonClicked() { // TODO: Make VC to select category and return it here by selectedCategoryIndex
     print("CTVC Run categoryButtonClicked()")
+    selectedCategoryIndex = Int.random(in: 0..<factory.categories.count) // dummy for categoryIndex
     let selectedCategory = factory.categories[selectedCategoryIndex]
     categoryButton.configure(value: selectedCategory.name)
     categoryIsSelected = true
