@@ -9,30 +9,15 @@ import Foundation
 
 extension Date {
 
-  func stripTime() -> Date {
-    let calendar = Calendar.current
-    let timeZone = calendar.timeZone
-    let currentDate = self
-    let currentDateString = Resources.dateFormatter.string(from: currentDate)
-
-    var components = calendar.dateComponents([.year, .month, .day], from: self)
-    components.timeZone = TimeZone.current
-    // guard let date = calendar.date(from: components) else {
-    guard let date = dateStringToDate(dateString: currentDateString) else {
-      preconditionFailure("Cannot strip the time")
-    }
-
-    print("currentDateString \(currentDateString), currentDate \(currentDate), components \(components), date \(date)")
-    return date
-  }
-
-  func dateStringToDate(dateString: String) -> Date? {
-    let dateFormatter = DateFormatter()
-    // dateFormatter.locale = Locale.autoupdatingCurrent
-    dateFormatter.timeZone = TimeZone.current
-    dateFormatter.dateFormat = Resources.dateFormat
-    return dateFormatter.date(from: dateString)
-  }
+//  func stripTime() -> Date {
+//    let calendar = Calendar.current
+//    let currentDate = self // + TimeInterval(Resources.shiftTimeZone)
+//    var components = calendar.dateComponents([.year, .month, .day, .timeZone, .hour], from: currentDate)
+//    guard let date = calendar.date(from: components) else {
+//      preconditionFailure("Cannot strip the time")
+//    }
+//    return date
+//  }
 
   func weekday() -> Int {
     let systemWeekday = Calendar.current.component(.weekday, from: self)
