@@ -43,7 +43,7 @@ final class TrackersFactory {
   }
 
   func setTrackerDone(with id: UUID, on date: Date) -> (Int, Bool) {
-    print("TF Run isTrackerDone()")
+    print("TF Run setTrackerDone()")
     var isCompleted = false
     var currentCompletedTrackers = completedTrackers
     print("TF currentCompletedTrackers \(currentCompletedTrackers)")
@@ -53,8 +53,10 @@ final class TrackersFactory {
     let currentCompletedTracker = currentCompletedTrackers[index]
 
     print("TF Try to catch day \(date) in Dates \(currentCompletedTracker.dates)")
-    let indexDate = currentCompletedTracker.dates.firstIndex { $0 == date }
-    print("TF isTrackerDone() has index \(String(describing: indexDate))")
+    let indexDate = currentCompletedTracker.dates.firstIndex {
+      Calendar.current.compare($0, to: date, toGranularity: .day) == .orderedSame
+    }
+    print("TF setTrackerDone() has index \(String(describing: indexDate))")
 
     print("TF currentCompletedTracker \(currentCompletedTracker)")
     var newDates = currentCompletedTracker.dates
@@ -73,28 +75,33 @@ final class TrackersFactory {
     let updatedCompletedTracker = TrackerRecord(
       id: currentCompletedTracker.id,
       tracker: currentCompletedTracker.tracker,
-      dates: newDates
+      dates: newDates,
+      days: newDates.count
     )
-    print("TF currentCompletedTrackers before remove \(currentCompletedTrackers)")
+    // print("TF currentCompletedTrackers before remove \(currentCompletedTrackers)")
     currentCompletedTrackers.remove(at: index)
-    print("TF currentCompletedTrackers before append \(currentCompletedTrackers)")
+    // print("TF currentCompletedTrackers before append \(currentCompletedTrackers)")
     currentCompletedTrackers.append(updatedCompletedTracker)
-    print("TF currentCompletedTrackers final \(currentCompletedTrackers)")
+    // print("TF currentCompletedTrackers final \(currentCompletedTrackers)")
     completedTrackers = currentCompletedTrackers
-    print("TF completedTrackers \(completedTrackers)")
-
-    let counter = countDays(for: index)
-    print("TF countDays \(String(describing: countDays))")
-    return (counter, isCompleted)
+    // print("TF completedTrackers \(completedTrackers)")
+    // let renewalIndex = findInCompletedTrackerIndex(by: id)
+    // let counter = countDays(for: renewalIndex)
+    // print("TF countDays \(counter) with index [\(index)], isCompleted '\(isCompleted)'")
+    return (newDates.count, isCompleted)
   }
 
   func getCounter(with id: UUID, on date: Date) -> (Int, Bool) {
-    let index = findInCompletedTrackerIndex(by: id)
-    let trackerDates = completedTrackers[index].dates
-    guard trackerDates.firstIndex(where: { $0 == date }) != nil else {
-      return (countDays(for: index), false)
+    // let index = findInCompletedTrackerIndex(by: id)
+    let tracker = completedTrackers[findInCompletedTrackerIndex(by: id)]
+    // let trackerDates = tracker.dates
+    // guard trackerDates.firstIndex(where: {
+    guard tracker.dates.firstIndex(where: {
+      Calendar.current.compare($0, to: date, toGranularity: .day) == .orderedSame
+    }) != nil else {
+      return (tracker.days, false)
     }
-    return (countDays(for: index), true)
+    return (tracker.days, true)
   }
 }
 
@@ -107,14 +114,17 @@ private extension TrackersFactory {
 
   func addToCompletedNew(tracker: Tracker) {
     print("TF Run addNewCompleted()")
-    completedTrackers.append(TrackerRecord(id: UUID(), tracker: tracker, dates: []))
+    completedTrackers.append(TrackerRecord(id: UUID(), tracker: tracker, dates: [], days: [].count))
   }
 
-  func countDays(for index: Int) -> Int {
-    let trackerRecord = completedTrackers[index]
-    let dates = trackerRecord.dates.count
-    return dates
-  }
+//  func countDays(for index: Int) -> Int {
+//    print("TF Run countDays()")
+//    let trackerRecord = completedTrackers[index]
+//    let dates = trackerRecord.dates
+//    let counter = dates.count
+//    print("TF by index [\(index)], counter \(counter) for dates \(dates) in trackerRecord \(trackerRecord)")
+//    return counter
+//  }
 
   func findInFactoryTrackerIndex(by id: UUID) -> Int {
     print("TF Run findTrackerIndex()")
