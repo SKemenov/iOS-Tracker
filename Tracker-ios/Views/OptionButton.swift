@@ -109,11 +109,11 @@ final class OptionButton: UIButton {
     self.addTarget(self, action: #selector(untapped), for: .touchUpInside)
   }
 
-  @objc func tapped() {
+  @objc private func tapped() {
     self.alpha = 0.7
   }
 
-  @objc func untapped() {
+  @objc private func untapped() {
     self.alpha = 1
   }
 }

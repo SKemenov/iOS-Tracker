@@ -96,13 +96,17 @@ final class TrackerCell: UICollectionViewCell {
   }
 }
 
-// MARK: - Public methods
+// MARK: - Private methods
 
-extension TrackerCell {
+private extension TrackerCell {
   @objc func didTapDoneButton() {
     delegate?.trackerCellDidTapDone(for: self)
   }
+}
 
+// MARK: - Public methods
+
+extension TrackerCell {
   func makeItDone(_ isCompleted: Bool) {
     counterImageView.image = isCompleted ? Resources.SfSymbols.doneCounter : Resources.SfSymbols.addCounter
     counterButton.alpha = isCompleted ? 0.7 : 1

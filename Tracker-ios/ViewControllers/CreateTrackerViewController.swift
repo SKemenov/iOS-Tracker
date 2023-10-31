@@ -116,6 +116,7 @@ final class CreateTrackerViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    self.hideKeyboardWhenTappedAround()
     if !isHabit {
       schedule = schedule.map { $0 || true }
       scheduleIsFulfilled = true

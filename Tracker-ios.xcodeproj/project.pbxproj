@@ -26,6 +26,7 @@
 		E9718F172AD19E9400853947 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9718F162AD19E9400853947 /* SceneDelegate.swift */; };
 		E9718F192AD19E9400853947 /* TrackersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9718F182AD19E9400853947 /* TrackersViewController.swift */; };
 		E9718F1E2AD19E9600853947 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E9718F1D2AD19E9600853947 /* Assets.xcassets */; };
+		E97842A72AF18A7D00FD305C /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97842A62AF18A7D00FD305C /* UIViewController+Extensions.swift */; };
 		E99AEB342AE17AAA00A72F4F /* TrackersFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99AEB332AE17AAA00A72F4F /* TrackersFactory.swift */; };
 		E9A654762AE7CC6C00C692EE /* TrackerHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A654752AE7CC6C00C692EE /* TrackerHeader.swift */; };
 		E9E899D02ADB1CC5003D464E /* OptionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E899CF2ADB1CC5003D464E /* OptionButton.swift */; };
@@ -53,6 +54,7 @@
 		E9718F182AD19E9400853947 /* TrackersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersViewController.swift; sourceTree = "<group>"; };
 		E9718F1D2AD19E9600853947 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E9718F222AD19E9700853947 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E97842A62AF18A7D00FD305C /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		E99AEB332AE17AAA00A72F4F /* TrackersFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersFactory.swift; sourceTree = "<group>"; };
 		E9A654752AE7CC6C00C692EE /* TrackerHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerHeader.swift; sourceTree = "<group>"; };
 		E9E899CF2ADB1CC5003D464E /* OptionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionButton.swift; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 				E9434AA72AD2B3A500EF821F /* UIColor+Extensions.swift */,
 				E93C3FE62ADEA05C00579917 /* TextField+Extensions.swift */,
 				E94A17642AEAA37100EEDB1A /* Date+Extensions.swift */,
+				E97842A62AF18A7D00FD305C /* UIViewController+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -152,8 +155,8 @@
 		E9718F132AD19E9400853947 /* Tracker-ios */ = {
 			isa = PBXGroup;
 			children = (
-				E9434AB72AD5E61E00EF821F /* Models */,
 				E9434AA32AD1A0D300EF821F /* Application */,
+				E9434AB72AD5E61E00EF821F /* Models */,
 				E9434AAC2AD2BBA000EF821F /* Views */,
 				E99AEB352AE17AB100A72F4F /* Services */,
 				E9434AA42AD1A12000EF821F /* ViewControllers */,
@@ -268,6 +271,7 @@
 				E9E899D02ADB1CC5003D464E /* OptionButton.swift in Sources */,
 				E93C3FEB2ADF007C00579917 /* ScheduleViewController.swift in Sources */,
 				E9434AAB2AD2BB9A00EF821F /* TrackerCell.swift in Sources */,
+				E97842A72AF18A7D00FD305C /* UIViewController+Extensions.swift in Sources */,
 				E9718F192AD19E9400853947 /* TrackersViewController.swift in Sources */,
 				E9718F152AD19E9400853947 /* AppDelegate.swift in Sources */,
 				E99AEB342AE17AAA00A72F4F /* TrackersFactory.swift in Sources */,
@@ -419,7 +423,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Tracker-ios/Resources/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = Tracker;
+				INFOPLIST_KEY_CFBundleDisplayName = "\U001bTracker";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "";
@@ -455,7 +459,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Tracker-ios/Resources/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = Tracker;
+				INFOPLIST_KEY_CFBundleDisplayName = "\U001bTracker";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = "";

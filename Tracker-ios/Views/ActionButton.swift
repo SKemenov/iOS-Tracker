@@ -21,9 +21,18 @@ final class ActionButton: UIButton {
     fatalError("init(coder:) has not been implemented")
   }
 
-  // MARK: - Private method
+  // MARK: - Public method
 
-  private func setupButton() {
+  override func draw(_ rect: CGRect) {
+    self.addTarget(self, action: #selector(tapped), for: .touchDown)
+    self.addTarget(self, action: #selector(untapped), for: .touchUpInside)
+  }
+}
+
+// MARK: - Private methods
+
+private extension ActionButton {
+  func setupButton() {
     setTitleColor(.ypWhite, for: .normal)
     setTitleColor(.ypGray, for: .focused)
     setTitleColor(.ypLightGray, for: .disabled)
@@ -34,11 +43,6 @@ final class ActionButton: UIButton {
   }
 
   // MARK: - Animation effects for custom buttons
-
-  override func draw(_ rect: CGRect) {
-    self.addTarget(self, action: #selector(tapped), for: .touchDown)
-    self.addTarget(self, action: #selector(untapped), for: .touchUpInside)
-  }
 
   @objc func tapped() {
     self.alpha = 0.7

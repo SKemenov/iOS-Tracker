@@ -47,11 +47,7 @@ final class TrackersViewController: UIViewController {
   private let headerID = "header"
   private let factory = TrackersFactory.shared
 
-  private var searchBarUserInput = "" {
-    didSet {
-      // print("TVC searchBarUserInput \(searchBarUserInput)")
-    }
-  }
+  private var searchBarUserInput = ""
 
   private var visibleCategories: [TrackerCategory] = []
   private var weekday = 0
@@ -84,11 +80,12 @@ final class TrackersViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    self.hideKeyboardWhenTappedAround()
     view.backgroundColor = .ypWhite
     currentDate = Date() // + TimeInterval(Resources.shiftTimeZone)
     setupMockCategory()
 
-    searchBar.searchBar.searchTextField.delegate = self
+    // searchBar.searchBar.searchTextField.delegate = self
     searchBar.searchBar.delegate = self
 
     configureUI()
@@ -177,6 +174,9 @@ private extension TrackersViewController {
       }
     }
     visibleCategories = newCategories
+    if !visibleCategories.isEmpty {
+      makeEmptyViewForSearchBar()
+    }
     updateTrackerCollectionView()
   }
 
@@ -197,29 +197,37 @@ private extension TrackersViewController {
 
 // MARK: - UITextFieldDelegate
 
-extension TrackersViewController: UITextFieldDelegate {
-  func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-    searchBarUserInput = textField.text ?? ""
-    if searchBarUserInput.count > 2 {
-      searchInTrackers(.text)
-    }
-    return true
-  }
-
-  func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-    textField.resignFirstResponder()
-    searchBarUserInput = textField.text ?? ""
-    return true
-  }
-
-  func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-    true
-  }
-}
+// extension TrackersViewController: UITextFieldDelegate {
+//  func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+//    searchBarUserInput = textField.text ?? ""
+//    if searchBarUserInput.count > 2 {
+//      searchInTrackers(.text)
+//    }
+//    return true
+//  }
+//
+//  func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+//    textField.resignFirstResponder()
+//    searchBarUserInput = textField.text ?? ""
+//    return true
+//  }
+//
+//  func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+//    true
+//  }
+// }
 
 // MARK: - UISearchBarDelegate
 
 extension TrackersViewController: UISearchBarDelegate {
+  func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+    searchBarUserInput = searchText
+    if searchBarUserInput.count > 2 {
+      makeEmptyViewForSearchBar()
+      searchInTrackers(.text)
+    }
+  }
+
   func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
     searchBar.text = nil
     searchBar.endEditing(true)
@@ -282,21 +290,32 @@ extension TrackersViewController: UICollectionViewDataSource {
 extension TrackersViewController: UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
     CGSize(
-      width: (collectionView.bounds.width - Resources.Layouts.spacingElement) / Resources.Layouts.trackersPerLine,
+      width: (
+        collectionView.bounds.width - Resources.Layouts.spacingElement - 2 * Resources.Layouts.leadingElement
+      ) / Resources.Layouts.trackersPerLine,
       height: Resources.Dimensions.trackerHeight
     )
   }
 
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-    return 0
+    .zero
   }
 
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-    return 0
+    .zero
   }
 
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
     CGSize(width: collectionView.bounds.width, height: Resources.Dimensions.sectionHeight)
+  }
+
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+    UIEdgeInsets(
+      top: .zero,
+      left: Resources.Layouts.leadingElement,
+      bottom: .zero,
+      right: Resources.Layouts.leadingElement
+    )
   }
 }
 
@@ -308,7 +327,8 @@ extension TrackersViewController: NewTrackerViewControllerDelegate {
       [weak self] in
       guard let self else { return }
       self.fetchTracker(from: tracker, for: categoryIndex)
-    }  }
+    }
+  }
 }
 
 // MARK: - TrackerCellDelegate
@@ -376,7 +396,7 @@ private extension TrackersViewController {
   func configureDatePicker() {
     datePicker.sizeThatFits(CGSize(width: 77, height: 64))
     datePicker.backgroundColor = .ypBackground
-    datePicker.tintColor = .ypBlack
+    datePicker.tintColor = .ypBlue
     datePicker.datePickerMode = .date
     datePicker.preferredDatePickerStyle = .compact
     datePicker.locale = Locale(identifier: "ru_RU")
@@ -403,15 +423,21 @@ private extension TrackersViewController {
     collectionView.delegate = self
     collectionView.backgroundColor = .ypWhite
     collectionView.translatesAutoresizingMaskIntoConstraints = false
+    collectionView.scrollIndicatorInsets = UIEdgeInsets(
+      top: Resources.Layouts.indicatorInset,
+      left: Resources.Layouts.indicatorInset,
+      bottom: Resources.Layouts.indicatorInset,
+      right: Resources.Layouts.indicatorInset
+    )
   }
 
   func configureCollectionViewConstraints() {
-    let leading = Resources.Layouts.leadingElement
+    // let leading = Resources.Layouts.leadingElement
     NSLayoutConstraint.activate([
       collectionView.topAnchor.constraint(equalTo: safeArea.topAnchor),
       collectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
-      collectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: leading),
-      collectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -leading)
+      collectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+      collectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor)
     ])
   }
 }

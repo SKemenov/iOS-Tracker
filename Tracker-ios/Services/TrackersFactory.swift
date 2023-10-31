@@ -51,18 +51,14 @@ final class TrackersFactory {
     var currentCompletedTrackers = completedTrackers
     let index = findInCompletedTrackerIndex(by: id)
     let currentCompletedTracker = currentCompletedTrackers[index]
-    let indexDate = currentCompletedTracker.dates.firstIndex {
-      Calendar.current.compare($0, to: date, toGranularity: .day) == .orderedSame
-    }
     var newDates = currentCompletedTracker.dates
-    if indexDate == nil {
+    if let newDatesIndex = newDates.firstIndex(
+      where: { Calendar.current.compare($0, to: date, toGranularity: .day) == .orderedSame }
+    ) {
+      newDates.remove(at: newDatesIndex)
+    } else {
       newDates.append(date)
       isCompleted = true
-    } else {
-      guard let indexDate else {
-        preconditionFailure("Cannot obtain the index")
-      }
-      newDates.remove(at: indexDate)
     }
     let updatedCompletedTracker = TrackerRecord(
       id: currentCompletedTracker.id,

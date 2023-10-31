@@ -7,24 +7,24 @@
 
 import UIKit
 
-class TextField: UITextField {
+final class TextField: UITextField {
 
-  let padding = UIEdgeInsets(
+  private let padding = UIEdgeInsets(
     top: Resources.Layouts.vSpacingElement / 4,
     left: Resources.Layouts.leadingElement,
     bottom: Resources.Layouts.vSpacingElement / 4,
     right: Resources.Layouts.spacingElement * 4
   )
 
-  override open func textRect(forBounds bounds: CGRect) -> CGRect {
+  override func textRect(forBounds bounds: CGRect) -> CGRect {
     return bounds.inset(by: padding)
   }
 
-  override open func placeholderRect(forBounds bounds: CGRect) -> CGRect {
+  override func placeholderRect(forBounds bounds: CGRect) -> CGRect {
     return bounds.inset(by: padding)
   }
 
-  override open func editingRect(forBounds bounds: CGRect) -> CGRect {
+  override func editingRect(forBounds bounds: CGRect) -> CGRect {
     return bounds.inset(by: padding)
   }
 }

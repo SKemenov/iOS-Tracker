@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import UIKit.UIColor
 
 struct Tracker: Hashable {
   let id: UUID

@@ -40,7 +40,7 @@ private extension TrackerHeader {
     addSubview(titleLabel)
 
     NSLayoutConstraint.activate([
-      titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Resources.Layouts.leadingTracker),
+      titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Resources.Layouts.leadingSection),
       titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: Resources.Layouts.vSpacingSection),
       titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Resources.Layouts.vSpacingTracker)
     ])

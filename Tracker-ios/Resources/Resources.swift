@@ -89,6 +89,7 @@ enum Resources {
     static let vSpacingSection: CGFloat = 16
     static let vSpacingTracker: CGFloat = 12
     static let trackersPerLine: CGFloat = 2
+    static let indicatorInset: CGFloat = 4
   }
 
   // MARK: - Fonts
