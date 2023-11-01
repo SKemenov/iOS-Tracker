@@ -35,6 +35,17 @@ enum Resources {
     static let oneDay = "день"
     static let fewDays = "дня"
     static let manyDays = "дней"
+
+    // swiftlint:disable:next nesting
+    enum WeekDays: String, CaseIterable {
+      case monday = "Понедельник"
+      case tuesday = "Вторник"
+      case wednesday = "Среда"
+      case thursday = "Четверг"
+      case friday = "Пятница"
+      case saturday = "Суббота"
+      case sunday = "Воскресенье"
+    }
   }
 
   // MARK: - UI element's SF symbols
