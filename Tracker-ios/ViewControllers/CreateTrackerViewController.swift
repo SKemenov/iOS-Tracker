@@ -152,21 +152,20 @@ private extension CreateTrackerViewController {
 
   func fetchSchedule(from schedule: [Bool]) {
     self.schedule = schedule
-    let days = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"]
-    let weekFull = [true, true, true, true, true, true, true]
+    let everyDays = [true, true, true, true, true, true, true]
     let weekDays = [true, true, true, true, true, false, false]
-    let weekEnd = [false, false, false, false, false, true, true]
-    var finalSchedule: [String] = []
+    let weekEnds = [false, false, false, false, false, true, true]
     switch schedule {
-    case weekFull:
-      scheduleButton.configure(value: "Каждый день")
+    case everyDays:
+      scheduleButton.configure(value: Resources.Labels.everyDays)
     case weekDays:
-      scheduleButton.configure(value: "Будни")
-    case weekEnd:
-      scheduleButton.configure(value: "Выходные")
+      scheduleButton.configure(value: Resources.Labels.weekDays)
+    case weekEnds:
+      scheduleButton.configure(value: Resources.Labels.weekEnds)
     default:
+      var finalSchedule: [String] = []
       for index in 0..<schedule.count where schedule[index] {
-        finalSchedule.append(days[index])
+        finalSchedule.append(Resources.days[index])
       }
       let finalScheduleJoined = finalSchedule.joined(separator: ", ")
       scheduleButton.configure(value: finalScheduleJoined)

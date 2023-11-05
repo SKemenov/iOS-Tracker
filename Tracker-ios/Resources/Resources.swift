@@ -35,6 +35,9 @@ enum Resources {
     static let oneDay = "день"
     static let fewDays = "дня"
     static let manyDays = "дней"
+    static let everyDays = "Каждый день"
+    static let weekDays = "Будни"
+    static let weekEnds = "Выходные"
 
     // swiftlint:disable:next nesting
     enum WeekDays: String, CaseIterable {
@@ -112,6 +115,9 @@ enum Resources {
     static let sectionHeader = UIFont.systemFont(ofSize: 19, weight: .bold)
   }
 
+  static let days = [
+    "Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"
+  ]
   static let colors: [UIColor] = [
     .ypSelection01, .ypSelection02, .ypSelection03, .ypSelection04, .ypSelection05, .ypSelection06,
     .ypSelection07, .ypSelection08, .ypSelection09, .ypSelection10, .ypSelection11, .ypSelection12,
