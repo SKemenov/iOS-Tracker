@@ -46,6 +46,7 @@ final class TrackersViewController: UIViewController {
   private let cellID = "cell"
   private let headerID = "header"
   private let factory = TrackersFactory.shared
+  private let storeFactory = TrackersCoreDataFactory.shared
 
   private var searchBarUserInput = ""
 
@@ -83,9 +84,8 @@ final class TrackersViewController: UIViewController {
     self.hideKeyboardWhenTappedAround()
     view.backgroundColor = .ypWhite
     currentDate = Date() // + TimeInterval(Resources.shiftTimeZone)
-    setupMockCategory()
+    visibleCategories = storeFactory.fetchVisibleCategories()
 
-    // searchBar.searchBar.searchTextField.delegate = self
     searchBar.searchBar.delegate = self
 
     configureUI()
@@ -194,28 +194,6 @@ private extension TrackersViewController {
     )
   }
 }
-
-// MARK: - UITextFieldDelegate
-
-// extension TrackersViewController: UITextFieldDelegate {
-//  func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-//    searchBarUserInput = textField.text ?? ""
-//    if searchBarUserInput.count > 2 {
-//      searchInTrackers(.text)
-//    }
-//    return true
-//  }
-//
-//  func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//    textField.resignFirstResponder()
-//    searchBarUserInput = textField.text ?? ""
-//    return true
-//  }
-//
-//  func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-//    true
-//  }
-// }
 
 // MARK: - UISearchBarDelegate
 
@@ -463,14 +441,5 @@ private extension TrackersViewController {
       emptyView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
       emptyView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
     ])
-  }
-}
-
-// MARK: - Mock methods
-
-private extension TrackersViewController {
-  func setupMockCategory() {
-    factory.addNew(category: TrackerCategory(id: UUID(), name: "Важное", items: []))
-    factory.addNew(category: TrackerCategory(id: UUID(), name: "Нужное", items: []))
   }
 }
