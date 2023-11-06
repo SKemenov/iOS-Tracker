@@ -87,7 +87,7 @@ final class CreateTrackerViewController: UIViewController {
 
   // MARK: - Private global properties
 
-  private let factory = TrackersFactory.shared
+  private let factory = TrackersCoreDataFactory.shared
   private var selectedCategoryIndex = 0
   private var isHabit: Bool
   private var schedule = [Bool](repeating: false, count: 7)
@@ -234,9 +234,8 @@ private extension CreateTrackerViewController {
   }
 
   @objc func categoryButtonClicked() { // TODO: Make VC to select category and return it here by selectedCategoryIndex
-    selectedCategoryIndex = Int.random(in: 0..<factory.categories.count) // dummy for categoryIndex
-    let selectedCategory = factory.categories[selectedCategoryIndex]
-    categoryButton.configure(value: selectedCategory.name)
+    selectedCategoryIndex = Int.random(in: 0..<factory.countCategories()) // dummy for categoryIndex
+    categoryButton.configure(value: factory.fetchCategoryName(by: selectedCategoryIndex))
     categoryIsSelected = true
   }
 
