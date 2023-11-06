@@ -115,6 +115,10 @@ enum Resources {
     static let sectionHeader = UIFont.systemFont(ofSize: 19, weight: .bold)
   }
 
+  static let categories = [
+    "Важное",
+    "Нужное"
+  ]
   static let days = [
     "Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"
   ]
