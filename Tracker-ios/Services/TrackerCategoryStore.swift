@@ -5,7 +5,7 @@
 //  Created by Sergey Kemenov on 04.11.2023.
 //
 
-import UIKit
+import UIKit.UIApplication
 import CoreData
 
 enum TrackerCategoryStoreError: Error {
@@ -46,7 +46,7 @@ final class TrackerCategoryStore {
     if isCategoryCoreDataEmpty() {
       setupCategoryCoreDataWithMockData()
     }
-    //    else { // delete Trackers first!
+    //    else { // delete Trackers first! // TODO: - delete before PR
     //      deleteCategoriesFromCoreData()
     //    }
 
@@ -69,7 +69,7 @@ final class TrackerCategoryStore {
 // MARK: - Mock methods
 
 extension TrackerCategoryStore {
-  func setupCategoryCoreDataWithMockData() {
+  func setupCategoryCoreDataWithMockData() { // TODO: - delete in Sprint 16
     print("TCS Run setupCategoryCoreDataWithMockData()")
     Resources.categories.forEach { raw in
       try? addNew(category: TrackerCategory(
@@ -81,7 +81,7 @@ extension TrackerCategoryStore {
     }
   }
 
-  func deleteCategoriesFromCoreData() {
+  func deleteCategoriesFromCoreData() { // TODO: - delete before PR
     print("TCS Run deleteCategoriesFromCoreData()")
     guard !isCategoryCoreDataEmpty() else { return }
     let request = TrackerCategoryCoreData.fetchRequest()
@@ -163,7 +163,7 @@ extension TrackerCategoryStore {
     return nil
   }
 
-  func showCategoriesFromCoreData() {
+  func showCategoriesFromCoreData() { // TODO: - delete before PR
     let request = TrackerCategoryCoreData.fetchRequest()
     request.returnsObjectsAsFaults = false
     let categories = try? context.fetch(request)
