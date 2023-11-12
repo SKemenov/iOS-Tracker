@@ -86,6 +86,10 @@ enum Resources {
     static let trackerCounterHeight: CGFloat = 58
     static let sectionHeight: CGFloat = 46
     static let iPhoneSeWidth: CGFloat = 320
+    static let optionCell: CGFloat = 52
+    static let optionHeader: CGFloat = 20
+    static let optionViewHeight: CGFloat = 204
+    static let optionBorder: CGFloat = 3
   }
 
   // MARK: - UI element's layouts
@@ -104,6 +108,7 @@ enum Resources {
     static let vSpacingTracker: CGFloat = 12
     static let trackersPerLine: CGFloat = 2
     static let indicatorInset: CGFloat = 4
+    static let optionCellPerLine: CGFloat = 6
   }
 
   // MARK: - Fonts
@@ -113,6 +118,7 @@ enum Resources {
     static let textNotification = UIFont.systemFont(ofSize: 12, weight: .medium)
     static let textField = UIFont.systemFont(ofSize: 17, weight: .regular)
     static let sectionHeader = UIFont.systemFont(ofSize: 19, weight: .bold)
+    static let emoji = UIFont.systemFont(ofSize: 32, weight: .bold)
   }
 
   static let categories = [
