@@ -45,8 +45,8 @@ final class TrackersViewController: UIViewController {
 
   private let cellID = "cell"
   private let headerID = "header"
-  private let factory = TrackersFactory.shared
-  private let storeFactory = TrackersCoreDataFactory.shared
+
+  private let factory = TrackersCoreDataFactory.shared
 
   private var searchBarUserInput = ""
 
@@ -84,11 +84,11 @@ final class TrackersViewController: UIViewController {
     self.hideKeyboardWhenTappedAround()
     view.backgroundColor = .ypWhite
     currentDate = Date() // + TimeInterval(Resources.shiftTimeZone)
-    visibleCategories = storeFactory.fetchVisibleCategories()
 
     searchBar.searchBar.delegate = self
 
     configureUI()
+    visibleCategories = factory.fetchVisibleCategories()
     updateTrackerCollectionView()
   }
 
@@ -124,16 +124,14 @@ private extension TrackersViewController {
   }
 
   func fetchTracker(from tracker: Tracker, for categoryIndex: Int) {
-    factory.addTracker(tracker, toCategory: categoryIndex)
+    factory.addToStoreNew(tracker: tracker, toCategory: categoryIndex)
     fetchVisibleCategoriesFromFactory()
     updateTrackerCollectionView()
   }
 
   func fetchVisibleCategoriesFromFactory() {
     clearVisibleCategories()
-    for eachCategory in factory.categories where !eachCategory.items.isEmpty {
-      visibleCategories.append(eachCategory)
-    }
+    visibleCategories = factory.fetchVisibleCategories()
     updateTrackerCollectionView()
   }
 
@@ -142,7 +140,7 @@ private extension TrackersViewController {
   }
 
   private func searchInTrackers(_ type: Search) {
-    let currentCategories = factory.categories
+    let currentCategories = factory.fetchVisibleCategories()
     var newCategories: [TrackerCategory] = []
     clearVisibleCategories()
     for eachCategory in currentCategories {
@@ -233,17 +231,14 @@ extension TrackersViewController: UICollectionViewDataSource {
       return UICollectionViewCell()
     }
     let currentTracker = visibleCategories[indexPath.section].items[indexPath.row]
-    let counterSettings = factory.getCounter(with: currentTracker.id, on: currentDate)
-    let totalCounter = counterSettings.0
-    let isCompleted = counterSettings.1
     cell.delegate = self
     cell.configureCell(
       bgColor: Resources.colors[currentTracker.color],
       emoji: Resources.emojis[currentTracker.emoji],
       title: currentTracker.title,
-      counter: totalCounter
+      counter: factory.getRecordsCounter(with: currentTracker.id)
     )
-    cell.makeItDone(isCompleted)
+    cell.makeItDone(factory.isTrackerDone(with: currentTracker.id, on: currentDate))
     return cell
   }
 
@@ -320,9 +315,8 @@ extension TrackersViewController: TrackerCellDelegate {
     guard let indexPath = collectionView.indexPath(for: cell) else { return }
     let tracker = visibleCategories[indexPath.section].items[indexPath.row]
     guard tracker.schedule[weekday - 1] else { return }
-    let counter = factory.setTrackerDone(with: tracker.id, on: currentDate)
-    cell.updateCounter(counter.0)
-    cell.makeItDone(counter.1)
+    cell.updateCounter(factory.getRecordsCounter(with: tracker.id))
+    cell.makeItDone(factory.setTrackerDone(with: tracker.id, on: currentDate))
   }
 }
 
@@ -410,7 +404,6 @@ private extension TrackersViewController {
   }
 
   func configureCollectionViewConstraints() {
-    // let leading = Resources.Layouts.leadingElement
     NSLayoutConstraint.activate([
       collectionView.topAnchor.constraint(equalTo: safeArea.topAnchor),
       collectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
