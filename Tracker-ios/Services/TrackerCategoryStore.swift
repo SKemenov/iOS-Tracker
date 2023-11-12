@@ -136,7 +136,6 @@ extension TrackerCategoryStore {
     }
     return Int(counter)
   }
-
   func fetchCategoryName(by thisIndex: Int) -> String {
     print("TCS Run fetchCategoryName(by:)")
     let request = TrackerCategoryCoreData.fetchRequest()
