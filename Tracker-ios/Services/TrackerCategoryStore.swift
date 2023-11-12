@@ -22,7 +22,6 @@ protocol TrackerCategoryStoreDelegate: AnyObject {
 final class TrackerCategoryStore {
   // MARK: - Private properties
   private let context: NSManagedObjectContext
-  // private weak var factory = TrackersCoreDataFactory.shared
 
   // MARK: - Public singleton
 
@@ -44,21 +43,24 @@ final class TrackerCategoryStore {
 
   private init(context: NSManagedObjectContext) {
     self.context = context
-    // deleteCategoriesFromCoreData()
     if isCategoryCoreDataEmpty() {
       setupCategoryCoreDataWithMockData()
     }
-    print("TCS total categories in Store \(countCategories())")
-    //    if !isCategoryCoreDataHasTrackers() {
-    //      showMockCategory()
+    //    else { // delete Trackers first!
+    //      deleteCategoriesFromCoreData()
     //    }
+
+    print("TCS total categories in Store \(countCategories())")
+    if isCategoryCoreDataHasTrackers() {
+      showCategoriesFromCoreData()
+    }
   }
 
   func addNew(category: TrackerCategory) throws {
     print("TCS Run addNew(category:)")
-    let categoriesFromCoreData = TrackerCategoryCoreData(context: context)
-    categoriesFromCoreData.name = category.name
-    categoriesFromCoreData.id = category.id
+    let categoryInCoreData = TrackerCategoryCoreData(context: context)
+    categoryInCoreData.name = category.name
+    categoryInCoreData.id = category.id
     print("CategoryCoreData: Trying to add category with ID [\(category.id)] and name - \(category.name)")
     saveContext()
   }
@@ -123,11 +125,12 @@ extension TrackerCategoryStore {
   }
 
   func countCategories() -> Int {
+    print("TCS Run countCategories()")
     let request = TrackerCategoryCoreData.fetchRequest()
     request.resultType = .countResultType
     guard
-      let categories = try? context.execute(request) as? NSAsynchronousFetchResult<NSFetchRequestResult>,
-      let counter = categories.finalResult?[0] as? Int32
+      let objects = try? context.execute(request) as? NSAsynchronousFetchResult<NSFetchRequestResult>,
+      let counter = objects.finalResult?[0] as? Int32
     else {
       return .zero
     }
@@ -135,6 +138,7 @@ extension TrackerCategoryStore {
   }
 
   func fetchCategoryName(by thisIndex: Int) -> String {
+    print("TCS Run fetchCategoryName(by:)")
     let request = TrackerCategoryCoreData.fetchRequest()
     request.returnsObjectsAsFaults = false
     var categoryName: String = ""
@@ -146,11 +150,23 @@ extension TrackerCategoryStore {
     return categoryName
   }
 
-  func showMockCategory() {
+  func fetchCategory(by thisIndex: Int) -> TrackerCategoryCoreData? {
+    print("TCS Run fetchCategory(by:)")
+    let request = TrackerCategoryCoreData.fetchRequest()
+    request.returnsObjectsAsFaults = false
+    guard let categories = try? context.fetch(request) else { return nil }
+    for (index, category) in categories.enumerated() where index == thisIndex {
+      print("New value for finalCategory \(category)")
+      return category
+    }
+    print("Category not found")
+    return nil
+  }
+
+  func showCategoriesFromCoreData() {
     let request = TrackerCategoryCoreData.fetchRequest()
     request.returnsObjectsAsFaults = false
     let categories = try? context.fetch(request)
-    var objectID = UUID()
     categories?.enumerated().forEach { index, category in
       guard
         let name = category.name,
@@ -162,18 +178,7 @@ extension TrackerCategoryStore {
       print("Category[\(index)] detailed information")
       print("Category name: \(name)")
       print("Category ID: \(id)")
-      if index == 1 {
-        objectID = id
-      }
       print("Category's trackers: \(trackers.count)")
-    }
-    categories?.forEach { category in
-      if category.id == objectID {
-        print("Category name: \(String(describing: category.name))")
-        print("objectID: \(String(describing: category.id))")
-      } else {
-        print("Category not found")
-      }
     }
   }
 }
@@ -181,13 +186,12 @@ extension TrackerCategoryStore {
 // MARK: - Core Data Saving support
 
 private extension TrackerCategoryStore {
-
   func saveContext() {
     if context.hasChanges {
       print("TCS - content has changed")
       do {
         try context.save()
-        print("TCS - content has saved")
+        print("TCS - content has changed and successfully saved")
       } catch {
         let nserror = error as NSError
         fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
@@ -200,13 +204,16 @@ extension TrackerCategoryStore {
   func fetchVisibleCategories() throws -> [TrackerCategory] {
     let request = TrackerCategoryCoreData.fetchRequest()
     request.returnsObjectsAsFaults = false
+    request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: false)]
     let categoriesFromCoreData = try context.fetch(request)
     var categories: [TrackerCategory] = []
     try categoriesFromCoreData.forEach { category in
       guard let category = try delegate?.trackerCategory(from: category) else {
         throw TrackerCategoryStoreError.decodingError
       }
-      categories.append(category)
+      if !category.items.isEmpty {
+        categories.append(category)
+      }
     }
     return categories
     // return try categories.map { try self.trackerCategory(from: $0) }
