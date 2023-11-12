@@ -14,6 +14,7 @@ enum TrackersCoreDataFactoryError: Error {
   case decodingErrorInvalidEmoji
   case decodingErrorInvalidColor
   case decodingErrorInvalidSchedule
+  case recordingErrorAddNewDate
 }
 
 final class TrackersCoreDataFactory {
@@ -56,11 +57,82 @@ extension TrackersCoreDataFactory {
   }
 
   func countCategories() -> Int {
-    trackerCategoryStore.countCategories()
+    print("TCDF Run countCategories()")
+    return trackerCategoryStore.countCategories()
   }
 
   func fetchCategoryName(by thisIndex: Int) -> String {
-    trackerCategoryStore.fetchCategoryName(by: thisIndex)
+    print("TCDF Run fetchCategoryName(by:)")
+    return trackerCategoryStore.fetchCategoryName(by: thisIndex)
+  }
+
+  func addToStoreNew(tracker: Tracker, toCategory categoryIndex: Int) {
+    print("TCDF Run addToStoreNew(tracker:)")
+    guard let category = trackerCategoryStore.fetchCategory(by: categoryIndex) else {
+      preconditionFailure("Cannot obtain category by index")
+    }
+    try? trackerStore.addNew(tracker: tracker, to: category)
+  }
+
+  func addToStoreNew(category: TrackerCategory) {
+    print("TCDF Run addToStoreNew(category:)")
+    try? trackerCategoryStore.addNew(category: category)
+  }
+
+  func fetchTracker(byID id: UUID) -> TrackerCoreData {
+    guard let tracker = trackerStore.fetchTracker(byID: id) else {
+      preconditionFailure("Cannot fount tracker with ID \(id)")
+    }
+    return tracker
+  }
+
+  func setTrackerDone(with id: UUID, on date: Date) -> Bool {
+    print("TCDF Run setTrackerDone(withID:onDate:)")
+    var isCompleted = false
+    if isTrackerDone(with: id, on: date) {
+      trackerRecordStore.removeRecord(on: date)
+    } else {
+      try? trackerRecordStore.addNew(recordDate: date, toTracker: fetchTracker(byID: id))
+      isCompleted.toggle()
+    }
+    //    var currentCompletedTrackers = completedTrackers
+    //    let index = findInCompletedTrackerIndex(by: id)
+    //    let currentCompletedTracker = currentCompletedTrackers[index]
+    //    var newDates = currentCompletedTracker.dates
+    //    if let newDatesIndex = newDates.firstIndex(
+    //      where: { Calendar.current.compare($0, to: date, toGranularity: .day) == .orderedSame }
+    //    ) {
+    //      newDates.remove(at: newDatesIndex)
+    //    } else {
+    //      newDates.append(date)
+    //      isCompleted = true
+    //    }
+    //    let updatedCompletedTracker = TrackerRecord(
+    //      id: currentCompletedTracker.id,
+    //      tracker: currentCompletedTracker.tracker,
+    //      dates: newDates,
+    //      days: newDates.count
+    //    )
+    //    currentCompletedTrackers.remove(at: index)
+    //    currentCompletedTrackers.append(updatedCompletedTracker)
+    //    completedTrackers = currentCompletedTrackers
+    //    return (newDates.count, isCompleted)
+    return isCompleted
+  }
+
+  func isTrackerDone(with id: UUID, on date: Date) -> Bool {
+    print("TCDF Run isTrackerDone(withID:onDate:)")
+    var isCompleted = false
+    let dates = trackerRecordStore.fetchRecords(for: fetchTracker(byID: id))
+    let calendar = Calendar.current
+    if (dates.firstIndex(where: { calendar.compare($0, to: date, toGranularity: .day) == .orderedSame }) != nil) {
+      isCompleted.toggle()
+    }
+    return isCompleted
+  }
+
+  func getRecordsCounter(with id: UUID) -> Int {
+    trackerRecordStore.countRecords(for: fetchTracker(byID: id))
   }
 }
 
@@ -72,29 +144,46 @@ extension TrackersCoreDataFactory: TrackerCategoryStoreDelegate {
     guard let name = trackerCategoryCoreData.name else {
       throw TrackersCoreDataFactoryError.decodingErrorInvalidName
     }
-    //    guard let trackersFromCoreData = trackerCategoryCoreData.trackers else {
-    //      throw TrackersCoreDataFactoryError.decodingErrorInvalidTrackers
-    //    }
-    let trackers: [Tracker] = [] // try trackersFromCoreData.map { try self.tracker(from: $0) }
+    guard let trackersFromCoreData = trackerCategoryCoreData.trackers else {
+      throw TrackersCoreDataFactoryError.decodingErrorInvalidTrackers
+    }
+    var trackers: [Tracker] = []
+    try trackersFromCoreData.forEach { tracker in
+      guard
+        let tracker = tracker as? TrackerCoreData,
+        let tracker = try? self.tracker(from: tracker)
+      else {
+        throw TrackerCategoryStoreError.decodingError
+      }
+      trackers.append(tracker)
+    }
+    // let trackers: [Tracker] = try trackersFromCoreData.map { try self.tracker(from: $0 as? TrackerCoreData) }
     return TrackerCategory(id: id, name: name, items: trackers)
   }
 }
 
 extension TrackersCoreDataFactory {
   func tracker(from trackerCoreData: TrackerCoreData) throws -> Tracker {
-    // var color: Int
     guard let id = trackerCoreData.id else {
       throw TrackersCoreDataFactoryError.decodingErrorInvalidId
     }
     guard let title = trackerCoreData.title else {
       throw TrackersCoreDataFactoryError.decodingErrorInvalidName
     }
-    //    guard color = Int(trackerCoreData.color) else {
-    //      throw TrackersCoreDataFactoryError.decodingErrorInvalidColor
-    //    }
-    //    guard let emoji = trackerCoreData.emoji else {
-    //      throw TrackersCoreDataFactoryError.decodingErrorInvalidEmoji
-    // }
-    return Tracker(id: id, title: title, emoji: 0, color: 0, schedule: [])
+    return Tracker(
+      id: id,
+      title: title,
+      emoji: Int(trackerCoreData.emoji),
+      color: Int(trackerCoreData.color),
+      schedule: [
+        trackerCoreData.monday,
+        trackerCoreData.tuesday,
+        trackerCoreData.wednesday,
+        trackerCoreData.thursday,
+        trackerCoreData.friday,
+        trackerCoreData.saturday,
+        trackerCoreData.sunday
+      ]
+    )
   }
 }
