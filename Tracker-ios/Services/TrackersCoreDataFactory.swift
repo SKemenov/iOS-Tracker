@@ -44,6 +44,7 @@ final class TrackersCoreDataFactory {
   func addToStoreNew(tracker: Tracker, toCategory categoryIndex: Int) {
     print(#fileID, #function)
     if let category = trackerCategoryStore.fetchCategory(by: categoryIndex) {
+      print(#fileID, #function, #line, " category.name ", category.name)
       try? trackerStore.addNew(tracker: tracker, to: category)
     }
     //    guard let category = trackerCategoryStore.fetchCategory(by: categoryIndex) else {

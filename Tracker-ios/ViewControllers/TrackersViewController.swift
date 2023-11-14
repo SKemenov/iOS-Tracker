@@ -131,6 +131,7 @@ private extension TrackersViewController {
   }
 
   func updateTrackerCollectionView() {
+    print(#fileID, #function, #line)
     collectionView.reloadData()
     collectionView.collectionViewLayout.invalidateLayout()
     collectionView.layoutSubviews()
@@ -139,8 +140,9 @@ private extension TrackersViewController {
   }
 
   func fetchTracker(from tracker: Tracker, for categoryIndex: Int) {
-    print(#fileID, #function)
+    print(#fileID, #function, #line)
     factory.addToStoreNew(tracker: tracker, toCategory: categoryIndex)
+    print(#fileID, #function, #line)
     fetchVisibleCategoriesFromFactory()
     // updateTrackerCollectionView()
   }
@@ -237,6 +239,7 @@ extension TrackersViewController: UICollectionViewDataSource {
   func numberOfSections(in collectionView: UICollectionView) -> Int {
     print("TVC TCS.numberOfSections is \(trackerCategoryStore.numberOfSections)")
     return visibleCategories.count
+    // return trackerCategoryStore.numberOfSections
   }
 
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -252,8 +255,8 @@ extension TrackersViewController: UICollectionViewDataSource {
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as? TrackerCell else {
       return UICollectionViewCell()
     }
-    //    let currentTracker = visibleCategories[indexPath.section].items[indexPath.row]
-    let currentTracker = trackerCategoryStore.visibleCategories[indexPath.section].items[indexPath.row]
+    let currentTracker = visibleCategories[indexPath.section].items[indexPath.row]
+    // let currentTracker = trackerCategoryStore.visibleCategories[indexPath.section].items[indexPath.row]
     print("CurrentTracker \(currentTracker.title) at section[\(indexPath.section)] with index [\(indexPath.row)]")
     cell.delegate = self
     cell.configureCell(
@@ -321,12 +324,12 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
 extension TrackersViewController: TrackerCategoryStoreDelegate {
   func store(didUpdate update: TrackerCategoryStoreUpdate) {
     print(#fileID, #function, #line)
-    visibleCategories = trackerCategoryStore.visibleCategories
-    if let indexPath = update.updatedSectionIndexes.first {
-      collectionView.reloadItems(inSection: Int(indexPath))
-    }
-    collectionView.insertSections(update.insertedSectionIndexes)
-    collectionView.deleteSections(update.deletedSectionIndexes)
+//    visibleCategories = trackerCategoryStore.visibleCategories
+//    if let indexPath = update.updatedSectionIndexes.first {
+//      collectionView.reloadItems(inSection: Int(indexPath))
+//    }
+//    collectionView.insertSections(update.insertedSectionIndexes)
+//    collectionView.deleteSections(update.deletedSectionIndexes)
   }
 }
 

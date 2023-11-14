@@ -122,8 +122,7 @@ enum Resources {
   }
 
   static let categories = [
-    "Важное",
-    "Нужное"
+    "Важное"
   ]
   static let days = [
     "Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"
