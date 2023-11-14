@@ -8,14 +8,34 @@
 import UIKit.UIApplication
 import CoreData
 
-final class TrackerStore {
+struct TrackerStoreUpdate {
+  let insertedIndexes: [IndexPath]
+  let deletedIndexes: [IndexPath]
+  let updatedIndexes: [IndexPath]
+}
+
+// MARK: - Protocol
+
+protocol TrackerStoreDelegate: AnyObject {
+  func store(didUpdate update: TrackerStoreUpdate)
+}
+
+final class TrackerStore: NSObject {
   // MARK: - Private properties
   private let context: NSManagedObjectContext
-  // private let categoryStore = TrackerCategoryStore.shared
+  private var fetchedResultsController: NSFetchedResultsController<TrackerCoreData>
+
+  private var insertedIndexes: [IndexPath]?
+  private var deletedIndexes: [IndexPath]?
+  private var updatedIndexes: [IndexPath]?
+
+  // MARK: - Public properties
+
+  weak var delegate: TrackerStoreDelegate?
 
   // MARK: - Inits
 
-  convenience init() {
+  convenience override init() {
     guard let application = UIApplication.shared.delegate as? AppDelegate else {
       fatalError("Cannot init AppDelegate")
     }
@@ -24,20 +44,37 @@ final class TrackerStore {
   }
 
   init(context: NSManagedObjectContext) {
+    // print(#fileID, #function)
     self.context = context
+
+    let fetchRequest = TrackerCoreData.fetchRequest()
+    fetchRequest.sortDescriptors = [
+      NSSortDescriptor(keyPath: \TrackerCoreData.title, ascending: true)
+    ]
+    let controller = NSFetchedResultsController(
+      fetchRequest: fetchRequest,
+      managedObjectContext: context,
+      sectionNameKeyPath: nil,
+      cacheName: nil
+    )
+    self.fetchedResultsController = controller
+    super.init()
+    controller.delegate = self
+    try? controller.performFetch()
+
     print("TS init. Total Trackers in Store \(countTrackers())")
-    if !isTrackerCoreDataEmpty() { // TODO: - delete before PR
-      showTrackersFromCoreData()
-      // deleteTrackersFromCoreData() // Uncomment to clear CoreData (Trackers the first, TrackerCategory the second one)
-    }
+//    if !isTrackerCoreDataEmpty() { // TODO: - delete before PR
+//      // showTrackersFromCoreData()
+//      deleteTrackersFromCoreData() // Uncomment to clear CoreData (1st step - Trackers, 2nd - TrackerCategory)
+//    }
   }
 
   deinit {
-    print("TS deinit")
+    print(#fileID, #function)
   }
 
   func addNew(tracker: Tracker, to category: TrackerCategoryCoreData) throws {
-    print("TS Run addNew(tracker:)")
+    print(#fileID, #function)
     print(tracker)
     print(category)
     let trackerInCoreData = TrackerCoreData(context: context)
@@ -60,6 +97,7 @@ final class TrackerStore {
   }
 
   func countTrackers() -> Int {
+    // print(#fileID, #function)
     let request = TrackerCoreData.fetchRequest()
     request.resultType = .countResultType
     guard
@@ -72,12 +110,12 @@ final class TrackerStore {
   }
 
   func fetchTracker(byID id: UUID) -> TrackerCoreData? {
-    print("TS Run fetchTracker(byID:)")
+    // print(#fileID, #function)
     let request = TrackerCoreData.fetchRequest()
     request.returnsObjectsAsFaults = false
     guard let trackers = try? context.fetch(request) else { return nil }
     for tracker in trackers where tracker.id == id {
-      print("For id[\(id)] found this tracker \(tracker)")
+      // print("For id[\(id)] found this tracker \(String(describing: tracker.title))")
       return tracker
     }
     print("Tracker not found")
@@ -85,7 +123,7 @@ final class TrackerStore {
   }
 
   func isTrackerCoreDataEmpty() -> Bool { // TODO: - delete before PR
-    print("TS Run isTrackerCoreDataEmpty()")
+    print(#fileID, #function)
     let checkRequest = TrackerCoreData.fetchRequest()
     guard
       let result = try? context.fetch(checkRequest),
@@ -99,6 +137,7 @@ final class TrackerStore {
   }
 
   func showTrackersFromCoreData() {  // TODO: - delete before PR
+    print(#fileID, #function)
     let request = TrackerCoreData.fetchRequest()
     request.returnsObjectsAsFaults = false
     let trackers = try? context.fetch(request)
@@ -123,7 +162,7 @@ final class TrackerStore {
   }
 
   func deleteTrackersFromCoreData() { // TODO: - delete before PR
-    print("TS Run deleteTrackersFromCoreData()")
+    print(#fileID, #function)
     guard !isTrackerCoreDataEmpty() else { return }
     let request = TrackerCoreData.fetchRequest()
     let trackers = try? context.fetch(request)
@@ -132,6 +171,58 @@ final class TrackerStore {
       context.delete(tracker)
     }
     saveContext()
+  }
+}
+
+// MARK: - NSFetchedResultsControllerDelegate
+
+extension TrackerStore: NSFetchedResultsControllerDelegate {
+  func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+    insertedIndexes = nil
+    deletedIndexes = nil
+    updatedIndexes = nil
+  }
+
+  func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+    switch type {
+    case .insert:
+      if let newIndexPath {
+        insertedIndexes?.append(newIndexPath)
+      }
+    case .delete:
+      if let indexPath {
+        deletedIndexes?.append(indexPath)
+      }
+    case .move:
+      if let indexPath, let newIndexPath {
+        insertedIndexes?.append(newIndexPath)
+        deletedIndexes?.append(indexPath)
+      }
+    case .update:
+      if let indexPath {
+        updatedIndexes?.append(indexPath)
+      }
+    @unknown default:
+      break
+    }
+  }
+
+  func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+    guard
+      let insertedFinalIndexes = insertedIndexes,
+      let deletedFinalIndexes = deletedIndexes,
+      let updatedFinalIndexes = updatedIndexes
+    else { return }
+    delegate?.store(
+      didUpdate: TrackerStoreUpdate(
+        insertedIndexes: insertedFinalIndexes,
+        deletedIndexes: deletedFinalIndexes,
+        updatedIndexes: updatedFinalIndexes
+      )
+    )
+    insertedIndexes = nil
+    deletedIndexes = nil
+    updatedIndexes = nil
   }
 }
 

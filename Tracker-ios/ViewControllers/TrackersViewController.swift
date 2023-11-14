@@ -7,7 +7,7 @@
 
 import UIKit
 
-// swift lint:disable file_length
+// swiftlint:disable file_length
 
 // MARK: - Class
 
@@ -47,6 +47,8 @@ final class TrackersViewController: UIViewController {
   private let headerID = "header"
 
   private let factory = TrackersCoreDataFactory.shared
+  private let trackerCategoryStore = TrackerCategoryStore.shared
+  private let trackerStore = TrackerStore()
 
   private var searchBarUserInput = ""
 
@@ -57,6 +59,15 @@ final class TrackersViewController: UIViewController {
     didSet {
       weekday = currentDate.weekday()
     }
+  }
+  private var isVisibleCategoriesEmpty: Bool {
+    var isEmpty = true
+    visibleCategories.forEach { category in
+      if !category.items.isEmpty {
+        isEmpty = false
+      }
+    }
+    return isEmpty
   }
 
   private enum Search {
@@ -86,9 +97,13 @@ final class TrackersViewController: UIViewController {
     currentDate = Date() // + TimeInterval(Resources.shiftTimeZone)
 
     searchBar.searchBar.delegate = self
+    trackerCategoryStore.delegate = self
+    trackerStore.delegate = self
 
     configureUI()
-    visibleCategories = factory.fetchVisibleCategories()
+    visibleCategories = trackerCategoryStore.visibleCategories
+    // print("TVC isVisibleCategoriesEmpty = \(isVisibleCategoriesEmpty)")
+    // visibleCategories = factory.fetchVisibleCategories()
     updateTrackerCollectionView()
   }
 
@@ -119,19 +134,21 @@ private extension TrackersViewController {
     collectionView.reloadData()
     collectionView.collectionViewLayout.invalidateLayout()
     collectionView.layoutSubviews()
-    collectionView.isHidden = visibleCategories.isEmpty
+    collectionView.isHidden = isVisibleCategoriesEmpty
     emptyView.isHidden = !collectionView.isHidden
   }
 
   func fetchTracker(from tracker: Tracker, for categoryIndex: Int) {
+    print(#fileID, #function)
     factory.addToStoreNew(tracker: tracker, toCategory: categoryIndex)
     fetchVisibleCategoriesFromFactory()
-    updateTrackerCollectionView()
+    // updateTrackerCollectionView()
   }
 
   func fetchVisibleCategoriesFromFactory() {
+    print(#fileID, #function)
     clearVisibleCategories()
-    visibleCategories = factory.fetchVisibleCategories()
+    visibleCategories = trackerCategoryStore.visibleCategories
     updateTrackerCollectionView()
   }
 
@@ -140,7 +157,7 @@ private extension TrackersViewController {
   }
 
   private func searchInTrackers(_ type: Search) {
-    let currentCategories = factory.fetchVisibleCategories()
+    let currentCategories = trackerCategoryStore.visibleCategories
     var newCategories: [TrackerCategory] = []
     clearVisibleCategories()
     for eachCategory in currentCategories {
@@ -218,11 +235,16 @@ extension TrackersViewController: UISearchBarDelegate {
 extension TrackersViewController: UICollectionViewDataSource {
 
   func numberOfSections(in collectionView: UICollectionView) -> Int {
+    print("TVC TCS.numberOfSections is \(trackerCategoryStore.numberOfSections)")
     return visibleCategories.count
   }
 
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return visibleCategories.isEmpty ? 0 : visibleCategories[section].items.count
+    //    let items = trackerCategoryStore.numberOfItemsInSection(section)
+    //    print("TVC TCS.numberOfItemsInSection(\(section)) is \(items)")
+    return isVisibleCategoriesEmpty
+    ? 0
+    : visibleCategories[section].items.count
   }
 
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -230,7 +252,9 @@ extension TrackersViewController: UICollectionViewDataSource {
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as? TrackerCell else {
       return UICollectionViewCell()
     }
-    let currentTracker = visibleCategories[indexPath.section].items[indexPath.row]
+    //    let currentTracker = visibleCategories[indexPath.section].items[indexPath.row]
+    let currentTracker = trackerCategoryStore.visibleCategories[indexPath.section].items[indexPath.row]
+    print("CurrentTracker \(currentTracker.title) at section[\(indexPath.section)] with index [\(indexPath.row)]")
     cell.delegate = self
     cell.configureCell(
       bgColor: Resources.colors[currentTracker.color],
@@ -292,6 +316,35 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
   }
 }
 
+// MARK: - TrackerCategoryStoreDelegate
+
+extension TrackersViewController: TrackerCategoryStoreDelegate {
+  func store(didUpdate update: TrackerCategoryStoreUpdate) {
+    print(#fileID, #function, #line)
+    visibleCategories = trackerCategoryStore.visibleCategories
+    if let indexPath = update.updatedSectionIndexes.first {
+      collectionView.reloadItems(inSection: Int(indexPath))
+    }
+    collectionView.insertSections(update.insertedSectionIndexes)
+    collectionView.deleteSections(update.deletedSectionIndexes)
+  }
+}
+
+// MARK: - TrackerStoreDelegate
+
+extension TrackersViewController: TrackerStoreDelegate {
+  func store(didUpdate update: TrackerStoreUpdate) {
+    print(#fileID, #function, #line)
+    visibleCategories = trackerCategoryStore.visibleCategories
+
+    collectionView.performBatchUpdates {
+      collectionView.reloadItems(at: update.updatedIndexes)
+      collectionView.insertItems(at: update.insertedIndexes)
+      collectionView.deleteItems(at: update.deletedIndexes)
+    }
+  }
+}
+
 // MARK: - NewTrackerViewControllerDelegate
 
 extension TrackersViewController: NewTrackerViewControllerDelegate {
@@ -315,8 +368,8 @@ extension TrackersViewController: TrackerCellDelegate {
     guard let indexPath = collectionView.indexPath(for: cell) else { return }
     let tracker = visibleCategories[indexPath.section].items[indexPath.row]
     guard tracker.schedule[weekday - 1] else { return }
-    cell.updateCounter(factory.getRecordsCounter(with: tracker.id))
     cell.makeItDone(factory.setTrackerDone(with: tracker.id, on: currentDate))
+    cell.updateCounter(factory.getRecordsCounter(with: tracker.id))
   }
 }
 
@@ -434,5 +487,13 @@ private extension TrackersViewController {
       emptyView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
       emptyView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
     ])
+  }
+}
+
+extension UICollectionView {
+  func reloadItems(inSection section:Int) {
+    reloadItems(at: (0..<numberOfItems(inSection: section)).map {
+      IndexPath(item: $0, section: section)
+    })
   }
 }

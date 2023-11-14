@@ -35,23 +35,23 @@ final class TrackerRecordStore {
 
   func addNew(recordDate date: Date, toTracker tracker: TrackerCoreData) throws {
     print("TRS Run addNew(recordDate:toTracker:)")
-    print(date)
-    print(tracker)
+    // print(date)
+    // print(tracker)
     let trackerRecordInCoreData = TrackerRecordCoreData(context: context)
-    print(trackerRecordInCoreData)
+    // print(trackerRecordInCoreData)
     trackerRecordInCoreData.date = date
     trackerRecordInCoreData.tracker = tracker
     print("trackerRecordInCoreData: Trying to add date [\(date)] to tracker - \(String(describing: tracker.title))")
-    print(trackerRecordInCoreData)
+    // print(trackerRecordInCoreData)
     saveContext()
   }
 
-  func removeRecord(on date: Date) {
+  func removeRecord(on date: Date, toTracker tracker: TrackerCoreData) {
     print("TRS Run remove(trackerRecord:)")
     let calendar = Calendar.current
     let request = TrackerRecordCoreData.fetchRequest()
     guard let records = try? context.fetch(request) else { return }
-    records.forEach { record in
+    for record in records where record.tracker == tracker {
       guard let recordDate = record.date else { return }
       if calendar.compare(recordDate, to: date, toGranularity: .day) == .orderedSame {
         print("Deleting record: \(String(describing: record))")
@@ -62,7 +62,7 @@ final class TrackerRecordStore {
   }
 
   func countRecords(for tracker: TrackerCoreData) -> Int {
-    print("TRS Run countRecords(forTracker:)")
+    // print("TRS Run countRecords(forTracker:)")
     return fetchRecords(for: tracker).count
     //    let request = TrackerRecordCoreData.fetchRequest()
     //    request.resultType = .countResultType
@@ -77,7 +77,7 @@ final class TrackerRecordStore {
   }
 
   func fetchRecords(for tracker: TrackerCoreData) -> [Date] {
-    print("TRS Run fetchRecords(forTracker:)")
+    // print("TRS Run fetchRecords(forTracker:)")
     var dates: [Date] = []
     let request = TrackerRecordCoreData.fetchRequest()
     request.returnsObjectsAsFaults = false
