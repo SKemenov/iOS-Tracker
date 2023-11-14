@@ -473,11 +473,3 @@ private extension TrackersViewController {
     ])
   }
 }
-
-extension UICollectionView {
-  func reloadItems(inSection section: Int) {
-    reloadItems(at: (0..<numberOfItems(inSection: section)).map {
-      IndexPath(item: $0, section: section)
-    })
-  }
-}

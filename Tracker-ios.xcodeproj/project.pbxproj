@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		E90010022B03E97500451C61 /* TrackerStoreUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90010012B03E97500451C61 /* TrackerStoreUpdate.swift */; };
+		E90010042B03F0E700451C61 /* UICollectionView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90010032B03F0E700451C61 /* UICollectionView+Extensions.swift */; };
 		E93C3FE72ADEA05C00579917 /* TextField+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93C3FE62ADEA05C00579917 /* TextField+Extensions.swift */; };
 		E93C3FEB2ADF007C00579917 /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93C3FEA2ADF007C00579917 /* ScheduleViewController.swift */; };
 		E93C3FED2ADFD27300579917 /* BorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93C3FEC2ADFD27300579917 /* BorderView.swift */; };
@@ -42,6 +43,7 @@
 
 /* Begin PBXFileReference section */
 		E90010012B03E97500451C61 /* TrackerStoreUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerStoreUpdate.swift; sourceTree = "<group>"; };
+		E90010032B03F0E700451C61 /* UICollectionView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extensions.swift"; sourceTree = "<group>"; };
 		E93C3FE62ADEA05C00579917 /* TextField+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TextField+Extensions.swift"; sourceTree = "<group>"; };
 		E93C3FEA2ADF007C00579917 /* ScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
 		E93C3FEC2ADFD27300579917 /* BorderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderView.swift; sourceTree = "<group>"; };
@@ -127,6 +129,7 @@
 				E93C3FE62ADEA05C00579917 /* TextField+Extensions.swift */,
 				E94A17642AEAA37100EEDB1A /* Date+Extensions.swift */,
 				E97842A62AF18A7D00FD305C /* UIViewController+Extensions.swift */,
+				E90010032B03F0E700451C61 /* UICollectionView+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -303,6 +306,7 @@
 				E9804D402AF69214004E05D7 /* TrackersCoreDataFactory.swift in Sources */,
 				E9434ABB2AD5EAAE00EF821F /* EmptyView.swift in Sources */,
 				E9E899D02ADB1CC5003D464E /* OptionButton.swift in Sources */,
+				E90010042B03F0E700451C61 /* UICollectionView+Extensions.swift in Sources */,
 				E93C3FEB2ADF007C00579917 /* ScheduleViewController.swift in Sources */,
 				E9434AAB2AD2BB9A00EF821F /* TrackerCell.swift in Sources */,
 				E97842A72AF18A7D00FD305C /* UIViewController+Extensions.swift in Sources */,

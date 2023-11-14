@@ -73,6 +73,7 @@ private extension TrackersCoreDataFactory {
     print(#fileID, #function)
     trackerStore.deleteTrackersFromCoreData()
     trackerCategoryStore.deleteCategoriesFromCoreData()
+    print("STOP! Comment the clearDataStores() methods and restart the app")
   }
 
   func fetchTracker(byID id: UUID) -> TrackerCoreData {
