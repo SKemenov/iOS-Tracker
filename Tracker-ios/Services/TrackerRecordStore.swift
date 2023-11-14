@@ -27,6 +27,11 @@ final class TrackerRecordStore {
   init(context: NSManagedObjectContext) {
     self.context = context
   }
+}
+
+// MARK: - Public methods
+
+extension TrackerRecordStore {
 
   func addNew(recordDate date: Date, toTracker tracker: TrackerCoreData) throws {
     let trackerRecordInCoreData = TrackerRecordCoreData(context: context)
@@ -63,8 +68,12 @@ final class TrackerRecordStore {
     }
     return dates
   }
+}
 
-  private func isTrackerRecordCoreDataEmpty() -> Bool { // TODO: - delete in Sprint 16
+// MARK: - Private methods
+
+private extension TrackerRecordStore {
+  func isTrackerRecordCoreDataEmpty() -> Bool { // TODO: - delete in Sprint 16
     let checkRequest = TrackerRecordCoreData.fetchRequest()
     guard
       let result = try? context.fetch(checkRequest),
@@ -75,7 +84,7 @@ final class TrackerRecordStore {
     return true
   }
 
-  private func showTrackerRecordsFromCoreData() { // TODO: - delete in Sprint 16
+  func showTrackerRecordsFromCoreData() { // TODO: - delete in Sprint 16
     let request = TrackerRecordCoreData.fetchRequest()
     request.returnsObjectsAsFaults = false
     let records = try? context.fetch(request)
@@ -90,7 +99,6 @@ final class TrackerRecordStore {
     }
   }
 }
-
 
 // MARK: - Core Data Saving support
 

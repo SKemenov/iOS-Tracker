@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E90010022B03E97500451C61 /* TrackerStoreUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90010012B03E97500451C61 /* TrackerStoreUpdate.swift */; };
 		E93C3FE72ADEA05C00579917 /* TextField+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93C3FE62ADEA05C00579917 /* TextField+Extensions.swift */; };
 		E93C3FEB2ADF007C00579917 /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93C3FEA2ADF007C00579917 /* ScheduleViewController.swift */; };
 		E93C3FED2ADFD27300579917 /* BorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93C3FEC2ADFD27300579917 /* BorderView.swift */; };
@@ -40,6 +41,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E90010012B03E97500451C61 /* TrackerStoreUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerStoreUpdate.swift; sourceTree = "<group>"; };
 		E93C3FE62ADEA05C00579917 /* TextField+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TextField+Extensions.swift"; sourceTree = "<group>"; };
 		E93C3FEA2ADF007C00579917 /* ScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
 		E93C3FEC2ADFD27300579917 /* BorderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderView.swift; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 			isa = PBXGroup;
 			children = (
 				E9434AAF2AD50E0100EF821F /* Tracker.swift */,
+				E90010012B03E97500451C61 /* TrackerStoreUpdate.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -295,6 +298,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E9434AB42AD5205A00EF821F /* SplashScreenViewController.swift in Sources */,
+				E90010022B03E97500451C61 /* TrackerStoreUpdate.swift in Sources */,
 				E94A17652AEAA37100EEDB1A /* Date+Extensions.swift in Sources */,
 				E9804D402AF69214004E05D7 /* TrackersCoreDataFactory.swift in Sources */,
 				E9434ABB2AD5EAAE00EF821F /* EmptyView.swift in Sources */,

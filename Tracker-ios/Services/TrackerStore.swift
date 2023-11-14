@@ -8,16 +8,10 @@
 import UIKit.UIApplication
 import CoreData
 
-struct TrackerStoreUpdate {
-  let insertedIndexes: [IndexPath]
-  let deletedIndexes: [IndexPath]
-  let updatedIndexes: [IndexPath]
-}
-
 // MARK: - Protocol
 
 protocol TrackerStoreDelegate: AnyObject {
-  func store(didUpdate update: TrackerStoreUpdate)
+  func trackerStore(didUpdate update: TrackerStoreUpdate)
 }
 
 final class TrackerStore: NSObject {
@@ -85,7 +79,7 @@ final class TrackerStore: NSObject {
     saveContext()
   }
 
-  func countTrackers() -> Int {
+  private func countTrackers() -> Int {
     let request = TrackerCoreData.fetchRequest()
     request.resultType = .countResultType
     guard
@@ -108,6 +102,22 @@ final class TrackerStore: NSObject {
     return nil
   }
 
+  func deleteTrackersFromCoreData() { // TODO: - delete in Sprint 16
+    print(#fileID, #function)
+    guard !isTrackerCoreDataEmpty() else { return }
+    let request = TrackerCoreData.fetchRequest()
+    let trackers = try? context.fetch(request)
+    trackers?.forEach { tracker in
+      print("Deleting tracker: \(String(describing: tracker.title))")
+      context.delete(tracker)
+    }
+    saveContext()
+  }
+}
+
+// MARK: - Private methods
+
+private extension TrackerStore {
   func isTrackerCoreDataEmpty() -> Bool { // TODO: - delete in Sprint 16
     print(#fileID, #function)
     let checkRequest = TrackerCoreData.fetchRequest()
@@ -146,29 +156,11 @@ final class TrackerStore: NSObject {
       print("tracker's category: \(category)")
     }
   }
-
-  func deleteTrackersFromCoreData() { // TODO: - delete in Sprint 16
-    print(#fileID, #function)
-    guard !isTrackerCoreDataEmpty() else { return }
-    let request = TrackerCoreData.fetchRequest()
-    let trackers = try? context.fetch(request)
-    trackers?.forEach { tracker in
-      print("Deleting tracker: \(String(describing: tracker.title))")
-      context.delete(tracker)
-    }
-    saveContext()
-  }
 }
 
 // MARK: - NSFetchedResultsControllerDelegate
 
 extension TrackerStore: NSFetchedResultsControllerDelegate {
-  func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-    insertedIndexes = nil
-    deletedIndexes = nil
-    updatedIndexes = nil
-  }
-
   func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
     switch type {
     case .insert:
@@ -199,7 +191,7 @@ extension TrackerStore: NSFetchedResultsControllerDelegate {
       let deletedFinalIndexes = deletedIndexes,
       let updatedFinalIndexes = updatedIndexes
     else { return }
-    delegate?.store(
+    delegate?.trackerStore(
       didUpdate: TrackerStoreUpdate(
         insertedIndexes: insertedFinalIndexes,
         deletedIndexes: deletedFinalIndexes,

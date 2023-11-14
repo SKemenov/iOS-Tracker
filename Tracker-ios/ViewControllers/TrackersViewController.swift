@@ -223,7 +223,6 @@ extension TrackersViewController: UISearchBarDelegate {
   }
 }
 
-
 // MARK: - UICollectionViewDataSource
 
 extension TrackersViewController: UICollectionViewDataSource {
@@ -304,10 +303,23 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
   }
 }
 
+// MARK: - TrackerCategoryStoreDelegate
+
+extension TrackersViewController: TrackerCategoryStoreDelegate {
+  func trackerCategoryStore(didUpdate update: TrackerCategoryStoreUpdate) {
+    visibleCategories = trackerCategoryStore.visibleCategories
+    if let indexPath = update.updatedSectionIndexes.first {
+      collectionView.reloadItems(inSection: Int(indexPath))
+    }
+    collectionView.insertSections(update.insertedSectionIndexes)
+    collectionView.deleteSections(update.deletedSectionIndexes)
+  }
+}
+
 // MARK: - TrackerStoreDelegate
 
 extension TrackersViewController: TrackerStoreDelegate {
-  func store(didUpdate update: TrackerStoreUpdate) {
+  func trackerStore(didUpdate update: TrackerStoreUpdate) {
     visibleCategories = trackerCategoryStore.visibleCategories
     collectionView.performBatchUpdates {
       collectionView.reloadItems(at: update.updatedIndexes)
@@ -459,5 +471,13 @@ private extension TrackersViewController {
       emptyView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
       emptyView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
     ])
+  }
+}
+
+extension UICollectionView {
+  func reloadItems(inSection section: Int) {
+    reloadItems(at: (0..<numberOfItems(inSection: section)).map {
+      IndexPath(item: $0, section: section)
+    })
   }
 }

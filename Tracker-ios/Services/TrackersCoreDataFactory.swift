@@ -29,11 +29,6 @@ final class TrackersCoreDataFactory {
     return trackerCategoryStore.countCategories()
   }
 
-  func clearDataStores() {
-    print(#fileID, #function)
-    trackerStore.deleteTrackersFromCoreData()
-    trackerCategoryStore.deleteCategoriesFromCoreData()
-  }
 
   func fetchCategoryName(by thisIndex: Int) -> String {
     trackerCategoryStore.fetchCategoryName(by: thisIndex)
@@ -43,17 +38,6 @@ final class TrackersCoreDataFactory {
     if let category = trackerCategoryStore.fetchCategory(by: categoryIndex) {
       try? trackerStore.addNew(tracker: tracker, to: category)
     }
-  }
-
-  func addToStoreNew(category: TrackerCategory) {
-    try? trackerCategoryStore.addNew(category: category)
-  }
-
-  func fetchTracker(byID id: UUID) -> TrackerCoreData {
-    guard let tracker = trackerStore.fetchTracker(byID: id) else {
-      preconditionFailure("Cannot fount tracker with ID \(id)")
-    }
-    return tracker
   }
 
   func setTrackerDone(with id: UUID, on date: Date) -> Bool {
@@ -79,5 +63,22 @@ final class TrackersCoreDataFactory {
 
   func getRecordsCounter(with id: UUID) -> Int {
     trackerRecordStore.countRecords(for: fetchTracker(byID: id))
+  }
+}
+
+// MARK: - Private methods
+
+private extension TrackersCoreDataFactory {
+  func clearDataStores() {
+    print(#fileID, #function)
+    trackerStore.deleteTrackersFromCoreData()
+    trackerCategoryStore.deleteCategoriesFromCoreData()
+  }
+
+  func fetchTracker(byID id: UUID) -> TrackerCoreData {
+    guard let tracker = trackerStore.fetchTracker(byID: id) else {
+      preconditionFailure("Cannot fount tracker with ID \(id)")
+    }
+    return tracker
   }
 }

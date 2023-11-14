@@ -18,17 +18,10 @@ enum TrackerCategoryStoreError: Error {
   case decodingError
 }
 
-struct TrackerCategoryStoreUpdate {
-  let insertedSectionIndexes: IndexSet
-  let deletedSectionIndexes: IndexSet
-  let updatedSectionIndexes: IndexSet
-}
-
-
 // MARK: - Protocol
 
 protocol TrackerCategoryStoreDelegate: AnyObject {
-  func store(didUpdate update: TrackerCategoryStoreUpdate)
+  func trackerCategoryStore(didUpdate update: TrackerCategoryStoreUpdate)
 }
 
 // MARK: - Class
@@ -83,21 +76,16 @@ final class TrackerCategoryStore: NSObject {
     }
   }
 
-    var visibleCategories: [TrackerCategory] {
-      guard
-        let objects = self.fetchedResultsController.fetchedObjects,
-        let categories = try? objects.map({ try self.trackerCategory(from: $0) })
-      else { return [] }
-      return categories.filter { !$0.items.isEmpty }
-    }
-
-  func addNew(category: TrackerCategory) throws {
-    let categoryInCoreData = TrackerCategoryCoreData(context: context)
-    categoryInCoreData.name = category.name
-    categoryInCoreData.id = category.id
-    saveContext()
+  var visibleCategories: [TrackerCategory] {
+    guard
+      let objects = self.fetchedResultsController.fetchedObjects,
+      let categories = try? objects.map({ try self.trackerCategory(from: $0) })
+    else { return [] }
+    return categories.filter { !$0.items.isEmpty }
   }
 }
+
+// MARK: - Public methods
 
 extension TrackerCategoryStore {
   var numberOfSections: Int {
@@ -106,63 +94,6 @@ extension TrackerCategoryStore {
 
   func numberOfItemsInSection(_ section: Int) -> Int {
     visibleCategories[section].items.count
-  }
-}
-
-// MARK: - NSFetchedResultsControllerDelegate
-
-extension TrackerCategoryStore: NSFetchedResultsControllerDelegate {
-  func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-    insertedSectionIndexes = IndexSet()
-    deletedSectionIndexes = IndexSet()
-    updatedSectionIndexes = IndexSet()
-  }
-
-  func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
-    switch type {
-    case .insert:
-      insertedSectionIndexes?.insert(sectionIndex)
-    case .delete:
-      deletedSectionIndexes?.insert(sectionIndex)
-    case .update:
-      updatedSectionIndexes?.insert(sectionIndex)
-    default:
-      break
-    }
-  }
-
-  func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-    guard
-      let insertedFinalIndexes = insertedSectionIndexes,
-      let deletedFinalIndexes = deletedSectionIndexes,
-      let updatedFinalIndexes = updatedSectionIndexes
-    else { return }
-    delegate?.store(
-      didUpdate: TrackerCategoryStoreUpdate(
-        insertedSectionIndexes: insertedFinalIndexes,
-        deletedSectionIndexes: deletedFinalIndexes,
-        updatedSectionIndexes: updatedFinalIndexes // ,
-      )
-    )
-    insertedSectionIndexes = nil
-    deletedSectionIndexes = nil
-    updatedSectionIndexes = nil
-  }
-}
-
-// MARK: - Mock methods
-
-extension TrackerCategoryStore {
-  func setupCategoryCoreDataWithMockData() { // TODO: - delete in Sprint 16
-    print("TCS Run setupCategoryCoreDataWithMockData()")
-    Resources.categories.forEach { raw in
-      try? addNew(category: TrackerCategory(
-        id: UUID(),
-        name: raw,
-        items: []
-      ))
-      print("CategoryCoreData: Trying to add category's element - \(raw)")
-    }
   }
 
   func deleteCategoriesFromCoreData() { // TODO: - delete in Sprint 16
@@ -177,32 +108,6 @@ extension TrackerCategoryStore {
     saveContext()
   }
 
-  func isCategoryCoreDataEmpty() -> Bool {
-    let checkRequest = TrackerCategoryCoreData.fetchRequest()
-    guard
-      let result = try? context.fetch(checkRequest),
-      result.isEmpty
-    else {
-      return false
-    }
-    return true
-  }
-
-  func isCategoryCoreDataHasTrackers() -> Bool {
-    var hasTrackers = false
-    let request = TrackerCategoryCoreData.fetchRequest()
-    request.returnsObjectsAsFaults = false
-    let categories = try? context.fetch(request)
-    categories?.forEach { category in
-      guard let trackers = category.trackers else { return }
-      // swiftlint:disable:next empty_count
-      if trackers.count != 0 {
-        hasTrackers = true
-      }
-    }
-    return hasTrackers
-  }
-
   func countCategories() -> Int {
     let request = TrackerCategoryCoreData.fetchRequest()
     request.resultType = .countResultType
@@ -214,6 +119,7 @@ extension TrackerCategoryStore {
     }
     return Int(counter)
   }
+
   func fetchCategoryName(by thisIndex: Int) -> String {
     let request = TrackerCategoryCoreData.fetchRequest()
     request.returnsObjectsAsFaults = false
@@ -234,45 +140,53 @@ extension TrackerCategoryStore {
     }
     return nil
   }
+}
 
-  func showCategoriesFromCoreData() { // TODO: - delete in Sprint 16
-    let request = TrackerCategoryCoreData.fetchRequest()
-    request.returnsObjectsAsFaults = false
-    let categories = try? context.fetch(request)
-    categories?.enumerated().forEach { index, category in
-      guard
-        let name = category.name,
-        let id = category.id,
-        let trackers = category.trackers
-      else {
-        return
-      }
-      print("Category[\(index)] detailed information")
-      print("Category name: \(name)")
-      print("Category ID: \(id)")
-      print("Category's trackers: \(trackers.count)")
+// MARK: - NSFetchedResultsControllerDelegate
+
+extension TrackerCategoryStore: NSFetchedResultsControllerDelegate {
+  func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+    switch type {
+    case .insert:
+      insertedSectionIndexes?.insert(sectionIndex)
+    case .delete:
+      deletedSectionIndexes?.insert(sectionIndex)
+    case .update:
+      updatedSectionIndexes?.insert(sectionIndex)
+    default:
+      break
     }
+  }
+
+  func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+    guard
+      let insertedFinalIndexes = insertedSectionIndexes,
+      let deletedFinalIndexes = deletedSectionIndexes,
+      let updatedFinalIndexes = updatedSectionIndexes
+    else { return }
+    delegate?.trackerCategoryStore(
+      didUpdate: TrackerCategoryStoreUpdate(
+        insertedSectionIndexes: insertedFinalIndexes,
+        deletedSectionIndexes: deletedFinalIndexes,
+        updatedSectionIndexes: updatedFinalIndexes
+      )
+    )
+    insertedSectionIndexes = nil
+    deletedSectionIndexes = nil
+    updatedSectionIndexes = nil
   }
 }
 
-// MARK: - Core Data Saving support
+// MARK: - Private methods
 
 private extension TrackerCategoryStore {
-  func saveContext() {
-    if context.hasChanges {
-      print("TCS - content has changed")
-      do {
-        try context.save()
-        print("TCS - content has changed and successfully saved")
-      } catch {
-        let nserror = error as NSError
-        fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-      }
-    }
+  func addNew(category: TrackerCategory) throws {
+    let categoryInCoreData = TrackerCategoryCoreData(context: context)
+    categoryInCoreData.name = category.name
+    categoryInCoreData.id = category.id
+    saveContext()
   }
-}
 
-extension TrackerCategoryStore {
   func trackerCategory(from trackerCategoryCoreData: TrackerCategoryCoreData) throws -> TrackerCategory {
     guard let id = trackerCategoryCoreData.id else {
       throw TrackerCategoryStoreError.decodingErrorInvalidId
@@ -318,5 +232,83 @@ extension TrackerCategoryStore {
         trackerFromCoreData.sunday
       ]
     )
+  }
+
+  func isCategoryCoreDataEmpty() -> Bool {
+    let checkRequest = TrackerCategoryCoreData.fetchRequest()
+    guard
+      let result = try? context.fetch(checkRequest),
+      result.isEmpty
+    else {
+      return false
+    }
+    return true
+  }
+
+  func isCategoryCoreDataHasTrackers() -> Bool {
+    var hasTrackers = false
+    let request = TrackerCategoryCoreData.fetchRequest()
+    request.returnsObjectsAsFaults = false
+    let categories = try? context.fetch(request)
+    categories?.forEach { category in
+      guard let trackers = category.trackers else { return }
+      // swiftlint:disable:next empty_count
+      if trackers.count != 0 {
+        hasTrackers = true
+      }
+    }
+    return hasTrackers
+  }
+}
+
+// MARK: - Mock methods
+
+private extension TrackerCategoryStore {
+  func setupCategoryCoreDataWithMockData() { // TODO: - delete in Sprint 16
+    print("TCS Run setupCategoryCoreDataWithMockData()")
+    Resources.categories.forEach { raw in
+      try? addNew(category: TrackerCategory(
+        id: UUID(),
+        name: raw,
+        items: []
+      ))
+      print("CategoryCoreData: Trying to add category's element - \(raw)")
+    }
+  }
+
+  func showCategoriesFromCoreData() { // TODO: - delete in Sprint 16
+    let request = TrackerCategoryCoreData.fetchRequest()
+    request.returnsObjectsAsFaults = false
+    let categories = try? context.fetch(request)
+    categories?.enumerated().forEach { index, category in
+      guard
+        let name = category.name,
+        let id = category.id,
+        let trackers = category.trackers
+      else {
+        return
+      }
+      print("Category[\(index)] detailed information")
+      print("Category name: \(name)")
+      print("Category ID: \(id)")
+      print("Category's trackers: \(trackers.count)")
+    }
+  }
+}
+
+// MARK: - Core Data Saving support
+
+private extension TrackerCategoryStore {
+  func saveContext() {
+    if context.hasChanges {
+      print("TCS - content has changed")
+      do {
+        try context.save()
+        print("TCS - content has changed and successfully saved")
+      } catch {
+        let nserror = error as NSError
+        fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+      }
+    }
   }
 }
