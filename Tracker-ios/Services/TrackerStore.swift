@@ -44,7 +44,6 @@ final class TrackerStore: NSObject {
   }
 
   init(context: NSManagedObjectContext) {
-    // print(#fileID, #function)
     self.context = context
 
     let fetchRequest = TrackerCoreData.fetchRequest()
@@ -61,12 +60,6 @@ final class TrackerStore: NSObject {
     super.init()
     controller.delegate = self
     try? controller.performFetch()
-
-    print("TS init. Total Trackers in Store \(countTrackers())")
-//    if !isTrackerCoreDataEmpty() { // TODO: - delete before PR
-//      // showTrackersFromCoreData()
-//      deleteTrackersFromCoreData() // Uncomment to clear CoreData (1st step - Trackers, 2nd - TrackerCategory)
-//    }
   }
 
   deinit {
@@ -75,10 +68,7 @@ final class TrackerStore: NSObject {
 
   func addNew(tracker: Tracker, to category: TrackerCategoryCoreData) throws {
     print(#fileID, #function)
-    print(tracker)
-    print(category)
     let trackerInCoreData = TrackerCoreData(context: context)
-    print(trackerInCoreData)
     trackerInCoreData.title = tracker.title
     trackerInCoreData.id = tracker.id
     trackerInCoreData.color = Int32(tracker.color)
@@ -92,12 +82,10 @@ final class TrackerStore: NSObject {
     trackerInCoreData.sunday = tracker.schedule[6]
     trackerInCoreData.category = category
     print("CategoryCoreData: Trying to add tracker with ID [\(tracker.id)] and title - \(tracker.title)")
-    print(trackerInCoreData)
     saveContext()
   }
 
   func countTrackers() -> Int {
-    // print(#fileID, #function)
     let request = TrackerCoreData.fetchRequest()
     request.resultType = .countResultType
     guard
@@ -110,19 +98,17 @@ final class TrackerStore: NSObject {
   }
 
   func fetchTracker(byID id: UUID) -> TrackerCoreData? {
-    // print(#fileID, #function)
     let request = TrackerCoreData.fetchRequest()
     request.returnsObjectsAsFaults = false
     guard let trackers = try? context.fetch(request) else { return nil }
     for tracker in trackers where tracker.id == id {
-      // print("For id[\(id)] found this tracker \(String(describing: tracker.title))")
       return tracker
     }
     print("Tracker not found")
     return nil
   }
 
-  func isTrackerCoreDataEmpty() -> Bool { // TODO: - delete before PR
+  func isTrackerCoreDataEmpty() -> Bool { // TODO: - delete in Sprint 16
     print(#fileID, #function)
     let checkRequest = TrackerCoreData.fetchRequest()
     guard
@@ -136,7 +122,7 @@ final class TrackerStore: NSObject {
     return true
   }
 
-  func showTrackersFromCoreData() {  // TODO: - delete before PR
+  func showTrackersFromCoreData() {  // TODO: - delete in Sprint 16
     print(#fileID, #function)
     let request = TrackerCoreData.fetchRequest()
     request.returnsObjectsAsFaults = false
@@ -161,7 +147,7 @@ final class TrackerStore: NSObject {
     }
   }
 
-  func deleteTrackersFromCoreData() { // TODO: - delete before PR
+  func deleteTrackersFromCoreData() { // TODO: - delete in Sprint 16
     print(#fileID, #function)
     guard !isTrackerCoreDataEmpty() else { return }
     let request = TrackerCoreData.fetchRequest()

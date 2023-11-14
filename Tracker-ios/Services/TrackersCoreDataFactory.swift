@@ -26,7 +26,6 @@ final class TrackersCoreDataFactory {
   }
 
   func countCategories() -> Int {
-    print(#fileID, #function)
     return trackerCategoryStore.countCategories()
   }
 
@@ -37,24 +36,16 @@ final class TrackersCoreDataFactory {
   }
 
   func fetchCategoryName(by thisIndex: Int) -> String {
-    print(#fileID, #function)
-    return trackerCategoryStore.fetchCategoryName(by: thisIndex)
+    trackerCategoryStore.fetchCategoryName(by: thisIndex)
   }
 
   func addToStoreNew(tracker: Tracker, toCategory categoryIndex: Int) {
-    print(#fileID, #function)
     if let category = trackerCategoryStore.fetchCategory(by: categoryIndex) {
-      print(#fileID, #function, #line, " category.name ", category.name)
       try? trackerStore.addNew(tracker: tracker, to: category)
     }
-    //    guard let category = trackerCategoryStore.fetchCategory(by: categoryIndex) else {
-    //      preconditionFailure("Cannot obtain category by index")
-    //    }
-    //    try? trackerStore.addNew(tracker: tracker, to: category)
   }
 
   func addToStoreNew(category: TrackerCategory) {
-    print(#fileID, #function)
     try? trackerCategoryStore.addNew(category: category)
   }
 
@@ -66,7 +57,6 @@ final class TrackersCoreDataFactory {
   }
 
   func setTrackerDone(with id: UUID, on date: Date) -> Bool {
-    print(#fileID, #function)
     var isCompleted = false
     if isTrackerDone(with: id, on: date) {
       trackerRecordStore.removeRecord(on: date, toTracker: fetchTracker(byID: id))
@@ -78,7 +68,6 @@ final class TrackersCoreDataFactory {
   }
 
   func isTrackerDone(with id: UUID, on date: Date) -> Bool {
-    print(#fileID, #function)
     var isCompleted = false
     let dates = trackerRecordStore.fetchRecords(for: fetchTracker(byID: id))
     let calendar = Calendar.current
@@ -89,7 +78,6 @@ final class TrackersCoreDataFactory {
   }
 
   func getRecordsCounter(with id: UUID) -> Int {
-    // trackerStore.countRecords(byTrackerID: id)
     trackerRecordStore.countRecords(for: fetchTracker(byID: id))
   }
 }
