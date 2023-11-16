@@ -70,13 +70,12 @@ final class TrackerCategoryStore: NSObject {
     super.init()
     controller.delegate = self
     try? controller.performFetch()
-
     if isCategoryCoreDataEmpty() {
       setupCategoryCoreDataWithMockData()
     }
   }
 
-  var visibleCategories: [TrackerCategory] {
+  var allCategories: [TrackerCategory] {
     guard
       let objects = self.fetchedResultsController.fetchedObjects,
       let categories = try? objects.map({ try self.trackerCategory(from: $0) })
@@ -89,11 +88,11 @@ final class TrackerCategoryStore: NSObject {
 
 extension TrackerCategoryStore {
   var numberOfSections: Int {
-    visibleCategories.count
+    allCategories.count
   }
 
   func numberOfItemsInSection(_ section: Int) -> Int {
-    visibleCategories[section].items.count
+    allCategories[section].items.count
   }
 
   func deleteCategoriesFromCoreData() { // TODO: - delete in Sprint 16
@@ -101,10 +100,7 @@ extension TrackerCategoryStore {
     guard !isCategoryCoreDataEmpty() else { return }
     let request = TrackerCategoryCoreData.fetchRequest()
     let categories = try? context.fetch(request)
-    categories?.forEach { category in
-      print("Deleting category: \(String(describing: category.name))")
-      context.delete(category)
-    }
+    categories?.forEach { context.delete($0) }
     saveContext()
   }
 
@@ -249,13 +245,8 @@ private extension TrackerCategoryStore {
     var hasTrackers = false
     let request = TrackerCategoryCoreData.fetchRequest()
     request.returnsObjectsAsFaults = false
-    let categories = try? context.fetch(request)
-    categories?.forEach { category in
-      guard let trackers = category.trackers else { return }
-      // swiftlint:disable:next empty_count
-      if trackers.count != 0 {
-        hasTrackers = true
-      }
+    if let categories = try? context.fetch(request) {
+      hasTrackers = categories.compactMap { Int($0.trackers?.count ?? 0) }.first { $0 > 0 } != nil
     }
     return hasTrackers
   }
@@ -266,14 +257,7 @@ private extension TrackerCategoryStore {
 private extension TrackerCategoryStore {
   func setupCategoryCoreDataWithMockData() { // TODO: - delete in Sprint 16
     print("TCS Run setupCategoryCoreDataWithMockData()")
-    Resources.categories.forEach { raw in
-      try? addNew(category: TrackerCategory(
-        id: UUID(),
-        name: raw,
-        items: []
-      ))
-      print("CategoryCoreData: Trying to add category's element - \(raw)")
-    }
+    Resources.categories.forEach { try? addNew(category: TrackerCategory(id: UUID(), name: $0, items: [])) }
   }
 
   func showCategoriesFromCoreData() { // TODO: - delete in Sprint 16
@@ -301,7 +285,6 @@ private extension TrackerCategoryStore {
 private extension TrackerCategoryStore {
   func saveContext() {
     if context.hasChanges {
-      print("TCS - content has changed")
       do {
         try context.save()
         print("TCS - content has changed and successfully saved")
