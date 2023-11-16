@@ -59,7 +59,11 @@ final class TrackerStore: NSObject {
   deinit {
     print(#fileID, #function)
   }
+}
 
+// MARK: - Public Methods
+
+extension TrackerStore {
   func addNew(tracker: Tracker, to category: TrackerCategoryCoreData) throws {
     print(#fileID, #function)
     let trackerInCoreData = TrackerCoreData(context: context)
@@ -95,22 +99,14 @@ final class TrackerStore: NSObject {
     let request = TrackerCoreData.fetchRequest()
     request.returnsObjectsAsFaults = false
     guard let trackers = try? context.fetch(request) else { return nil }
-    for tracker in trackers where tracker.id == id {
-      return tracker
-    }
-    print("Tracker not found")
-    return nil
+    return trackers.first { $0.id == id }
   }
 
   func deleteTrackersFromCoreData() { // TODO: - delete in Sprint 16
     print(#fileID, #function)
-    guard !isTrackerCoreDataEmpty() else { return }
     let request = TrackerCoreData.fetchRequest()
     let trackers = try? context.fetch(request)
-    trackers?.forEach { tracker in
-      print("Deleting tracker: \(String(describing: tracker.title))")
-      context.delete(tracker)
-    }
+    trackers?.forEach { context.delete($0) }
     saveContext()
   }
 }
