@@ -14,21 +14,48 @@ final class TrackersCoreDataFactory {
   private let trackerStore = TrackerStore()
   private let trackerCategoryStore = TrackerCategoryStore.shared
   private let trackerRecordStore = TrackerRecordStore()
+  private var currentWeekDay = 0
 
   // MARK: - Public singleton
 
   static let shared = TrackersCoreDataFactory()
+
+  // MARK: - Public properties
+
+  var visibleCategoriesForWeekDay: [TrackerCategory] {
+    let currentCategories = trackerCategoryStore.allCategories
+    var newCategories: [TrackerCategory] = []
+    currentCategories.forEach { category in
+      newCategories.append(
+        TrackerCategory(
+          id: category.id,
+          name: category.name,
+          items: category.items.filter { $0.schedule[currentWeekDay] }
+        )
+      )
+    }
+    return newCategories.filter { !$0.items.isEmpty }
+
+    // return currentCategories.filter { !($0.items.filter { $0.schedule[currentWeekDay] }).isEmpty }
+  }
+
+  var visibleCategoriesForSearch: [TrackerCategory] {
+    trackerCategoryStore.allCategories
+  }
 
   // MARK: - Init
 
   private init() {
     // clearDataStores() // uncomment to reset trackerStore & trackerCategoryStore
   }
+}
 
+// MARK: - Public methods
+
+extension TrackersCoreDataFactory {
   func countCategories() -> Int {
     return trackerCategoryStore.countCategories()
   }
-
 
   func fetchCategoryName(by thisIndex: Int) -> String {
     trackerCategoryStore.fetchCategoryName(by: thisIndex)
@@ -52,17 +79,15 @@ final class TrackersCoreDataFactory {
   }
 
   func isTrackerDone(with id: UUID, on date: Date) -> Bool {
-    var isCompleted = false
-    let dates = trackerRecordStore.fetchRecords(for: fetchTracker(byID: id))
-    let calendar = Calendar.current
-    if (dates.firstIndex(where: { calendar.compare($0, to: date, toGranularity: .day) == .orderedSame }) != nil) {
-      isCompleted.toggle()
-    }
-    return isCompleted
+    !trackerRecordStore.fetchRecords(for: fetchTracker(byID: id)).filter { $0.sameDay(date) }.isEmpty
   }
 
   func getRecordsCounter(with id: UUID) -> Int {
     trackerRecordStore.countRecords(for: fetchTracker(byID: id))
+  }
+
+  func setCurrentWeekDay(to date: Date) {
+    currentWeekDay = date.weekday()
   }
 }
 
@@ -71,6 +96,7 @@ final class TrackersCoreDataFactory {
 private extension TrackersCoreDataFactory {
   func clearDataStores() {
     print(#fileID, #function)
+    trackerRecordStore.deleteTrackerRecordsFromCoreData()
     trackerStore.deleteTrackersFromCoreData()
     trackerCategoryStore.deleteCategoriesFromCoreData()
     print("STOP! Comment the clearDataStores() methods and restart the app")
