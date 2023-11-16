@@ -32,7 +32,6 @@ final class TrackerRecordStore {
 // MARK: - Public methods
 
 extension TrackerRecordStore {
-
   func addNew(recordDate date: Date, toTracker tracker: TrackerCoreData) throws {
     let trackerRecordInCoreData = TrackerRecordCoreData(context: context)
     trackerRecordInCoreData.date = date
@@ -41,15 +40,9 @@ extension TrackerRecordStore {
   }
 
   func removeRecord(on date: Date, toTracker tracker: TrackerCoreData) {
-    let calendar = Calendar.current
     let request = TrackerRecordCoreData.fetchRequest()
     guard let records = try? context.fetch(request) else { return }
-    for record in records where record.tracker == tracker {
-      guard let recordDate = record.date else { return }
-      if calendar.compare(recordDate, to: date, toGranularity: .day) == .orderedSame {
-        context.delete(record)
-      }
-    }
+    records.filter { $0.tracker == tracker }.forEach { if let day = $0.date, day.sameDay(date) { context.delete($0) } }
     saveContext()
   }
 
@@ -58,15 +51,18 @@ extension TrackerRecordStore {
   }
 
   func fetchRecords(for tracker: TrackerCoreData) -> [Date] {
-    var dates: [Date] = []
     let request = TrackerRecordCoreData.fetchRequest()
     request.returnsObjectsAsFaults = false
-    guard let records = try? context.fetch(request) else { return dates }
-    for record in records where record.tracker == tracker {
-      guard let date = record.date else { break }
-      dates.append(date)
-    }
-    return dates
+    guard let records = try? context.fetch(request) else { return [] }
+    return records.filter { $0.tracker == tracker }.compactMap { $0.date }
+  }
+
+  func deleteTrackerRecordsFromCoreData() { // TODO: - delete in Sprint 16
+    print(#fileID, #function)
+    let request = TrackerRecordCoreData.fetchRequest()
+    let records = try? context.fetch(request)
+    records?.forEach { context.delete($0) }
+    saveContext()
   }
 }
 
