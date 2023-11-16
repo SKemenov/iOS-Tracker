@@ -50,16 +50,6 @@ final class ScheduleViewController: UIViewController {
   }()
 
   private let daysOfWeek = 7
-  private let weekDays = [
-    "Понедельник",
-    "Вторник",
-    "Среда",
-    "Четверг",
-    "Пятница",
-    "Суббота",
-    "Воскресенье"
-  ]
-
   private var schedule: [Bool]
 
   private lazy var formIsFulfilled = false {
@@ -190,7 +180,7 @@ private extension ScheduleViewController {
   func configureOptionsLabel(index: Int) {
     let label = UILabel()
     label.textColor = .ypBlack
-    label.text = weekDays[index]
+    label.text = Resources.Labels.WeekDays.allCases[index].rawValue
     label.textAlignment = .natural
     label.frame = CGRect(
       x: leadSpacing,

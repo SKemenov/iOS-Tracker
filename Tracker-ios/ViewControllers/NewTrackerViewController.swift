@@ -61,12 +61,14 @@ private extension NewTrackerViewController {
   @objc func newHabitButtonClicked() {
     let nextController = CreateTrackerViewController(isHabit: true)
     nextController.delegate = self
+    nextController.isModalInPresentation = true
     present(nextController, animated: true)
   }
 
   @objc func newEventButtonClicked() {
     let nextController = CreateTrackerViewController(isHabit: false)
     nextController.delegate = self
+    nextController.isModalInPresentation = true
     present(nextController, animated: true)
   }
 }

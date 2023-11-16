@@ -35,6 +35,20 @@ enum Resources {
     static let oneDay = "день"
     static let fewDays = "дня"
     static let manyDays = "дней"
+    static let everyDays = "Каждый день"
+    static let weekDays = "Будни"
+    static let weekEnds = "Выходные"
+
+    // swiftlint:disable:next nesting
+    enum WeekDays: String, CaseIterable {
+      case monday = "Понедельник"
+      case tuesday = "Вторник"
+      case wednesday = "Среда"
+      case thursday = "Четверг"
+      case friday = "Пятница"
+      case saturday = "Суббота"
+      case sunday = "Воскресенье"
+    }
   }
 
   // MARK: - UI element's SF symbols
@@ -72,6 +86,10 @@ enum Resources {
     static let trackerCounterHeight: CGFloat = 58
     static let sectionHeight: CGFloat = 46
     static let iPhoneSeWidth: CGFloat = 320
+    static let optionCell: CGFloat = 52
+    static let optionHeader: CGFloat = 20
+    static let optionViewHeight: CGFloat = 204
+    static let optionBorder: CGFloat = 3
   }
 
   // MARK: - UI element's layouts
@@ -90,6 +108,7 @@ enum Resources {
     static let vSpacingTracker: CGFloat = 12
     static let trackersPerLine: CGFloat = 2
     static let indicatorInset: CGFloat = 4
+    static let optionCellPerLine: CGFloat = 6
   }
 
   // MARK: - Fonts
@@ -99,8 +118,15 @@ enum Resources {
     static let textNotification = UIFont.systemFont(ofSize: 12, weight: .medium)
     static let textField = UIFont.systemFont(ofSize: 17, weight: .regular)
     static let sectionHeader = UIFont.systemFont(ofSize: 19, weight: .bold)
+    static let emoji = UIFont.systemFont(ofSize: 32, weight: .bold)
   }
 
+  static let categories = [
+    "Важное"
+  ]
+  static let days = [
+    "Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"
+  ]
   static let colors: [UIColor] = [
     .ypSelection01, .ypSelection02, .ypSelection03, .ypSelection04, .ypSelection05, .ypSelection06,
     .ypSelection07, .ypSelection08, .ypSelection09, .ypSelection10, .ypSelection11, .ypSelection12,
@@ -112,7 +138,7 @@ enum Resources {
   static let textFieldLimit = 38
 
   // MARK: - Default date formatter
-  // static let shiftTimeZone = 60 * 60 * 3
+  static let shiftTimeZone = 60 * 60 * 3
   static let dateFormat = "dd.MM.YYYY"
   static let dateFormatter: DateFormatter = {
     let dateFormatter = DateFormatter()
