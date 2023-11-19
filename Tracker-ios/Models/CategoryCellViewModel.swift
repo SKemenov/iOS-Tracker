@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+struct CategoryCellViewModel: Identifiable {
+  let id: UUID
+  let name: String
+  let isCompleted: Bool
+}
