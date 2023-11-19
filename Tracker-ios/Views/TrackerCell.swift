@@ -108,7 +108,7 @@ private extension TrackerCell {
 
 extension TrackerCell {
   func makeItDone(_ isCompleted: Bool) {
-    counterImageView.image = isCompleted ? Resources.SfSymbols.doneCounter : Resources.SfSymbols.addCounter
+    counterImageView.image = isCompleted ? Resources.SfSymbols.doneMark : Resources.SfSymbols.addCounter
     counterButton.alpha = isCompleted ? 0.7 : 1
   }
 
