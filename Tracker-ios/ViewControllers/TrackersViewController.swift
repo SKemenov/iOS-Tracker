@@ -131,10 +131,17 @@ private extension TrackersViewController {
   }
 
   func setWeekDayForTracker(with schedule: [Bool]) {
+    guard schedule[weekday] == false else { return }
     var shiftDays = 0
     for day in (0...weekday).reversed() where schedule[day] {
       shiftDays = weekday - day
       break
+    }
+    if shiftDays == 0 {
+      for day in (weekday + 1..<Resources.days.count) where schedule[day] {
+        shiftDays = Resources.days.count - day
+        break
+      }
     }
     currentDate -= TimeInterval(shiftDays * 24 * 60 * 60)
     datePicker.setDate(currentDate, animated: true)
@@ -151,24 +158,14 @@ private extension TrackersViewController {
   }
 
   private func searchInTrackers() {
-    let currentCategories = factory.visibleCategoriesForSearch
     var newCategories: [TrackerCategory] = []
-    currentCategories.forEach { category in
-      newCategories.append(
-        TrackerCategory(
-          id: category.id,
-          name: category.name,
-          items: category.items.filter { $0.title.lowercased().contains(searchBarUserInput.lowercased()) }
-        )
-      )
+    factory.visibleCategoriesForSearch.forEach { newCategories.append(
+      TrackerCategory(id: $0.id, name: $0.name, items: $0.items.filter {
+        $0.title.lowercased().contains(searchBarUserInput.lowercased())
+      }))
     }
     visibleCategories = newCategories.filter { !$0.items.isEmpty }
     updateTrackerCollectionView()
-
-    //    visibleCategories = factory.visibleCategoriesForSearch.filter {
-    //      !($0.items.filter { $0.title.lowercased().contains(searchBarUserInput.lowercased()) }).isEmpty
-    //    }
-    //    updateTrackerCollectionView()
   }
 
   func makeEmptyViewForTrackers() {
@@ -290,15 +287,18 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
 
 extension TrackersViewController: TrackerCategoryStoreDelegate {
   func trackerCategoryStore(didUpdate update: TrackerCategoryStoreUpdate) {
-    visibleCategories = factory.visibleCategoriesForWeekDay
-    collectionView.performBatchUpdates {
-      collectionView.reloadSections(update.updatedSectionIndexes)
-      //      if let indexPath = update.updatedSectionIndexes.first {
-      //        collectionView.reloadItems(inSection: Int(indexPath))
-      //      }
-      collectionView.insertSections(update.insertedSectionIndexes)
-      collectionView.deleteSections(update.deletedSectionIndexes)
-    }
+    print(#fileID, #function)
+    fetchVisibleCategoriesFromFactory()
+
+    //    visibleCategories = factory.visibleCategoriesForWeekDay
+    //    collectionView.performBatchUpdates {
+    //      collectionView.reloadSections(update.updatedSectionIndexes)
+    //      if let indexPath = update.updatedSectionIndexes.first {
+    //        collectionView.reloadItems(inSection: Int(indexPath))
+    //      }
+    //      collectionView.insertSections(update.insertedSectionIndexes)
+    //      collectionView.deleteSections(update.deletedSectionIndexes)
+    //    }
   }
 }
 
@@ -306,6 +306,8 @@ extension TrackersViewController: TrackerCategoryStoreDelegate {
 
 extension TrackersViewController: TrackerStoreDelegate {
   func trackerStore(didUpdate update: TrackerStoreUpdate) {
+    print(#fileID, #function)
+    //    fetchVisibleCategoriesFromFactory()
     visibleCategories = factory.visibleCategoriesForWeekDay
     collectionView.performBatchUpdates {
       collectionView.reloadItems(at: update.updatedIndexes)
