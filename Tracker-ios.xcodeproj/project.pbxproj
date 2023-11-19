@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		E90010022B03E97500451C61 /* TrackerStoreUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90010012B03E97500451C61 /* TrackerStoreUpdate.swift */; };
 		E90010042B03F0E700451C61 /* UICollectionView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90010032B03F0E700451C61 /* UICollectionView+Extensions.swift */; };
+		E90BE6462B08B1CF001ADB6A /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90BE6452B08B1CF001ADB6A /* OnboardingViewController.swift */; };
 		E93C3FE72ADEA05C00579917 /* TextField+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93C3FE62ADEA05C00579917 /* TextField+Extensions.swift */; };
 		E93C3FEB2ADF007C00579917 /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93C3FEA2ADF007C00579917 /* ScheduleViewController.swift */; };
 		E93C3FED2ADFD27300579917 /* BorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93C3FEC2ADFD27300579917 /* BorderView.swift */; };
@@ -44,6 +45,7 @@
 /* Begin PBXFileReference section */
 		E90010012B03E97500451C61 /* TrackerStoreUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerStoreUpdate.swift; sourceTree = "<group>"; };
 		E90010032B03F0E700451C61 /* UICollectionView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extensions.swift"; sourceTree = "<group>"; };
+		E90BE6452B08B1CF001ADB6A /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		E93C3FE62ADEA05C00579917 /* TextField+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TextField+Extensions.swift"; sourceTree = "<group>"; };
 		E93C3FEA2ADF007C00579917 /* ScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
 		E93C3FEC2ADFD27300579917 /* BorderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderView.swift; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 				E9434ABC2AD6749600EF821F /* NewTrackerViewController.swift */,
 				E9434AC02ADA063E00EF821F /* CreateTrackerViewController.swift */,
 				E93C3FEA2ADF007C00579917 /* ScheduleViewController.swift */,
+				E90BE6452B08B1CF001ADB6A /* OnboardingViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -327,6 +330,7 @@
 				E9908BA22AFBDEFC00C82DF4 /* OptionCellHeader.swift in Sources */,
 				E9434AB62AD520FB00EF821F /* TabBarViewController.swift in Sources */,
 				E9434AB22AD51FDC00EF821F /* StatisticViewController.swift in Sources */,
+				E90BE6462B08B1CF001ADB6A /* OnboardingViewController.swift in Sources */,
 				E9908BA42AFC122300C82DF4 /* ColorCell.swift in Sources */,
 				E9804D4A2AFB9F57004E05D7 /* EmojiCell.swift in Sources */,
 				E9434AC12ADA063F00EF821F /* CreateTrackerViewController.swift in Sources */,

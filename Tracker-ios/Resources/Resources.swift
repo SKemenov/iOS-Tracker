@@ -38,6 +38,9 @@ enum Resources {
     static let everyDays = "Каждый день"
     static let weekDays = "Будни"
     static let weekEnds = "Выходные"
+    static let onboardingPage1 = "Отслеживайте только то, что хотите"
+    static let onboardingPage2 = "Даже если это \nне литры воды и йога"
+    static let onboardingButton = "Вот это технологии!"
 
     // swiftlint:disable:next nesting
     enum WeekDays: String, CaseIterable {
@@ -68,6 +71,8 @@ enum Resources {
     static let emptySearch = UIImage(named: "DummySearch")
     static let emptyTrackers = UIImage(named: "DummyTrackers")
     static let emptyStatistic = UIImage(named: "DummyStatistic")
+    static let onboardingPage1 = UIImage(named: "OnboardingBgPage1")
+    static let onboardingPage2 = UIImage(named: "OnboardingBgPage2")
   }
 
   // MARK: - UI element's dimensions
@@ -109,6 +114,8 @@ enum Resources {
     static let trackersPerLine: CGFloat = 2
     static let indicatorInset: CGFloat = 4
     static let optionCellPerLine: CGFloat = 6
+    static let vSpacingOnboardingButton: CGFloat = 84
+    static let vSpacingOnboardingPageCtl: CGFloat = 134
   }
 
   // MARK: - Fonts
@@ -122,7 +129,8 @@ enum Resources {
   }
 
   static let categories = [
-    "Важное"
+    "Важное",
+    "Нужное"
   ]
   static let days = [
     "Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"
