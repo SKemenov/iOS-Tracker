@@ -62,7 +62,7 @@ enum Resources {
     static let statistic = UIImage(systemName: "hare.fill")
     static let chevron = UIImage(systemName: "chevron.right")
     static let addCounter = UIImage(systemName: "plus")
-    static let doneCounter = UIImage(systemName: "checkmark")
+    static let doneMark = UIImage(systemName: "checkmark")
     static let pinTracker = UIImage(systemName: "pin")
   }
 
