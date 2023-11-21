@@ -13,6 +13,8 @@ protocol CategoryViewControllerDelegate: AnyObject {
   func categoryViewController(_ viewController: CategoryViewController, didSelect category: TrackerCategory)
 }
 
+// MARK: - Class
+
 final class CategoryViewController: UIViewController {
   // MARK: - Private UI properties
   private var titleLabel: UILabel = {
@@ -42,34 +44,16 @@ final class CategoryViewController: UIViewController {
     return tableView
   }()
 
-  private lazy var safeArea: UILayoutGuide = {
-    view.safeAreaLayoutGuide
-  }()
 
-  private lazy var tableViewWidth: CGFloat = {
-    view.frame.width - 2 * Resources.Layouts.leadingElement
-  }()
-
-  private lazy var collectionViewHeight: CGFloat = {
-    return Resources.Dimensions.fieldHeight * CGFloat(viewModel.categories.count)
-  }()
-
-  private lazy var vSpacing: CGFloat = {
-    Resources.Layouts.vSpacingElement
-  }()
-
+  //  private lazy var tableViewWidth: CGFloat = {
+  //    view.frame.width - 2 * Resources.Layouts.leadingElement
+  //  }()
 
   // MARK: - Private properties
 
   private let cellID = "CategoryCell"
-  // private let factory = TrackersCoreDataFactory.shared
   private var viewModel = CategoryViewModel()
-
-  // private var allCategories: [TrackerCategory] = []
   private var selectedCategoryId: UUID?
-  //  private var isAllCategoriesEmpty: Bool {
-  //    viewModel.categories.isEmpty
-  //  }
 
   // MARK: - Public properties
 
@@ -98,10 +82,6 @@ final class CategoryViewController: UIViewController {
     configureUI()
     updateCategoryCollectionView()
 
-    print(#fileID, #function)
-    print(viewModel.categories.count, viewModel.categories.isEmpty)
-    // fetchAllCategoriesFromFactory()
-
     viewModel.onChange = updateCategoryCollectionView
 
     tableView.dataSource = self
@@ -109,31 +89,16 @@ final class CategoryViewController: UIViewController {
     tableView.register(CategoryCell.self, forCellReuseIdentifier: cellID)
     addButton.addTarget(self, action: #selector(addButtonClicked), for: .touchUpInside)
   }
-
-  //  override func viewWillAppear(_ animated: Bool) {
-  //    print(#fileID, #function)
-  //    super.viewWillAppear(animated)
-  //    // fetchAllCategoriesFromFactory()
-  //  }
 }
-
 
 // MARK: - Private methods
 
 private extension CategoryViewController {
   func updateCategoryCollectionView() {
-    print(#fileID, #function)
     tableView.reloadData()
     tableView.isHidden = viewModel.categories.isEmpty
     emptyView.isHidden = !tableView.isHidden
   }
-
-  //  func fetchAllCategoriesFromFactory() {
-  //    print(#fileID, #function)
-  //    allCategories = []
-  //    allCategories = factory.allCategories
-  //    updateCategoryCollectionView()
-  //  }
 
   func makeEmptyViewForCategories() {
     emptyView.translatesAutoresizingMaskIntoConstraints = false
@@ -144,12 +109,9 @@ private extension CategoryViewController {
   }
 
   @objc func addButtonClicked() {
-    print(#fileID, #function)
     let nextController = CreateCategoryViewController()
     nextController.delegate = self
     present(nextController, animated: true)
-    // tableView.reloadData()
-    // fetchAllCategoriesFromFactory()
   }
 }
 
@@ -160,7 +122,6 @@ extension CategoryViewController: CreateCategoryViewControllerDelegate {
     dismiss(animated: true) { [weak self] in
       guard let self else { return }
       self.viewModel.addCategory(category)
-      // self.updateCategoryCollectionView()
     }
   }
 }
@@ -171,7 +132,6 @@ extension CategoryViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     tableView.deselectRow(at: indexPath, animated: false)
     selectedCategoryId = viewModel.categories[indexPath.row].id
-    // tableView.reloadData()
     delegate?.categoryViewController(self, didSelect: viewModel.categories[indexPath.row])
   }
 
@@ -192,8 +152,6 @@ extension CategoryViewController: UITableViewDataSource {
       return UITableViewCell()
     }
     let currentCategory = viewModel.categories[indexPath.row]
-    //    let isLastCell = indexPath.row == viewModel.categories.count - 1
-
     cell.configureCell(
       for: CategoryCellViewModel(
         name: currentCategory.name,
@@ -202,17 +160,6 @@ extension CategoryViewController: UITableViewDataSource {
         isSelected: currentCategory.id == selectedCategoryId
       )
     )
-
-    //    if isLastCell {
-    //      cell.separatorInset = UIEdgeInsets(top: 0, left: UIScreen.main.bounds.width, bottom: 0, right: 0)
-    //    } else {
-    //      cell.separatorInset = UIEdgeInsets(
-    //        top: .zero,
-    //        left: Resources.Layouts.leadingButton,
-    //        bottom: .zero,
-    //        right: Resources.Layouts.leadingButton
-    //      )
-    //    }
     return cell
   }
 }
@@ -225,6 +172,9 @@ private extension CategoryViewController {
     view.addSubview(emptyView)
     view.addSubview(tableView)
     view.addSubview(addButton)
+
+    let safeArea = view.safeAreaLayoutGuide
+    let vSpacing = Resources.Layouts.vSpacingElement
 
     NSLayoutConstraint.activate([
       titleLabel.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: Resources.Layouts.vSpacingTitle),
@@ -242,8 +192,10 @@ private extension CategoryViewController {
       emptyView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
       emptyView.bottomAnchor.constraint(equalTo: addButton.topAnchor, constant: -vSpacing),
 
-      addButton.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
-      addButton.widthAnchor.constraint(equalToConstant: view.frame.width - 2 * Resources.Layouts.leadingButton),
+      addButton.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: vSpacing),
+      addButton.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -vSpacing),
+      //   addButton.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
+      //   addButton.widthAnchor.constraint(equalToConstant: view.frame.width - 2 * Resources.Layouts.leadingButton),
       addButton.heightAnchor.constraint(equalToConstant: Resources.Dimensions.buttonHeight),
       addButton.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -vSpacing)
     ])

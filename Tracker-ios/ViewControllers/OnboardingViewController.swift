@@ -104,18 +104,11 @@ extension OnboardingViewController: UIPageViewControllerDelegate {
 
 private extension OnboardingViewController {
   func configUI() {
-    configBlueUI()
-    configRedUI()
-  }
-
-  func configBlueUI() {
     blueViewController.view.backgroundColor = .ypBlue
     addImage(bgImage: Resources.Images.onboardingPage1, to: blueViewController.view)
     add(title: Resources.Labels.onboardingPage1, to: blueViewController.view)
     addButton(to: blueViewController.view)
-  }
 
-  func configRedUI() {
     redViewController.view.backgroundColor = .ypRed
     addImage(bgImage: Resources.Images.onboardingPage2, to: redViewController.view)
     add(title: Resources.Labels.onboardingPage2, to: redViewController.view)

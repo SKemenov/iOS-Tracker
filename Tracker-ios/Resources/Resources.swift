@@ -99,6 +99,7 @@ enum Resources {
     static let optionViewHeight: CGFloat = 204
     static let optionBorder: CGFloat = 3
     static let bottomDivider: CGFloat = 0.5
+    static let markSize: CGFloat = 20
   }
 
   // MARK: - UI element's layouts
@@ -132,10 +133,6 @@ enum Resources {
     static let emoji = UIFont.systemFont(ofSize: 32, weight: .bold)
   }
 
-  //  static let categories = [
-  //    "Важное",
-  //    "Нужное"
-  //  ]
   static let days = [
     "Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"
   ]

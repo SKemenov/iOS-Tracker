@@ -102,7 +102,7 @@ extension TrackerStore {
     return trackers.first { $0.id == id }
   }
 
-  func deleteTrackersFromCoreData() { // TODO: - delete in Sprint 16
+  func deleteTrackersFromCoreData() { // TODO: - delete after Sprint 16
     print(#fileID, #function)
     let request = TrackerCoreData.fetchRequest()
     let trackers = try? context.fetch(request)
@@ -114,8 +114,7 @@ extension TrackerStore {
 // MARK: - Private methods
 
 private extension TrackerStore {
-  func isTrackerCoreDataEmpty() -> Bool { // TODO: - delete in Sprint 16
-    print(#fileID, #function)
+  func isTrackerCoreDataEmpty() -> Bool { // TODO: - delete after Sprint 16
     let checkRequest = TrackerCoreData.fetchRequest()
     guard
       let result = try? context.fetch(checkRequest),
@@ -128,7 +127,7 @@ private extension TrackerStore {
     return true
   }
 
-  func showTrackersFromCoreData() {  // TODO: - delete in Sprint 16
+  func showTrackersFromCoreData() {  // TODO: - delete after Sprint 16
     print(#fileID, #function)
     let request = TrackerCoreData.fetchRequest()
     request.returnsObjectsAsFaults = false

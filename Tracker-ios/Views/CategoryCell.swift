@@ -114,8 +114,8 @@ private extension CategoryCell {
 
       selectImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
       selectImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Resources.Layouts.leadingElement),
-      selectImageView.widthAnchor.constraint(equalToConstant: 20), // Resources.Dimensions.smallIcon),
-      selectImageView.heightAnchor.constraint(equalToConstant: 20) // Resources.Dimensions.smallIcon)
+      selectImageView.widthAnchor.constraint(equalToConstant: Resources.Dimensions.markSize),
+      selectImageView.heightAnchor.constraint(equalToConstant: Resources.Dimensions.markSize)
     ])
   }
 }

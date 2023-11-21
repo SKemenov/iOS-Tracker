@@ -661,20 +661,14 @@ private extension CreateTrackerViewController {
 
 private extension CreateTrackerViewController {
   func configureEmojiSection() {
-    configureEmojiCollectionView()
-    contentView.addArrangedSubview(emojiCollectionView)
-    configureEmojiCollectionViewConstraints()
-  }
-
-  func configureEmojiCollectionView() {
     emojiCollectionView.dataSource = self
     emojiCollectionView.delegate = self
     emojiCollectionView.tag = 0
     emojiCollectionView.isScrollEnabled = false
     emojiCollectionView.translatesAutoresizingMaskIntoConstraints = false
-  }
 
-  func configureEmojiCollectionViewConstraints() {
+    contentView.addArrangedSubview(emojiCollectionView)
+
     NSLayoutConstraint.activate([
       emojiCollectionView.heightAnchor.constraint(equalToConstant: Resources.Dimensions.optionViewHeight),
       emojiCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -687,20 +681,14 @@ private extension CreateTrackerViewController {
 
 private extension CreateTrackerViewController {
   func configureColorSection() {
-    configureColorCollectionView()
-    contentView.addArrangedSubview(colorCollectionView)
-    configureColorCollectionViewConstraints()
-  }
-
-  func configureColorCollectionView() {
     colorCollectionView.dataSource = self
     colorCollectionView.delegate = self
     colorCollectionView.tag = 1
     colorCollectionView.isScrollEnabled = false
     colorCollectionView.translatesAutoresizingMaskIntoConstraints = false
-  }
 
-  func configureColorCollectionViewConstraints() {
+    contentView.addArrangedSubview(colorCollectionView)
+
     NSLayoutConstraint.activate([
       colorCollectionView.heightAnchor.constraint(equalToConstant: Resources.Dimensions.optionViewHeight),
       colorCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),

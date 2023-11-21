@@ -47,20 +47,9 @@ final class CreateCategoryViewController: UIViewController {
     return addButton
   }()
 
-  private lazy var safeArea: UILayoutGuide = {
-    view.safeAreaLayoutGuide
-  }()
-
-  private lazy var vSpacing: CGFloat = {
-    Resources.Layouts.vSpacingElement
-  }()
-
   // MARK: - Private properties
 
   private let cellID = "CategoryCell"
-  // private let factory = TrackersCoreDataFactory.shared
-  // private var viewModel: CategoryViewModel?
-
   private var userInput = "" {
     didSet {
       formIsFulfilled = !userInput.isEmpty
@@ -110,15 +99,11 @@ final class CreateCategoryViewController: UIViewController {
 
 private extension CreateCategoryViewController {
   @objc func addButtonClicked() {
-    print(#fileID, #function)
-    // factory.addToStoreNew(category: )
-    // dismiss(animated: true)
     let newCategory = TrackerCategory(id: UUID(), name: userInput, items: [])
     delegate?.createCategoryViewController(self, didFilledCategory: newCategory)
   }
 
   func updateAddButtonState() {
-    print(#fileID, #function)
     addButton.backgroundColor = formIsFulfilled ? .ypBlack : .ypGray
     addButton.isEnabled = formIsFulfilled
   }
@@ -150,6 +135,9 @@ private extension CreateCategoryViewController {
     view.addSubview(titleLabel)
     view.addSubview(textField)
     view.addSubview(addButton)
+
+    let safeArea = view.safeAreaLayoutGuide
+    let vSpacing = Resources.Layouts.vSpacingElement
 
     NSLayoutConstraint.activate([
       titleLabel.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: Resources.Layouts.vSpacingTitle),

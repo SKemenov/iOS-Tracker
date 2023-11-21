@@ -70,15 +70,9 @@ final class TrackerCategoryStore: NSObject {
     super.init()
     controller.delegate = self
     try? controller.performFetch()
-    //    if isCategoryCoreDataEmpty() {
-    //      setupCategoryCoreDataWithMockData()
-    //    } else {
-    //      showCategoriesFromCoreData()
-    //    }
   }
 
   var allCategories: [TrackerCategory] {
-    print(#fileID, #function)
     guard
       let objects = self.fetchedResultsController.fetchedObjects,
       let categories = try? objects.map({ try self.trackerCategory(from: $0) })
@@ -98,7 +92,7 @@ extension TrackerCategoryStore {
     allCategories[section].items.count
   }
 
-  func deleteCategoriesFromCoreData() { // TODO: - delete in Sprint 16
+  func deleteCategoriesFromCoreData() { // TODO: - delete after Sprint 16
     print("TCS Run deleteCategoriesFromCoreData()")
     guard !isCategoryCoreDataEmpty() else { return }
     let request = TrackerCategoryCoreData.fetchRequest()
@@ -151,21 +145,7 @@ extension TrackerCategoryStore {
 // MARK: - NSFetchedResultsControllerDelegate
 
 extension TrackerCategoryStore: NSFetchedResultsControllerDelegate {
-  //  func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
-  //    switch type {
-  //    case .insert:
-  //      insertedSectionIndexes?.insert(sectionIndex)
-  //    case .delete:
-  //      deletedSectionIndexes?.insert(sectionIndex)
-  //    case .update:
-  //      updatedSectionIndexes?.insert(sectionIndex)
-  //    default:
-  //      break
-  //    }
-  //  }
-
   func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-    print(#fileID, #function)
     delegate?.trackerCategoryStore(didUpdate: self)
   }
 }
@@ -245,11 +225,6 @@ private extension TrackerCategoryStore {
 // MARK: - Mock methods
 
 private extension TrackerCategoryStore {
-  //  func setupCategoryCoreDataWithMockData() { // TODO: - delete in Sprint 16
-  //    print("TCS Run setupCategoryCoreDataWithMockData()")
-  //    Resources.categories.forEach { try? addNew(category: TrackerCategory(id: UUID(), name: $0, items: [])) }
-  //  }
-
   func showCategoriesFromCoreData() { // TODO: - delete after Sprint 16
     let request = TrackerCategoryCoreData.fetchRequest()
     request.returnsObjectsAsFaults = false

@@ -10,21 +10,15 @@ import UIKit.UIApplication
 // MARK: - CategoryViewModel
 
 final class CategoryViewModel {
-  var onChange: (() -> Void)? {
-    didSet {
-      print("updateView установлен")
-    }
-  }
+  var onChange: (() -> Void)?
 
   private (set) var categories: [TrackerCategory] = [] {
     didSet {
-      print(#fileID, #function)
       onChange?()
     }
   }
 
   private let trackerCategoryStore = TrackerCategoryStore.shared
-  // private let factory = TrackersCoreDataFactory.shared
 
   init() {
     trackerCategoryStore.delegate = self
@@ -32,13 +26,10 @@ final class CategoryViewModel {
   }
 
   func fetchCategoriesFromCoreData() {
-    print(#fileID, #function)
     categories = trackerCategoryStore.allCategories
-    print(categories.count, categories.isEmpty)
   }
 
   func addCategory(_ category: TrackerCategory) {
-    print(#fileID, #function)
     try? trackerCategoryStore.addNew(category: category)
   }
 }
@@ -47,7 +38,6 @@ final class CategoryViewModel {
 
 extension CategoryViewModel: TrackerCategoryStoreDelegate {
   func trackerCategoryStore(didUpdate store: TrackerCategoryStore) {
-    print(#fileID, #function)
     fetchCategoriesFromCoreData()
   }
 }

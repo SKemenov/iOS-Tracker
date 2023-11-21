@@ -77,19 +77,13 @@ private extension NewTrackerViewController {
 
 private extension NewTrackerViewController {
   func configureTitleLabelSection() {
-    configureTitleLabel()
-    view.addSubview(titleLabel)
-    configureTitleLabelConstraints()
-  }
-
-  func configureTitleLabel() {
     titleLabel.text = Resources.Labels.newTracker
     titleLabel.font = Resources.Fonts.titleUsual
     titleLabel.textAlignment = .center
     titleLabel.translatesAutoresizingMaskIntoConstraints = false
-  }
 
-  func configureTitleLabelConstraints() {
+    view.addSubview(titleLabel)
+
     NSLayoutConstraint.activate([
       titleLabel.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: Resources.Layouts.vSpacingTitle),
       titleLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),

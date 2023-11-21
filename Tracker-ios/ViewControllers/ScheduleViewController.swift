@@ -118,12 +118,6 @@ private extension ScheduleViewController {
 
 private extension ScheduleViewController {
   func configureTitleSection() {
-    configureTitleLabel()
-    view.addSubview(titleLabel)
-    configureTitleSectionConstraints()
-  }
-
-  func configureTitleLabel() {
     titleLabel.text = Resources.Labels.schedule
     titleLabel.font = Resources.Fonts.titleUsual
     titleLabel.textAlignment = .center
@@ -134,9 +128,9 @@ private extension ScheduleViewController {
       width: view.frame.width,
       height: Resources.Dimensions.titleHeight + Resources.Layouts.vSpacingTitle
     )
-  }
 
-  func configureTitleSectionConstraints() {
+    view.addSubview(titleLabel)
+
     NSLayoutConstraint.activate([
       titleLabel.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: Resources.Layouts.vSpacingTitle),
       titleLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
@@ -221,21 +215,15 @@ private extension ScheduleViewController {
 
 private extension ScheduleViewController {
   func configureDoneButtonSection() {
-    configureDoneButton()
-    updateDoneButtonState()
-    updateFormState()
-    view.addSubview(doneButton)
-    configureDoneButtonConstraints()
-  }
-
-  func configureDoneButton() {
     doneButton.setTitle(Resources.Labels.done, for: .normal)
     doneButton.setTitleColor(.ypLightGray, for: .disabled)
     doneButton.addTarget(self, action: #selector(doneButtonClicked), for: .touchUpInside)
     doneButton.translatesAutoresizingMaskIntoConstraints = false
-  }
 
-  func configureDoneButtonConstraints() {
+    updateDoneButtonState()
+    updateFormState()
+    view.addSubview(doneButton)
+
     NSLayoutConstraint.activate([
       doneButton.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
       doneButton.widthAnchor.constraint(equalToConstant: buttonWidth),
