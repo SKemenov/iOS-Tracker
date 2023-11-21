@@ -96,7 +96,10 @@ final class CategoryViewController: UIViewController {
 
     makeEmptyViewForCategories()
     configureUI()
+    updateCategoryCollectionView()
 
+    print(#fileID, #function)
+    print(viewModel.categories.count, viewModel.categories.isEmpty)
     // fetchAllCategoriesFromFactory()
 
     viewModel.onChange = updateCategoryCollectionView

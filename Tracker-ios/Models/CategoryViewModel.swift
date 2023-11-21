@@ -34,6 +34,7 @@ final class CategoryViewModel {
   func fetchCategoriesFromCoreData() {
     print(#fileID, #function)
     categories = trackerCategoryStore.allCategories
+    print(categories.count, categories.isEmpty)
   }
 
   func addCategory(_ category: TrackerCategory) {
