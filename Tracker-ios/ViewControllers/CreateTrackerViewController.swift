@@ -11,7 +11,7 @@ import UIKit
 // MARK: - Protocol
 
 protocol CreateTrackerViewControllerDelegate: AnyObject {
-  func createTrackerViewController(_ viewController: CreateTrackerViewController, didFilledTracker tracker: Tracker, for categoryIndex: Int)
+  func createTrackerViewController(_ viewController: CreateTrackerViewController, didFilledTracker tracker: Tracker, for categoryId: UUID)
 }
 
 // MARK: - Class
@@ -140,7 +140,7 @@ final class CreateTrackerViewController: UIViewController {
       trackerNameIsFulfilled = true
     }
   }
-  private var selectedCategoryIndex = 0 {
+  private var selectedCategoryId = UUID() {
     didSet {
       categoryIsSelected = true
     }
@@ -263,18 +263,6 @@ extension CreateTrackerViewController: UITextFieldDelegate {
   }
 }
 
-// MARK: - ScheduleViewControllerDelegate
-
-extension CreateTrackerViewController: ScheduleViewControllerDelegate {
-  func scheduleViewController(_ viewController: ScheduleViewController, didSelectSchedule schedule: [Bool]) {
-    dismiss(animated: true) {
-      [weak self] in
-      guard let self else { return }
-      self.fetchSchedule(from: schedule)
-    }
-  }
-}
-
 // MARK: - Private methods for button's actions
 
 private extension CreateTrackerViewController {
@@ -290,18 +278,44 @@ private extension CreateTrackerViewController {
       color: colorIndex,
       schedule: schedule
     )
-    delegate?.createTrackerViewController(self, didFilledTracker: newTracker, for: selectedCategoryIndex)
+    delegate?.createTrackerViewController(self, didFilledTracker: newTracker, for: selectedCategoryId)
   }
 
-  @objc func categoryButtonClicked() { // TODO: Make VC to select category and return it here by selectedCategoryIndex
-    selectedCategoryIndex = Int.random(in: 0..<factory.countCategories()) // dummy for categoryIndex
-    categoryButton.configure(value: factory.fetchCategoryName(by: selectedCategoryIndex))
+  @objc func categoryButtonClicked() {
+    let nextController = CategoryViewController(selectedCategoryId: selectedCategoryId)
+    nextController.delegate = self
+    present(nextController, animated: true)
   }
 
   @objc func scheduleButtonClicked() {
     let nextController = ScheduleViewController(with: schedule)
     nextController.delegate = self
     present(nextController, animated: true)
+  }
+}
+
+// MARK: - ScheduleViewControllerDelegate
+
+extension CreateTrackerViewController: ScheduleViewControllerDelegate {
+  func scheduleViewController(_ viewController: ScheduleViewController, didSelectSchedule schedule: [Bool]) {
+    dismiss(animated: true) {
+      [weak self] in
+      guard let self else { return }
+      self.fetchSchedule(from: schedule)
+    }
+  }
+}
+
+// MARK: - CategoryViewControllerDelegate
+
+extension CreateTrackerViewController: CategoryViewControllerDelegate {
+  func categoryViewController(_ viewController: CategoryViewController, didSelect category: TrackerCategory) {
+    dismiss(animated: true) {
+      [weak self] in
+      guard let self else { return }
+      self.selectedCategoryId = category.id
+      self.categoryButton.configure(value: category.name)
+    }
   }
 }
 

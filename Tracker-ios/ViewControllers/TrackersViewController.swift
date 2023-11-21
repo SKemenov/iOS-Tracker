@@ -124,8 +124,8 @@ private extension TrackersViewController {
     emptyView.isHidden = !collectionView.isHidden
   }
 
-  func fetchTracker(from tracker: Tracker, for categoryIndex: Int) {
-    factory.addToStoreNew(tracker: tracker, toCategory: categoryIndex)
+  func fetchTracker(from tracker: Tracker, for categoryId: UUID) {
+    factory.addToStoreNew(tracker: tracker, toCategory: categoryId)
     setWeekDayForTracker(with: tracker.schedule)
     fetchVisibleCategoriesFromFactory()
   }
@@ -138,8 +138,8 @@ private extension TrackersViewController {
       break
     }
     if shiftDays == 0 {
-      for day in (weekday + 1..<Resources.days.count) where schedule[day] {
-        shiftDays = Resources.days.count - day
+      for day in (weekday..<Resources.days.count) where schedule[day] {
+        shiftDays = Resources.days.count - day + 1
         break
       }
     }
@@ -320,11 +320,11 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
 // MARK: - NewTrackerViewControllerDelegate
 
 extension TrackersViewController: NewTrackerViewControllerDelegate {
-  func newTrackerViewController(_ viewController: NewTrackerViewController, didFilledTracker tracker: Tracker, for categoryIndex: Int) {
+  func newTrackerViewController(_ viewController: NewTrackerViewController, didFilledTracker tracker: Tracker, for categoryId: UUID) {
     dismiss(animated: true) {
       [weak self] in
       guard let self else { return }
-      self.fetchTracker(from: tracker, for: categoryIndex)
+      self.fetchTracker(from: tracker, for: categoryId)
     }
   }
 }
