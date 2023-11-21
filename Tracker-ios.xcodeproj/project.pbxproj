@@ -13,6 +13,7 @@
 		E9262DCA2B0A00F900EE491F /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9262DC92B0A00F900EE491F /* CategoryCell.swift */; };
 		E9262DCC2B0A216A00EE491F /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9262DCB2B0A216A00EE491F /* CategoryViewController.swift */; };
 		E9262DCE2B0A26A700EE491F /* CategoryCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9262DCD2B0A26A700EE491F /* CategoryCellViewModel.swift */; };
+		E9262DD02B0D23C900EE491F /* CreateCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9262DCF2B0D23C800EE491F /* CreateCategoryViewController.swift */; };
 		E93C3FE72ADEA05C00579917 /* TextField+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93C3FE62ADEA05C00579917 /* TextField+Extensions.swift */; };
 		E93C3FEB2ADF007C00579917 /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93C3FEA2ADF007C00579917 /* ScheduleViewController.swift */; };
 		E93C3FED2ADFD27300579917 /* BorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93C3FEC2ADFD27300579917 /* BorderView.swift */; };
@@ -52,6 +53,7 @@
 		E9262DC92B0A00F900EE491F /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
 		E9262DCB2B0A216A00EE491F /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		E9262DCD2B0A26A700EE491F /* CategoryCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCellViewModel.swift; sourceTree = "<group>"; };
+		E9262DCF2B0D23C800EE491F /* CreateCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateCategoryViewController.swift; sourceTree = "<group>"; };
 		E93C3FE62ADEA05C00579917 /* TextField+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TextField+Extensions.swift"; sourceTree = "<group>"; };
 		E93C3FEA2ADF007C00579917 /* ScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
 		E93C3FEC2ADFD27300579917 /* BorderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorderView.swift; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 				E93C3FEA2ADF007C00579917 /* ScheduleViewController.swift */,
 				E90BE6452B08B1CF001ADB6A /* OnboardingViewController.swift */,
 				E9262DCB2B0A216A00EE491F /* CategoryViewController.swift */,
+				E9262DCF2B0D23C800EE491F /* CreateCategoryViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -318,6 +321,7 @@
 				E94A17652AEAA37100EEDB1A /* Date+Extensions.swift in Sources */,
 				E9262DCE2B0A26A700EE491F /* CategoryCellViewModel.swift in Sources */,
 				E9804D402AF69214004E05D7 /* TrackersCoreDataFactory.swift in Sources */,
+				E9262DD02B0D23C900EE491F /* CreateCategoryViewController.swift in Sources */,
 				E9434ABB2AD5EAAE00EF821F /* EmptyView.swift in Sources */,
 				E9E899D02ADB1CC5003D464E /* OptionButton.swift in Sources */,
 				E90010042B03F0E700451C61 /* UICollectionView+Extensions.swift in Sources */,
