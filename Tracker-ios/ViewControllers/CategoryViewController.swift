@@ -44,11 +44,6 @@ final class CategoryViewController: UIViewController {
     return tableView
   }()
 
-
-  //  private lazy var tableViewWidth: CGFloat = {
-  //    view.frame.width - 2 * Resources.Layouts.leadingElement
-  //  }()
-
   // MARK: - Private properties
 
   private let cellID = "CategoryCell"
