@@ -99,7 +99,7 @@ private extension TrackersCoreDataFactory {
     trackerRecordStore.deleteTrackerRecordsFromCoreData()
     trackerStore.deleteTrackersFromCoreData()
     trackerCategoryStore.deleteCategoriesFromCoreData()
-    fatalError("STOP! Comment the clearDataStores() methods and restart the app")
+    fatalError("STOP! Comment the clearDataStores() method in the init() and restart the app")
   }
 
   func fetchTracker(byID id: UUID) -> TrackerCoreData {

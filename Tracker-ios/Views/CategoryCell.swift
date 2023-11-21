@@ -79,6 +79,17 @@ extension CategoryCell {
     } else {
       cellView.layer.maskedCorners = []
     }
+
+    if isLastCell {
+      self.separatorInset = UIEdgeInsets(top: 0, left: UIScreen.main.bounds.width, bottom: 0, right: 0)
+    } else {
+      self.separatorInset = UIEdgeInsets(
+        top: .zero,
+        left: Resources.Layouts.leadingButton,
+        bottom: .zero,
+        right: Resources.Layouts.leadingButton
+      )
+    }
   }
 }
 
@@ -103,8 +114,8 @@ private extension CategoryCell {
 
       selectImageView.centerYAnchor.constraint(equalTo: centerYAnchor),
       selectImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -Resources.Layouts.leadingElement),
-      selectImageView.widthAnchor.constraint(equalToConstant: Resources.Dimensions.smallIcon),
-      selectImageView.heightAnchor.constraint(equalToConstant: Resources.Dimensions.smallIcon)
+      selectImageView.widthAnchor.constraint(equalToConstant: 20), // Resources.Dimensions.smallIcon),
+      selectImageView.heightAnchor.constraint(equalToConstant: 20) // Resources.Dimensions.smallIcon)
     ])
   }
 }

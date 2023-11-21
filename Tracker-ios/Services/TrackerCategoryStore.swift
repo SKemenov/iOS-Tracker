@@ -21,7 +21,7 @@ enum TrackerCategoryStoreError: Error {
 // MARK: - Protocol
 
 protocol TrackerCategoryStoreDelegate: AnyObject {
-  func trackerCategoryStore(didUpdate update: TrackerCategoryStoreUpdate)
+  func trackerCategoryStore(didUpdate store: TrackerCategoryStore)
 }
 
 // MARK: - Class
@@ -78,6 +78,7 @@ final class TrackerCategoryStore: NSObject {
   }
 
   var allCategories: [TrackerCategory] {
+    print(#fileID, #function)
     guard
       let objects = self.fetchedResultsController.fetchedObjects,
       let categories = try? objects.map({ try self.trackerCategory(from: $0) })
@@ -150,35 +151,22 @@ extension TrackerCategoryStore {
 // MARK: - NSFetchedResultsControllerDelegate
 
 extension TrackerCategoryStore: NSFetchedResultsControllerDelegate {
-  func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
-    switch type {
-    case .insert:
-      insertedSectionIndexes?.insert(sectionIndex)
-    case .delete:
-      deletedSectionIndexes?.insert(sectionIndex)
-    case .update:
-      updatedSectionIndexes?.insert(sectionIndex)
-    default:
-      break
-    }
-  }
+  //  func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+  //    switch type {
+  //    case .insert:
+  //      insertedSectionIndexes?.insert(sectionIndex)
+  //    case .delete:
+  //      deletedSectionIndexes?.insert(sectionIndex)
+  //    case .update:
+  //      updatedSectionIndexes?.insert(sectionIndex)
+  //    default:
+  //      break
+  //    }
+  //  }
 
   func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-    guard
-      let insertedFinalIndexes = insertedSectionIndexes,
-      let deletedFinalIndexes = deletedSectionIndexes,
-      let updatedFinalIndexes = updatedSectionIndexes
-    else { return }
-    delegate?.trackerCategoryStore(
-      didUpdate: TrackerCategoryStoreUpdate(
-        insertedSectionIndexes: insertedFinalIndexes,
-        deletedSectionIndexes: deletedFinalIndexes,
-        updatedSectionIndexes: updatedFinalIndexes
-      )
-    )
-    insertedSectionIndexes = nil
-    deletedSectionIndexes = nil
-    updatedSectionIndexes = nil
+    print(#fileID, #function)
+    delegate?.trackerCategoryStore(didUpdate: self)
   }
 }
 
@@ -257,12 +245,12 @@ private extension TrackerCategoryStore {
 // MARK: - Mock methods
 
 private extension TrackerCategoryStore {
-  func setupCategoryCoreDataWithMockData() { // TODO: - delete in Sprint 16
-    print("TCS Run setupCategoryCoreDataWithMockData()")
-    Resources.categories.forEach { try? addNew(category: TrackerCategory(id: UUID(), name: $0, items: [])) }
-  }
+  //  func setupCategoryCoreDataWithMockData() { // TODO: - delete in Sprint 16
+  //    print("TCS Run setupCategoryCoreDataWithMockData()")
+  //    Resources.categories.forEach { try? addNew(category: TrackerCategory(id: UUID(), name: $0, items: [])) }
+  //  }
 
-  func showCategoriesFromCoreData() { // TODO: - delete in Sprint 16
+  func showCategoriesFromCoreData() { // TODO: - delete after Sprint 16
     let request = TrackerCategoryCoreData.fetchRequest()
     request.returnsObjectsAsFaults = false
     let categories = try? context.fetch(request)

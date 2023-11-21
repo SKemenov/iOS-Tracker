@@ -207,7 +207,7 @@ private extension CreateTrackerViewController {
 
   func updateCreateButtonState() {
     createButton.backgroundColor = formIsFulfilled ? .ypBlack : .ypGray
-    createButton.isEnabled = formIsFulfilled ? true : false
+    createButton.isEnabled = formIsFulfilled
   }
 
   func fetchSchedule(from schedule: [Bool]) {
@@ -298,8 +298,7 @@ private extension CreateTrackerViewController {
 
 extension CreateTrackerViewController: ScheduleViewControllerDelegate {
   func scheduleViewController(_ viewController: ScheduleViewController, didSelectSchedule schedule: [Bool]) {
-    dismiss(animated: true) {
-      [weak self] in
+    dismiss(animated: true) { [weak self] in
       guard let self else { return }
       self.fetchSchedule(from: schedule)
     }

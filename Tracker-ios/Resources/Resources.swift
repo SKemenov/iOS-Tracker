@@ -25,6 +25,7 @@ enum Resources {
     static let cancel = "Отменить"
     static let create = "Создать"
     static let textFieldPlaceholder = "Введите название трекера"
+    static let categoryNamePlaceholder = "Введите название категории"
     static let textFieldRestriction = "Ограничение 38 символов"
     static let done = "Готово"
     static let emoji = "Emoji"
@@ -131,10 +132,10 @@ enum Resources {
     static let emoji = UIFont.systemFont(ofSize: 32, weight: .bold)
   }
 
-  static let categories = [
-    "Важное",
-    "Нужное"
-  ]
+  //  static let categories = [
+  //    "Важное",
+  //    "Нужное"
+  //  ]
   static let days = [
     "Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"
   ]

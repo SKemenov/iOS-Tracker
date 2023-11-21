@@ -41,9 +41,7 @@ class OnboardingViewController: UIPageViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    print(#function)
     configUI()
-    print(pages)
 
     dataSource = self
     delegate = self
@@ -56,7 +54,6 @@ class OnboardingViewController: UIPageViewController {
 
     NSLayoutConstraint.activate([
       pageControl.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-      // pageControl.centerYAnchor.constraint(equalTo: view.centerYAnchor)
       pageControl.bottomAnchor.constraint(
         equalTo: view.safeAreaLayoutGuide.bottomAnchor,
         constant: -Resources.Layouts.vSpacingOnboardingPageCtl
@@ -89,21 +86,6 @@ extension OnboardingViewController: UIPageViewControllerDataSource {
     }
     return nil
   }
-
-  // MARK: - soft borders (aka infinity loop)
-  //  func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-  //    if let pageIndex = pages.firstIndex(of: viewController) {
-  //      return pageIndex == 0 ? pages[pages.count - 1] : pages[pageIndex - 1]
-  //    }
-  //    return nil
-  //  }
-  //
-  //  func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-  //    if let pageIndex = pages.firstIndex(of: viewController) {
-  //      return pageIndex == pages.count - 1 ? pages[0] : pages[pageIndex + 1]
-  //    }
-  //    return nil
-  //  }
 }
 
 // MARK: - UIPageViewControllerDelegate
