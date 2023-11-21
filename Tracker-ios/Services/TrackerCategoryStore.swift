@@ -70,9 +70,11 @@ final class TrackerCategoryStore: NSObject {
     super.init()
     controller.delegate = self
     try? controller.performFetch()
-    if isCategoryCoreDataEmpty() {
-      setupCategoryCoreDataWithMockData()
-    }
+    //    if isCategoryCoreDataEmpty() {
+    //      setupCategoryCoreDataWithMockData()
+    //    } else {
+    //      showCategoriesFromCoreData()
+    //    }
   }
 
   var allCategories: [TrackerCategory] {
@@ -80,7 +82,7 @@ final class TrackerCategoryStore: NSObject {
       let objects = self.fetchedResultsController.fetchedObjects,
       let categories = try? objects.map({ try self.trackerCategory(from: $0) })
     else { return [] }
-    return categories.filter { !$0.items.isEmpty }
+    return categories
   }
 }
 
@@ -127,11 +129,18 @@ extension TrackerCategoryStore {
     return categoryName
   }
 
-  func fetchCategory(by thisIndex: Int) -> TrackerCategoryCoreData? {
+  func addNew(category: TrackerCategory) throws {
+    let categoryInCoreData = TrackerCategoryCoreData(context: context)
+    categoryInCoreData.name = category.name
+    categoryInCoreData.id = category.id
+    saveContext()
+  }
+
+  func fetchCategory(by thisId: UUID) -> TrackerCategoryCoreData? {
     let request = TrackerCategoryCoreData.fetchRequest()
     request.returnsObjectsAsFaults = false
     guard let categories = try? context.fetch(request) else { return nil }
-    for (index, category) in categories.enumerated() where index == thisIndex {
+    for category in categories where category.id == thisId {
       return category
     }
     return nil
@@ -176,13 +185,6 @@ extension TrackerCategoryStore: NSFetchedResultsControllerDelegate {
 // MARK: - Private methods
 
 private extension TrackerCategoryStore {
-  func addNew(category: TrackerCategory) throws {
-    let categoryInCoreData = TrackerCategoryCoreData(context: context)
-    categoryInCoreData.name = category.name
-    categoryInCoreData.id = category.id
-    saveContext()
-  }
-
   func trackerCategory(from trackerCategoryCoreData: TrackerCategoryCoreData) throws -> TrackerCategory {
     guard let id = trackerCategoryCoreData.id else {
       throw TrackerCategoryStoreError.decodingErrorInvalidId

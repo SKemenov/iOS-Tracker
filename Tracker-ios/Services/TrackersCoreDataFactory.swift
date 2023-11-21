@@ -32,13 +32,17 @@ final class TrackersCoreDataFactory {
   }
 
   var visibleCategoriesForSearch: [TrackerCategory] {
+    trackerCategoryStore.allCategories.filter { !$0.items.isEmpty }
+  }
+
+  var allCategories: [TrackerCategory] {
     trackerCategoryStore.allCategories
   }
 
   // MARK: - Init
 
   private init() {
-    //    clearDataStores() // uncomment to reset trackerStore & trackerCategoryStore
+    // clearDataStores() // uncomment to reset trackerStore & trackerCategoryStore
   }
 }
 
@@ -53,8 +57,12 @@ extension TrackersCoreDataFactory {
     trackerCategoryStore.fetchCategoryName(by: thisIndex)
   }
 
-  func addToStoreNew(tracker: Tracker, toCategory categoryIndex: Int) {
-    if let category = trackerCategoryStore.fetchCategory(by: categoryIndex) {
+  func addToStoreNew(category: TrackerCategory) {
+    try? trackerCategoryStore.addNew(category: category)
+  }
+
+  func addToStoreNew(tracker: Tracker, toCategory categoryId: UUID) {
+    if let category = trackerCategoryStore.fetchCategory(by: categoryId) {
       try? trackerStore.addNew(tracker: tracker, to: category)
     }
   }
