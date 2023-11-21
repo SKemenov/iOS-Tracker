@@ -7,8 +7,9 @@
 
 import Foundation
 
-struct CategoryCellViewModel: Identifiable {
-  let id: UUID
+struct CategoryCellViewModel {
   let name: String
-  let isCompleted: Bool
+  let isFirst: Bool
+  let isLast: Bool
+  let isSelected: Bool
 }

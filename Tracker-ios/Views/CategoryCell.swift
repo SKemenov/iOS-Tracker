@@ -7,8 +7,17 @@
 
 import UIKit
 
-final class CategoryCell: UICollectionViewCell {
+final class CategoryCell: UITableViewCell {
   // MARK: - Private properties
+  private let cellView: UIView = {
+    let view = UIView()
+    view.backgroundColor = .ypBackground
+    view.layer.masksToBounds = true
+    view.layer.cornerRadius = Resources.Dimensions.cornerRadius
+    view.translatesAutoresizingMaskIntoConstraints = false
+    return view
+  }()
+
   private let nameLabel: UILabel = {
     let label = UILabel()
     label.numberOfLines = 1
@@ -18,6 +27,7 @@ final class CategoryCell: UICollectionViewCell {
     label.translatesAutoresizingMaskIntoConstraints = false
     return label
   }()
+
   private let selectImageView: UIImageView = {
     let imageView = UIImageView()
     imageView.image = Resources.SfSymbols.doneMark
@@ -27,11 +37,13 @@ final class CategoryCell: UICollectionViewCell {
     return imageView
   }()
 
+  private let cellID = "CategoryCell"
+
   // MARK: - Inits
 
-  override init(frame: CGRect) {
-    super.init(frame: frame)
-    configureCategoryCell()
+  override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+    super.init(style: style, reuseIdentifier: cellID)
+    configureUI()
   }
 
   required init?(coder: NSCoder) {
@@ -50,27 +62,40 @@ extension CategoryCell {
     selectImageView.isHidden = !isSelected
   }
 
-  func configureCell(name: String, isSelected: Bool = false) {
-    nameLabel.text = name
-    selectImageView.isHidden = !isSelected
+  func configureCell(for category: CategoryCellViewModel) {
+    nameLabel.text = category.name
+    selectImageView.isHidden = !category.isSelected
+
+    let isFirstCell = category.isFirst
+    let isLastCell = category.isLast
+    if isFirstCell && isLastCell {
+      cellView.layer.maskedCorners = [
+        .layerMinXMinYCorner, .layerMaxXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMaxYCorner
+      ]
+    } else if isFirstCell {
+      cellView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
+    } else if isLastCell {
+      cellView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+    } else {
+      cellView.layer.maskedCorners = []
+    }
   }
 }
 
 // MARK: - Configure CategoryCell UI Section
 
 private extension CategoryCell {
-  func configureCategoryCell() {
-    configureCategoryCellSubviews()
-    configureCategoryCellConstraints()
-  }
-
-  func configureCategoryCellSubviews() {
+  func configureUI() {
+    contentView.addSubview(cellView)
     contentView.addSubview(nameLabel)
     contentView.addSubview(selectImageView)
-  }
 
-  func configureCategoryCellConstraints() {
     NSLayoutConstraint.activate([
+      cellView.topAnchor.constraint(equalTo: topAnchor),
+      cellView.bottomAnchor.constraint(equalTo: bottomAnchor),
+      cellView.leadingAnchor.constraint(equalTo: leadingAnchor),
+      cellView.trailingAnchor.constraint(equalTo: trailingAnchor),
+
       nameLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
       nameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Resources.Layouts.leadingElement),
       nameLabel.trailingAnchor.constraint(lessThanOrEqualTo: selectImageView.leadingAnchor),
