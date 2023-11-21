@@ -57,13 +57,11 @@ final class TrackerCell: UICollectionViewCell {
     return label
   }()
 
-  // swiftlint:disable:next self_in_property_initialization
   private let counterButton: UIButton = {
     let view = UIButton()
     view.layer.cornerRadius = Resources.Dimensions.cornerRadius
     view.layer.masksToBounds = true
     view.translatesAutoresizingMaskIntoConstraints = false
-    view.addTarget(self, action: #selector(didTapDoneButton), for: .touchUpInside)
     return view
   }()
 
@@ -85,6 +83,7 @@ final class TrackerCell: UICollectionViewCell {
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureTrackerCell()
+    counterButton.addTarget(self, action: #selector(didTapDoneButton), for: .touchUpInside)
   }
 
   required init?(coder: NSCoder) {
