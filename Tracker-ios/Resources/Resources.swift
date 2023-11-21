@@ -13,16 +13,17 @@ enum Resources {
     static let newTracker = "Создание трекера"
     static let newEvent = "Новое нерегулярное событие"
     static let newHabit = "Новая привычка"
+    static let newCategory = "Новая категория"
+    static let addCategory = "Добавить категорию"
     static let habit = "Привычка"
     static let event = "Нерегулярное событие"
+    static let category = "Категория"
+    static let schedule = "Расписание"
     static let statistic = "Статистика"
     static let trackers = "Трекеры"
     static let searchBar = "Поиск"
     static let cancel = "Отменить"
     static let create = "Создать"
-    static let category = "Категория"
-    static let newCategory = "Новая категория"
-    static let schedule = "Расписание"
     static let textFieldPlaceholder = "Введите название трекера"
     static let textFieldRestriction = "Ограничение 38 символов"
     static let done = "Готово"
@@ -32,6 +33,7 @@ enum Resources {
     static let emptyStatistic = "Анализировать пока нечего"
     static let emptyTracker = "Что будем отслеживать?"
     static let emptySearch = "Ничего не найдено"
+    static let emptyCategory = "Привычки и события можно \nобъединить по смыслу"
     static let oneDay = "день"
     static let fewDays = "дня"
     static let manyDays = "дней"
@@ -95,6 +97,7 @@ enum Resources {
     static let optionHeader: CGFloat = 20
     static let optionViewHeight: CGFloat = 204
     static let optionBorder: CGFloat = 3
+    static let bottomDivider: CGFloat = 0.5
   }
 
   // MARK: - UI element's layouts

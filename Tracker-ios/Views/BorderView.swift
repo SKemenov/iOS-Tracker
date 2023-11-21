@@ -19,9 +19,9 @@ final class BorderView {
         x: Resources.Layouts.leadingElement,
         y: Resources.Dimensions.fieldHeight * CGFloat(time),
         width: width,
-        height: 2
+        height: Resources.Dimensions.bottomDivider
       )
-      borderView.backgroundColor = .ypLightGray
+      borderView.backgroundColor = .ypGray
       containerView.addSubview(borderView)
     }
   }
