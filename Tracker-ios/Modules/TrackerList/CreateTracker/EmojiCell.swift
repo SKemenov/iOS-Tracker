@@ -31,9 +31,9 @@ final class EmojiCell: UICollectionViewCell {
     fatalError("init(coder:) has not been implemented")
   }
 
-  public override func prepareForReuse() {
-    super.prepareForReuse()
-  }
+  //  public override func prepareForReuse() {
+  //    super.prepareForReuse()
+  //  }
 }
 
 // MARK: - Public methods

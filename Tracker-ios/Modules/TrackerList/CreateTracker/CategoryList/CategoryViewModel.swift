@@ -5,7 +5,7 @@
 //  Created by Sergey Kemenov on 21.11.2023.
 //
 
-import UIKit.UIApplication
+import Foundation
 
 // MARK: - CategoryViewModel
 

@@ -29,13 +29,17 @@ class OnboardingViewController: UIPageViewController {
 
   // MARK: - Inits
 
-  override init(transitionStyle style: UIPageViewController.TransitionStyle, navigationOrientation: UIPageViewController.NavigationOrientation, options: [UIPageViewController.OptionsKey: Any]? = nil) {
-    super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
-  }
+    override init(
+      transitionStyle style: UIPageViewController.TransitionStyle,
+      navigationOrientation: UIPageViewController.NavigationOrientation,
+      options: [UIPageViewController.OptionsKey: Any]? = nil
+    ) {
+      super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
+    }
 
-  required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
+    required init?(coder: NSCoder) {
+      fatalError("init(coder:) has not been implemented")
+    }
 
   // MARK: - Lifecycle
 
@@ -73,14 +77,20 @@ class OnboardingViewController: UIPageViewController {
 extension OnboardingViewController: UIPageViewControllerDataSource {
   // MARK: - hard borders
 
-  func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
+  func pageViewController(
+    _ pageViewController: UIPageViewController,
+    viewControllerBefore viewController: UIViewController
+  ) -> UIViewController? {
     if let index = pages.firstIndex(of: viewController), index > 0 {
       return pages[index - 1]
     }
     return nil
   }
 
-  func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+  func pageViewController(
+    _ pageViewController: UIPageViewController,
+    viewControllerAfter viewController: UIViewController
+  ) -> UIViewController? {
     if let index = pages.firstIndex(of: viewController), index < pages.count - 1 {
       return pages[index + 1]
     }
@@ -91,7 +101,12 @@ extension OnboardingViewController: UIPageViewControllerDataSource {
 // MARK: - UIPageViewControllerDelegate
 
 extension OnboardingViewController: UIPageViewControllerDelegate {
-  func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+  func pageViewController(
+    _ pageViewController: UIPageViewController,
+    didFinishAnimating finished: Bool,
+    previousViewControllers: [UIViewController],
+    transitionCompleted completed: Bool
+  ) {
     if
       let currentViewController = pageViewController.viewControllers?.first,
       let currentIndex = pages.firstIndex(of: currentViewController) {

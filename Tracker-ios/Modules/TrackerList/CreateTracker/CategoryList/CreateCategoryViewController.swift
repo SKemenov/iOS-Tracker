@@ -10,7 +10,10 @@ import UIKit
 // MARK: - Protocol
 
 protocol CreateCategoryViewControllerDelegate: AnyObject {
-  func createCategoryViewController(_ viewController: CreateCategoryViewController, didFilledCategory category: TrackerCategory)
+  func createCategoryViewController(
+    _ viewController: CreateCategoryViewController,
+    didFilledCategory category: TrackerCategory
+  )
 }
 
 // MARK: - Class
@@ -70,13 +73,13 @@ final class CreateCategoryViewController: UIViewController {
 
   // MARK: - Inits
 
-  init() {
-    super.init(nibName: nil, bundle: nil)
-  }
-
-  required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
+//  init() {
+//    super.init(nibName: nil, bundle: nil)
+//  }
+//
+//  required init?(coder: NSCoder) {
+//    fatalError("init(coder:) has not been implemented")
+//  }
 
   // MARK: - Life circle
 
@@ -112,7 +115,11 @@ private extension CreateCategoryViewController {
 // MARK: - UITextFieldDelegate
 
 extension CreateCategoryViewController: UITextFieldDelegate {
-  func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+  func textField(
+    _ textField: UITextField,
+    shouldChangeCharactersIn range: NSRange,
+    replacementString string: String
+  ) -> Bool {
     userInput = textField.text ?? ""
     return true
   }

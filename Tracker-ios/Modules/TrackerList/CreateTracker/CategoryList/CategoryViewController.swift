@@ -113,7 +113,10 @@ private extension CategoryViewController {
 // MARK: - CreateCategoryViewControllerDelegate
 
 extension CategoryViewController: CreateCategoryViewControllerDelegate {
-  func createCategoryViewController(_ viewController: CreateCategoryViewController, didFilledCategory category: TrackerCategory) {
+  func createCategoryViewController(
+    _ viewController: CreateCategoryViewController,
+    didFilledCategory category: TrackerCategory
+  ) {
     dismiss(animated: true) { [weak self] in
       guard let self else { return }
       self.viewModel.addCategory(category)

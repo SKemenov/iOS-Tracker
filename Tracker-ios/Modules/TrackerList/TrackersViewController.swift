@@ -224,7 +224,11 @@ extension TrackersViewController: UICollectionViewDataSource {
     return cell
   }
 
-  func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+  func collectionView(
+    _ collectionView: UICollectionView,
+    viewForSupplementaryElementOfKind kind: String,
+    at indexPath: IndexPath
+  ) -> UICollectionReusableView {
     var id: String
     switch kind {
     case UICollectionView.elementKindSectionHeader:
@@ -243,7 +247,11 @@ extension TrackersViewController: UICollectionViewDataSource {
 // MARK: - UICollectionViewDelegateFlowLayout
 
 extension TrackersViewController: UICollectionViewDelegateFlowLayout {
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+  func collectionView(
+    _ collectionView: UICollectionView,
+    layout collectionViewLayout: UICollectionViewLayout,
+    sizeForItemAt indexPath: IndexPath
+  ) -> CGSize {
     CGSize(
       width: (
         collectionView.bounds.width - Resources.Layouts.spacingElement - 2 * Resources.Layouts.leadingElement
@@ -252,19 +260,35 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
     )
   }
 
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+  func collectionView(
+    _ collectionView: UICollectionView,
+    layout collectionViewLayout: UICollectionViewLayout,
+    minimumInteritemSpacingForSectionAt section: Int
+  ) -> CGFloat {
     .zero
   }
 
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+  func collectionView(
+    _ collectionView: UICollectionView,
+    layout collectionViewLayout: UICollectionViewLayout,
+    minimumLineSpacingForSectionAt section: Int
+  ) -> CGFloat {
     .zero
   }
 
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+  func collectionView(
+    _ collectionView: UICollectionView,
+    layout collectionViewLayout: UICollectionViewLayout,
+    referenceSizeForHeaderInSection section: Int
+  ) -> CGSize {
     CGSize(width: collectionView.bounds.width, height: Resources.Dimensions.sectionHeight)
   }
 
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+  func collectionView(
+    _ collectionView: UICollectionView,
+    layout collectionViewLayout: UICollectionViewLayout,
+    insetForSectionAt section: Int
+  ) -> UIEdgeInsets {
     UIEdgeInsets(
       top: .zero,
       left: Resources.Layouts.leadingElement,
@@ -277,7 +301,11 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
 // MARK: - NewTrackerViewControllerDelegate
 
 extension TrackersViewController: NewTrackerViewControllerDelegate {
-  func newTrackerViewController(_ viewController: NewTrackerViewController, didFilledTracker tracker: Tracker, for categoryId: UUID) {
+  func newTrackerViewController(
+    _ viewController: NewTrackerViewController,
+    didFilledTracker tracker: Tracker,
+    for categoryId: UUID
+  ) {
     dismiss(animated: true) {
       [weak self] in
       guard let self else { return }

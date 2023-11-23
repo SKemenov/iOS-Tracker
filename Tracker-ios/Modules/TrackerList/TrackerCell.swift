@@ -90,9 +90,9 @@ final class TrackerCell: UICollectionViewCell {
     fatalError("init(coder:) has not been implemented")
   }
 
-  public override func prepareForReuse() {
-    super.prepareForReuse()
-  }
+  //  public override func prepareForReuse() {
+  //    super.prepareForReuse()
+  //  }
 }
 
 // MARK: - Private methods

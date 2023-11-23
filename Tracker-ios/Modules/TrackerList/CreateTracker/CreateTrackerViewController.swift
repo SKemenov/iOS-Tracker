@@ -11,7 +11,11 @@ import UIKit
 // MARK: - Protocol
 
 protocol CreateTrackerViewControllerDelegate: AnyObject {
-  func createTrackerViewController(_ viewController: CreateTrackerViewController, didFilledTracker tracker: Tracker, for categoryId: UUID)
+  func createTrackerViewController(
+    _ viewController: CreateTrackerViewController,
+    didFilledTracker tracker: Tracker,
+    for categoryId: UUID
+  )
 }
 
 // MARK: - Class
@@ -237,7 +241,11 @@ private extension CreateTrackerViewController {
 // MARK: - UITextFieldDelegate
 
 extension CreateTrackerViewController: UITextFieldDelegate {
-  func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+  func textField(
+    _ textField: UITextField,
+    shouldChangeCharactersIn range: NSRange,
+    replacementString string: String
+  ) -> Bool {
     userInput = textField.text ?? ""
     let currentCharacterCount = textField.text?.count ?? 0
     if range.length + range.location > currentCharacterCount {
@@ -354,7 +362,11 @@ extension CreateTrackerViewController: UICollectionViewDataSource {
     }
   }
 
-  func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+  func collectionView(
+    _ collectionView: UICollectionView,
+    viewForSupplementaryElementOfKind kind: String,
+    at indexPath: IndexPath
+  ) -> UICollectionReusableView {
     var id: String
     switch kind {
     case UICollectionView.elementKindSectionHeader:
@@ -401,20 +413,32 @@ extension CreateTrackerViewController: UICollectionViewDelegate {
 // MARK: - UICollectionViewDelegateFlowLayout
 
 extension CreateTrackerViewController: UICollectionViewDelegateFlowLayout {
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+  func collectionView(
+    _ collectionView: UICollectionView,
+    layout collectionViewLayout: UICollectionViewLayout,
+    sizeForItemAt indexPath: IndexPath
+  ) -> CGSize {
     CGSize(
       width: Resources.Dimensions.optionCell,
       height: Resources.Dimensions.optionCell
     )
   }
 
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+  func collectionView(
+    _ collectionView: UICollectionView,
+    layout collectionViewLayout: UICollectionViewLayout,
+    minimumInteritemSpacingForSectionAt section: Int
+  ) -> CGFloat {
     let cellsPerLine = Resources.Layouts.optionCellPerLine
     let totalCellsWidth = cellsPerLine * Resources.Dimensions.optionCell
     return (collectionView.frame.width - 2 * leadSpacing - totalCellsWidth) / (cellsPerLine - 1) - 1
   }
 
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+  func collectionView(
+    _ collectionView: UICollectionView,
+    layout collectionViewLayout: UICollectionViewLayout,
+    minimumLineSpacingForSectionAt section: Int
+  ) -> CGFloat {
     switch collectionView.tag {
     case 1:
       return 5
@@ -423,11 +447,19 @@ extension CreateTrackerViewController: UICollectionViewDelegateFlowLayout {
     }
   }
 
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+  func collectionView(
+    _ collectionView: UICollectionView,
+    layout collectionViewLayout: UICollectionViewLayout,
+    referenceSizeForHeaderInSection section: Int
+  ) -> CGSize {
     CGSize(width: collectionView.bounds.width, height: Resources.Dimensions.optionHeader)
   }
 
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+  func collectionView(
+    _ collectionView: UICollectionView,
+    layout collectionViewLayout: UICollectionViewLayout,
+    insetForSectionAt section: Int
+  ) -> UIEdgeInsets {
     UIEdgeInsets(
       top: leadSpacing,
       left: leadSpacing,
