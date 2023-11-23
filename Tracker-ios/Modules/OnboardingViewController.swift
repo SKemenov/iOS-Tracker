@@ -68,6 +68,7 @@ class OnboardingViewController: UIPageViewController {
   @objc private func buttonClicked() {
     guard let window = UIApplication.shared.windows.first else { preconditionFailure("Invalid Configuration") }
     let viewController = TabBarViewController()
+    UserDefaults.standard.hasOnboarded = true
     window.rootViewController = viewController
   }
 }

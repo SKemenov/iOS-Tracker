@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		E90010022B03E97500451C61 /* TrackerStoreUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90010012B03E97500451C61 /* TrackerStoreUpdate.swift */; };
 		E90010042B03F0E700451C61 /* UICollectionView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90010032B03F0E700451C61 /* UICollectionView+Extensions.swift */; };
+		E90A5FB32B0FEAAB003D94CA /* UserDefaults+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90A5FB22B0FEAAB003D94CA /* UserDefaults+Extension.swift */; };
 		E90BE6462B08B1CF001ADB6A /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90BE6452B08B1CF001ADB6A /* OnboardingViewController.swift */; };
 		E9262DCA2B0A00F900EE491F /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9262DC92B0A00F900EE491F /* CategoryCell.swift */; };
 		E9262DCC2B0A216A00EE491F /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9262DCB2B0A216A00EE491F /* CategoryViewController.swift */; };
@@ -49,6 +50,7 @@
 /* Begin PBXFileReference section */
 		E90010012B03E97500451C61 /* TrackerStoreUpdate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerStoreUpdate.swift; sourceTree = "<group>"; };
 		E90010032B03F0E700451C61 /* UICollectionView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extensions.swift"; sourceTree = "<group>"; };
+		E90A5FB22B0FEAAB003D94CA /* UserDefaults+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Extension.swift"; sourceTree = "<group>"; };
 		E90BE6452B08B1CF001ADB6A /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		E9262DC92B0A00F900EE491F /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
 		E9262DCB2B0A216A00EE491F /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
@@ -139,22 +141,9 @@
 				E94A17642AEAA37100EEDB1A /* Date+Extensions.swift */,
 				E97842A62AF18A7D00FD305C /* UIViewController+Extensions.swift */,
 				E90010032B03F0E700451C61 /* UICollectionView+Extensions.swift */,
+				E90A5FB22B0FEAAB003D94CA /* UserDefaults+Extension.swift */,
 			);
 			path = Extensions;
-			sourceTree = "<group>";
-		};
-		E9434AAC2AD2BBA000EF821F /* Views */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		E9434AB72AD5E61E00EF821F /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 		E9718F082AD19E9400853947 = {
@@ -178,8 +167,6 @@
 			children = (
 				E9804D3B2AF4C1E9004E05D7 /* CoreData */,
 				E9434AA32AD1A0D300EF821F /* Application */,
-				E9434AB72AD5E61E00EF821F /* Models */,
-				E9434AAC2AD2BBA000EF821F /* Views */,
 				E99AEB352AE17AB100A72F4F /* Services */,
 				E9434AA42AD1A12000EF821F /* Modules */,
 				E9434AA52AD1A1CC00EF821F /* Resources */,
@@ -382,6 +369,7 @@
 				E9804D4A2AFB9F57004E05D7 /* EmojiCell.swift in Sources */,
 				E9434AC12ADA063F00EF821F /* CreateTrackerViewController.swift in Sources */,
 				E9A654762AE7CC6C00C692EE /* TrackerHeader.swift in Sources */,
+				E90A5FB32B0FEAAB003D94CA /* UserDefaults+Extension.swift in Sources */,
 				E9262DCA2B0A00F900EE491F /* CategoryCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

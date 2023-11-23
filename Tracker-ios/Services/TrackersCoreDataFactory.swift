@@ -99,6 +99,7 @@ private extension TrackersCoreDataFactory {
     trackerRecordStore.deleteTrackerRecordsFromCoreData()
     trackerStore.deleteTrackersFromCoreData()
     trackerCategoryStore.deleteCategoriesFromCoreData()
+    UserDefaults.standard.hasOnboarded = false
     fatalError("STOP! Comment the clearDataStores() method in the init() and restart the app")
   }
 
