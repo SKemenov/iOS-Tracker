@@ -1,0 +1,58 @@
+/* 
+  Localizable.strings
+  Tracker-ios
+
+  Created by Sergey Kemenov on 24.11.2023.
+  
+*/
+
+"labels.newTracker" = "Creating a tracker";
+"labels.newEvent" = "New Event";
+"labels.newHabit" = "New Habit";
+"labels.newCategory" = "New Category";
+"labels.addCategory" = "Add Category";
+"labels.habit" = "Habit";
+"labels.event" = "Event";
+"labels.category" = "Category";
+"labels.schedule" = "Schedule";
+"labels.statistic" = "Statistics";
+"labels.trackers" = "Trackers";
+"labels.searchBar" = "Search";
+"labels.cancel" = "Cancel";
+"labels.create" = "Create";
+"labels.textFieldPlaceholder" = "Enter tracker's name here";
+"labels.categoryNamePlaceholder" = "Enter category's name here";
+"labels.textFieldRestriction" = "No more than 38 characters";
+"labels.done" = "Done";
+"labels.emoji" = "Emoji";
+"labels.color" = "Color";
+"labels.filters" = "Filters";
+"labels.emptyStatistic" = "There is nothing to analyze yet";
+"labels.emptyTracker" = "What will we track?";
+"labels.emptySearch" = "Nothing found";
+"labels.emptyCategory" = "Habits and events \ncan be combined by meaning";
+"labels.oneDay" = "day";
+"labels.fewDays" = "days";
+"labels.manyDays" = "days";
+"labels.everyDays" = "Every day";
+"labels.weekDays" = "Weekdays";
+"labels.weekEnds" = "Weekend";
+"labels.onboardingPage1" = "Track only what you want";
+"labels.onboardingPage2" = "Even if it's not yoga \nand liters of water";
+"labels.onboardingButton" = "Those are the technologies!";
+
+"labels.weekDays.monday" = "Monday";
+"labels.weekDays.tuesday" = "Tuesday";
+"labels.weekDays.wednesday" = "Wednesday";
+"labels.weekDays.thursday" = "Thursday";
+"labels.weekDays.friday" = "Friday";
+"labels.weekDays.saturday" = "Saturday";
+"labels.weekDays.sunday" = "Sunday";
+
+"labels.days.0" = "Mo";
+"labels.days.1" = "Tu";
+"labels.days.2" = "We";
+"labels.days.3" = "Th";
+"labels.days.4" = "Fr";
+"labels.days.5" = "Sa";
+"labels.days.6" = "Su";

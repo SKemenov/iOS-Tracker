@@ -1,0 +1,58 @@
+/* 
+  Localizable.strings
+  Tracker-ios
+
+  Created by Sergey Kemenov on 24.11.2023.
+  
+*/
+
+"labels.newTracker" = "Создание трекера";
+"labels.newEvent" = "Новое нерегулярное событие";
+"labels.newHabit" = "Новая привычка";
+"labels.newCategory" = "Новая категория";
+"labels.addCategory" = "Добавить категорию";
+"labels.habit" = "Привычка";
+"labels.event" = "Нерегулярное событие";
+"labels.category" = "Категория";
+"labels.schedule" = "Расписание";
+"labels.statistic" = "Статистика";
+"labels.trackers" = "Трекеры";
+"labels.searchBar" = "Поиск";
+"labels.cancel" = "Отменить";
+"labels.create" = "Создать";
+"labels.textFieldPlaceholder" = "Введите название трекера";
+"labels.categoryNamePlaceholder" = "Введите название категории";
+"labels.textFieldRestriction" = "Ограничение 38 символов";
+"labels.done" = "Готово";
+"labels.emoji" = "Emoji";
+"labels.color" = "Цвет";
+"labels.filters" = "Фильтры";
+"labels.emptyStatistic" = "Анализировать пока нечего";
+"labels.emptyTracker" = "Что будем отслеживать?";
+"labels.emptySearch" = "Ничего не найдено";
+"labels.emptyCategory" = "Привычки и события можно \nобъединить по смыслу";
+"labels.oneDay" = "день";
+"labels.fewDays" = "дня";
+"labels.manyDays" = "дней";
+"labels.everyDays" = "Каждый день";
+"labels.weekDays" = "Будни";
+"labels.weekEnds" = "Выходные";
+"labels.onboardingPage1" = "Отслеживайте только то, что хотите";
+"labels.onboardingPage2" = "Даже если это \nне литры воды и йога";
+"labels.onboardingButton" = "Вот это технологии!";
+
+"labels.weekDays.monday" = "Понедельник";
+"labels.weekDays.tuesday" = "Вторник";
+"labels.weekDays.wednesday" = "Среда";
+"labels.weekDays.thursday" = "Четверг";
+"labels.weekDays.friday" = "Пятница";
+"labels.weekDays.saturday" = "Суббота";
+"labels.weekDays.sunday" = "Воскресенье";
+
+"labels.days.0" = "Пн";
+"labels.days.1" = "Вт";
+"labels.days.2" = "Ср";
+"labels.days.3" = "Чт";
+"labels.days.4" = "Пт";
+"labels.days.5" = "Сб";
+"labels.days.6" = "Вс";

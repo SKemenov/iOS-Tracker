@@ -45,6 +45,7 @@
 		E9908BA42AFC122300C82DF4 /* ColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9908BA32AFC122300C82DF4 /* ColorCell.swift */; };
 		E9A654762AE7CC6C00C692EE /* TrackerHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A654752AE7CC6C00C692EE /* TrackerHeader.swift */; };
 		E9E899D02ADB1CC5003D464E /* OptionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E899CF2ADB1CC5003D464E /* OptionButton.swift */; };
+		E9F8D3DC2B11243300A22865 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E9F8D3DE2B11243300A22865 /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -88,6 +89,8 @@
 		E9908BA32AFC122300C82DF4 /* ColorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCell.swift; sourceTree = "<group>"; };
 		E9A654752AE7CC6C00C692EE /* TrackerHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerHeader.swift; sourceTree = "<group>"; };
 		E9E899CF2ADB1CC5003D464E /* OptionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionButton.swift; sourceTree = "<group>"; };
+		E9F8D3DD2B11243300A22865 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		E9F8D3DF2B11243800A22865 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +130,7 @@
 			isa = PBXGroup;
 			children = (
 				E9434AAD2AD2C3F300EF821F /* Resources.swift */,
+				E9F8D3DE2B11243300A22865 /* Localizable.strings */,
 				E9718F1D2AD19E9600853947 /* Assets.xcassets */,
 				E9718F222AD19E9700853947 /* Info.plist */,
 			);
@@ -281,11 +285,12 @@
 			};
 			buildConfigurationList = E9718F0C2AD19E9400853947 /* Build configuration list for PBXProject "Tracker-ios" */;
 			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = en;
+			developmentRegion = ru;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
+				ru,
 			);
 			mainGroup = E9718F082AD19E9400853947;
 			productRefGroup = E9718F122AD19E9400853947 /* Products */;
@@ -303,6 +308,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E9718F1E2AD19E9600853947 /* Assets.xcassets in Resources */,
+				E9F8D3DC2B11243300A22865 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -375,6 +381,18 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		E9F8D3DE2B11243300A22865 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E9F8D3DD2B11243300A22865 /* en */,
+				E9F8D3DF2B11243800A22865 /* ru */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		E9718F232AD19E9700853947 /* Debug */ = {
