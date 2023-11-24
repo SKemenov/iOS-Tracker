@@ -98,7 +98,7 @@ enum Resources {
     static let optionHeader: CGFloat = 20
     static let optionViewHeight: CGFloat = 204
     static let optionBorder: CGFloat = 3
-    static let bottomDivider: CGFloat = 0.5
+    static let dividerHeight: CGFloat = 0.5
     static let markSize: CGFloat = 20
   }
 
