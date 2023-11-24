@@ -21,7 +21,7 @@ enum TrackerCategoryStoreError: Error {
 // MARK: - Protocol
 
 protocol TrackerCategoryStoreDelegate: AnyObject {
-  func trackerCategoryStore(didUpdate update: TrackerCategoryStoreUpdate)
+  func trackerCategoryStore(didUpdate store: TrackerCategoryStore)
 }
 
 // MARK: - Class
@@ -70,9 +70,6 @@ final class TrackerCategoryStore: NSObject {
     super.init()
     controller.delegate = self
     try? controller.performFetch()
-    if isCategoryCoreDataEmpty() {
-      setupCategoryCoreDataWithMockData()
-    }
   }
 
   var allCategories: [TrackerCategory] {
@@ -80,7 +77,7 @@ final class TrackerCategoryStore: NSObject {
       let objects = self.fetchedResultsController.fetchedObjects,
       let categories = try? objects.map({ try self.trackerCategory(from: $0) })
     else { return [] }
-    return categories.filter { !$0.items.isEmpty }
+    return categories
   }
 }
 
@@ -95,7 +92,7 @@ extension TrackerCategoryStore {
     allCategories[section].items.count
   }
 
-  func deleteCategoriesFromCoreData() { // TODO: - delete in Sprint 16
+  func deleteCategoriesFromCoreData() { // TODO: - delete after Sprint 16
     print("TCS Run deleteCategoriesFromCoreData()")
     guard !isCategoryCoreDataEmpty() else { return }
     let request = TrackerCategoryCoreData.fetchRequest()
@@ -127,11 +124,18 @@ extension TrackerCategoryStore {
     return categoryName
   }
 
-  func fetchCategory(by thisIndex: Int) -> TrackerCategoryCoreData? {
+  func addNew(category: TrackerCategory) throws {
+    let categoryInCoreData = TrackerCategoryCoreData(context: context)
+    categoryInCoreData.name = category.name
+    categoryInCoreData.id = category.id
+    saveContext()
+  }
+
+  func fetchCategory(by thisId: UUID) -> TrackerCategoryCoreData? {
     let request = TrackerCategoryCoreData.fetchRequest()
     request.returnsObjectsAsFaults = false
     guard let categories = try? context.fetch(request) else { return nil }
-    for (index, category) in categories.enumerated() where index == thisIndex {
+    for category in categories where category.id == thisId {
       return category
     }
     return nil
@@ -141,48 +145,14 @@ extension TrackerCategoryStore {
 // MARK: - NSFetchedResultsControllerDelegate
 
 extension TrackerCategoryStore: NSFetchedResultsControllerDelegate {
-  func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
-    switch type {
-    case .insert:
-      insertedSectionIndexes?.insert(sectionIndex)
-    case .delete:
-      deletedSectionIndexes?.insert(sectionIndex)
-    case .update:
-      updatedSectionIndexes?.insert(sectionIndex)
-    default:
-      break
-    }
-  }
-
   func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-    guard
-      let insertedFinalIndexes = insertedSectionIndexes,
-      let deletedFinalIndexes = deletedSectionIndexes,
-      let updatedFinalIndexes = updatedSectionIndexes
-    else { return }
-    delegate?.trackerCategoryStore(
-      didUpdate: TrackerCategoryStoreUpdate(
-        insertedSectionIndexes: insertedFinalIndexes,
-        deletedSectionIndexes: deletedFinalIndexes,
-        updatedSectionIndexes: updatedFinalIndexes
-      )
-    )
-    insertedSectionIndexes = nil
-    deletedSectionIndexes = nil
-    updatedSectionIndexes = nil
+    delegate?.trackerCategoryStore(didUpdate: self)
   }
 }
 
 // MARK: - Private methods
 
 private extension TrackerCategoryStore {
-  func addNew(category: TrackerCategory) throws {
-    let categoryInCoreData = TrackerCategoryCoreData(context: context)
-    categoryInCoreData.name = category.name
-    categoryInCoreData.id = category.id
-    saveContext()
-  }
-
   func trackerCategory(from trackerCategoryCoreData: TrackerCategoryCoreData) throws -> TrackerCategory {
     guard let id = trackerCategoryCoreData.id else {
       throw TrackerCategoryStoreError.decodingErrorInvalidId
@@ -255,12 +225,7 @@ private extension TrackerCategoryStore {
 // MARK: - Mock methods
 
 private extension TrackerCategoryStore {
-  func setupCategoryCoreDataWithMockData() { // TODO: - delete in Sprint 16
-    print("TCS Run setupCategoryCoreDataWithMockData()")
-    Resources.categories.forEach { try? addNew(category: TrackerCategory(id: UUID(), name: $0, items: [])) }
-  }
-
-  func showCategoriesFromCoreData() { // TODO: - delete in Sprint 16
+  func showCategoriesFromCoreData() { // TODO: - delete after Sprint 16
     let request = TrackerCategoryCoreData.fetchRequest()
     request.returnsObjectsAsFaults = false
     let categories = try? context.fetch(request)

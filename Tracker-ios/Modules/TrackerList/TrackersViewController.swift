@@ -7,8 +7,6 @@
 
 import UIKit
 
-// swift lint:disable file_length
-
 // MARK: - Class
 
 final class TrackersViewController: UIViewController {
@@ -47,9 +45,6 @@ final class TrackersViewController: UIViewController {
   private let headerID = "header"
 
   private let factory = TrackersCoreDataFactory.shared
-  private let trackerCategoryStore = TrackerCategoryStore.shared
-  private let trackerStore = TrackerStore()
-
   private var searchBarUserInput = ""
 
   private var visibleCategories: [TrackerCategory] = []
@@ -64,9 +59,6 @@ final class TrackersViewController: UIViewController {
   private var isVisibleCategoriesEmpty: Bool {
     return visibleCategories.filter { !$0.items.isEmpty }.isEmpty
   }
-
-  // MARK: - Public properties
-
 
   // MARK: - Inits
 
@@ -87,7 +79,6 @@ final class TrackersViewController: UIViewController {
     currentDate = Date() + TimeInterval(Resources.shiftTimeZone)
 
     searchBar.searchBar.delegate = self
-    trackerStore.delegate = self
 
     configureUI()
     fetchVisibleCategoriesFromFactory()
@@ -124,17 +115,24 @@ private extension TrackersViewController {
     emptyView.isHidden = !collectionView.isHidden
   }
 
-  func fetchTracker(from tracker: Tracker, for categoryIndex: Int) {
-    factory.addToStoreNew(tracker: tracker, toCategory: categoryIndex)
+  func fetchTracker(from tracker: Tracker, for categoryId: UUID) {
+    factory.addToStoreNew(tracker: tracker, toCategory: categoryId)
     setWeekDayForTracker(with: tracker.schedule)
     fetchVisibleCategoriesFromFactory()
   }
 
   func setWeekDayForTracker(with schedule: [Bool]) {
+    guard schedule[weekday] == false else { return }
     var shiftDays = 0
     for day in (0...weekday).reversed() where schedule[day] {
       shiftDays = weekday - day
       break
+    }
+    if shiftDays == 0 {
+      for day in (weekday..<Resources.days.count) where schedule[day] {
+        shiftDays = Resources.days.count - day + 1
+        break
+      }
     }
     currentDate -= TimeInterval(shiftDays * 24 * 60 * 60)
     datePicker.setDate(currentDate, animated: true)
@@ -151,24 +149,14 @@ private extension TrackersViewController {
   }
 
   private func searchInTrackers() {
-    let currentCategories = factory.visibleCategoriesForSearch
     var newCategories: [TrackerCategory] = []
-    currentCategories.forEach { category in
-      newCategories.append(
-        TrackerCategory(
-          id: category.id,
-          name: category.name,
-          items: category.items.filter { $0.title.lowercased().contains(searchBarUserInput.lowercased()) }
-        )
-      )
+    factory.visibleCategoriesForSearch.forEach { newCategories.append(
+      TrackerCategory(id: $0.id, name: $0.name, items: $0.items.filter {
+        $0.title.lowercased().contains(searchBarUserInput.lowercased())
+      }))
     }
     visibleCategories = newCategories.filter { !$0.items.isEmpty }
     updateTrackerCollectionView()
-
-    //    visibleCategories = factory.visibleCategoriesForSearch.filter {
-    //      !($0.items.filter { $0.title.lowercased().contains(searchBarUserInput.lowercased()) }).isEmpty
-    //    }
-    //    updateTrackerCollectionView()
   }
 
   func makeEmptyViewForTrackers() {
@@ -236,7 +224,11 @@ extension TrackersViewController: UICollectionViewDataSource {
     return cell
   }
 
-  func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+  func collectionView(
+    _ collectionView: UICollectionView,
+    viewForSupplementaryElementOfKind kind: String,
+    at indexPath: IndexPath
+  ) -> UICollectionReusableView {
     var id: String
     switch kind {
     case UICollectionView.elementKindSectionHeader:
@@ -255,7 +247,11 @@ extension TrackersViewController: UICollectionViewDataSource {
 // MARK: - UICollectionViewDelegateFlowLayout
 
 extension TrackersViewController: UICollectionViewDelegateFlowLayout {
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+  func collectionView(
+    _ collectionView: UICollectionView,
+    layout collectionViewLayout: UICollectionViewLayout,
+    sizeForItemAt indexPath: IndexPath
+  ) -> CGSize {
     CGSize(
       width: (
         collectionView.bounds.width - Resources.Layouts.spacingElement - 2 * Resources.Layouts.leadingElement
@@ -264,19 +260,35 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
     )
   }
 
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+  func collectionView(
+    _ collectionView: UICollectionView,
+    layout collectionViewLayout: UICollectionViewLayout,
+    minimumInteritemSpacingForSectionAt section: Int
+  ) -> CGFloat {
     .zero
   }
 
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+  func collectionView(
+    _ collectionView: UICollectionView,
+    layout collectionViewLayout: UICollectionViewLayout,
+    minimumLineSpacingForSectionAt section: Int
+  ) -> CGFloat {
     .zero
   }
 
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+  func collectionView(
+    _ collectionView: UICollectionView,
+    layout collectionViewLayout: UICollectionViewLayout,
+    referenceSizeForHeaderInSection section: Int
+  ) -> CGSize {
     CGSize(width: collectionView.bounds.width, height: Resources.Dimensions.sectionHeight)
   }
 
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+  func collectionView(
+    _ collectionView: UICollectionView,
+    layout collectionViewLayout: UICollectionViewLayout,
+    insetForSectionAt section: Int
+  ) -> UIEdgeInsets {
     UIEdgeInsets(
       top: .zero,
       left: Resources.Layouts.leadingElement,
@@ -286,43 +298,18 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
   }
 }
 
-// MARK: - TrackerCategoryStoreDelegate
-
-extension TrackersViewController: TrackerCategoryStoreDelegate {
-  func trackerCategoryStore(didUpdate update: TrackerCategoryStoreUpdate) {
-    visibleCategories = factory.visibleCategoriesForWeekDay
-    collectionView.performBatchUpdates {
-      collectionView.reloadSections(update.updatedSectionIndexes)
-      //      if let indexPath = update.updatedSectionIndexes.first {
-      //        collectionView.reloadItems(inSection: Int(indexPath))
-      //      }
-      collectionView.insertSections(update.insertedSectionIndexes)
-      collectionView.deleteSections(update.deletedSectionIndexes)
-    }
-  }
-}
-
-// MARK: - TrackerStoreDelegate
-
-extension TrackersViewController: TrackerStoreDelegate {
-  func trackerStore(didUpdate update: TrackerStoreUpdate) {
-    visibleCategories = factory.visibleCategoriesForWeekDay
-    collectionView.performBatchUpdates {
-      collectionView.reloadItems(at: update.updatedIndexes)
-      collectionView.insertItems(at: update.insertedIndexes)
-      collectionView.deleteItems(at: update.deletedIndexes)
-    }
-  }
-}
-
 // MARK: - NewTrackerViewControllerDelegate
 
 extension TrackersViewController: NewTrackerViewControllerDelegate {
-  func newTrackerViewController(_ viewController: NewTrackerViewController, didFilledTracker tracker: Tracker, for categoryIndex: Int) {
+  func newTrackerViewController(
+    _ viewController: NewTrackerViewController,
+    didFilledTracker tracker: Tracker,
+    for categoryId: UUID
+  ) {
     dismiss(animated: true) {
       [weak self] in
       guard let self else { return }
-      self.fetchTracker(from: tracker, for: categoryIndex)
+      self.fetchTracker(from: tracker, for: categoryId)
     }
   }
 }
@@ -404,12 +391,6 @@ private extension TrackersViewController {
 private extension TrackersViewController {
 
   func configureCollectionViewSection() {
-    configureCollectionView()
-    view.addSubview(collectionView)
-    configureCollectionViewConstraints()
-  }
-
-  func configureCollectionView() {
     collectionView.dataSource = self
     collectionView.delegate = self
     collectionView.backgroundColor = .ypWhite
@@ -420,9 +401,9 @@ private extension TrackersViewController {
       bottom: Resources.Layouts.indicatorInset,
       right: Resources.Layouts.indicatorInset
     )
-  }
 
-  func configureCollectionViewConstraints() {
+    view.addSubview(collectionView)
+
     NSLayoutConstraint.activate([
       collectionView.topAnchor.constraint(equalTo: safeArea.topAnchor),
       collectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
@@ -436,17 +417,10 @@ private extension TrackersViewController {
 
 private extension TrackersViewController {
   func configureEmptyViewSection() {
-    configureEmptyView()
+    emptyView.translatesAutoresizingMaskIntoConstraints = false
     makeEmptyViewForTrackers()
     view.addSubview(emptyView)
-    configureEmptyViewSectionConstraints()
-  }
 
-  func configureEmptyView() {
-    emptyView.translatesAutoresizingMaskIntoConstraints = false
-  }
-
-  func configureEmptyViewSectionConstraints() {
     NSLayoutConstraint.activate([
       emptyView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: -Resources.Layouts.vSpacingLargeTitle * 2),
       emptyView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),

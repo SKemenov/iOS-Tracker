@@ -17,7 +17,6 @@ final class EmptyView: UIView {
   private let iconImageView = UIImageView()
   private let primaryLabel: UILabel = {
     let label = UILabel()
-    label.numberOfLines = 1
     label.textAlignment = .center
     label.textColor = .ypBlack
     label.font = Resources.Fonts.textNotification
@@ -58,6 +57,7 @@ private extension EmptyView {
   }
 
   func configureEmptyView() {
+    primaryLabel.numberOfLines = 2
     fullView.translatesAutoresizingMaskIntoConstraints = false
     centeredView.translatesAutoresizingMaskIntoConstraints = false
     iconImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -66,7 +66,7 @@ private extension EmptyView {
 
   func configureEmptyViewConstraints() {
     let imageSize = Resources.Dimensions.bigIcon
-    let titleHeight = Resources.Dimensions.notificationHeight
+    let titleHeight = Resources.Dimensions.notificationHeight * 2
     let spacing = Resources.Layouts.spacingElement
     let height = imageSize + spacing + titleHeight
     let width = Resources.Dimensions.iPhoneSeWidth - spacing * 2

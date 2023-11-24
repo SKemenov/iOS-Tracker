@@ -57,13 +57,11 @@ final class TrackerCell: UICollectionViewCell {
     return label
   }()
 
-  // swiftlint:disable:next self_in_property_initialization
   private let counterButton: UIButton = {
     let view = UIButton()
     view.layer.cornerRadius = Resources.Dimensions.cornerRadius
     view.layer.masksToBounds = true
     view.translatesAutoresizingMaskIntoConstraints = false
-    view.addTarget(self, action: #selector(didTapDoneButton), for: .touchUpInside)
     return view
   }()
 
@@ -85,14 +83,11 @@ final class TrackerCell: UICollectionViewCell {
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureTrackerCell()
+    counterButton.addTarget(self, action: #selector(didTapDoneButton), for: .touchUpInside)
   }
 
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
-  }
-
-  public override func prepareForReuse() {
-    super.prepareForReuse()
   }
 }
 
@@ -108,7 +103,7 @@ private extension TrackerCell {
 
 extension TrackerCell {
   func makeItDone(_ isCompleted: Bool) {
-    counterImageView.image = isCompleted ? Resources.SfSymbols.doneCounter : Resources.SfSymbols.addCounter
+    counterImageView.image = isCompleted ? Resources.SfSymbols.doneMark : Resources.SfSymbols.addCounter
     counterButton.alpha = isCompleted ? 0.7 : 1
   }
 

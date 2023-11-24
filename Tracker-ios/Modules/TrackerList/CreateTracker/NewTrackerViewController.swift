@@ -10,7 +10,11 @@ import UIKit
 // MARK: - Protocol
 
 protocol NewTrackerViewControllerDelegate: AnyObject {
-  func newTrackerViewController(_ viewController: NewTrackerViewController, didFilledTracker tracker: Tracker, for categoryIndex: Int)
+  func newTrackerViewController(
+    _ viewController: NewTrackerViewController,
+    didFilledTracker tracker: Tracker,
+    for categoryId: UUID
+  )
 }
 
 // MARK: - Class
@@ -50,8 +54,12 @@ final class NewTrackerViewController: UIViewController {
 // MARK: - CreateTrackerViewControllerDelegate
 
 extension NewTrackerViewController: CreateTrackerViewControllerDelegate {
-  func createTrackerViewController(_ viewController: CreateTrackerViewController, didFilledTracker tracker: Tracker, for categoryIndex: Int) {
-    delegate?.newTrackerViewController(self, didFilledTracker: tracker, for: categoryIndex)
+  func createTrackerViewController(
+    _ viewController: CreateTrackerViewController,
+    didFilledTracker tracker: Tracker,
+    for categoryId: UUID
+  ) {
+    delegate?.newTrackerViewController(self, didFilledTracker: tracker, for: categoryId)
   }
 }
 
@@ -77,19 +85,13 @@ private extension NewTrackerViewController {
 
 private extension NewTrackerViewController {
   func configureTitleLabelSection() {
-    configureTitleLabel()
-    view.addSubview(titleLabel)
-    configureTitleLabelConstraints()
-  }
-
-  func configureTitleLabel() {
     titleLabel.text = Resources.Labels.newTracker
     titleLabel.font = Resources.Fonts.titleUsual
     titleLabel.textAlignment = .center
     titleLabel.translatesAutoresizingMaskIntoConstraints = false
-  }
 
-  func configureTitleLabelConstraints() {
+    view.addSubview(titleLabel)
+
     NSLayoutConstraint.activate([
       titleLabel.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: Resources.Layouts.vSpacingTitle),
       titleLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),

@@ -11,7 +11,11 @@ import UIKit
 // MARK: - Protocol
 
 protocol CreateTrackerViewControllerDelegate: AnyObject {
-  func createTrackerViewController(_ viewController: CreateTrackerViewController, didFilledTracker tracker: Tracker, for categoryIndex: Int)
+  func createTrackerViewController(
+    _ viewController: CreateTrackerViewController,
+    didFilledTracker tracker: Tracker,
+    for categoryId: UUID
+  )
 }
 
 // MARK: - Class
@@ -140,7 +144,7 @@ final class CreateTrackerViewController: UIViewController {
       trackerNameIsFulfilled = true
     }
   }
-  private var selectedCategoryIndex = 0 {
+  private var selectedCategoryId = UUID() {
     didSet {
       categoryIsSelected = true
     }
@@ -207,7 +211,7 @@ private extension CreateTrackerViewController {
 
   func updateCreateButtonState() {
     createButton.backgroundColor = formIsFulfilled ? .ypBlack : .ypGray
-    createButton.isEnabled = formIsFulfilled ? true : false
+    createButton.isEnabled = formIsFulfilled
   }
 
   func fetchSchedule(from schedule: [Bool]) {
@@ -237,7 +241,11 @@ private extension CreateTrackerViewController {
 // MARK: - UITextFieldDelegate
 
 extension CreateTrackerViewController: UITextFieldDelegate {
-  func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+  func textField(
+    _ textField: UITextField,
+    shouldChangeCharactersIn range: NSRange,
+    replacementString string: String
+  ) -> Bool {
     userInput = textField.text ?? ""
     let currentCharacterCount = textField.text?.count ?? 0
     if range.length + range.location > currentCharacterCount {
@@ -263,18 +271,6 @@ extension CreateTrackerViewController: UITextFieldDelegate {
   }
 }
 
-// MARK: - ScheduleViewControllerDelegate
-
-extension CreateTrackerViewController: ScheduleViewControllerDelegate {
-  func scheduleViewController(_ viewController: ScheduleViewController, didSelectSchedule schedule: [Bool]) {
-    dismiss(animated: true) {
-      [weak self] in
-      guard let self else { return }
-      self.fetchSchedule(from: schedule)
-    }
-  }
-}
-
 // MARK: - Private methods for button's actions
 
 private extension CreateTrackerViewController {
@@ -290,18 +286,43 @@ private extension CreateTrackerViewController {
       color: colorIndex,
       schedule: schedule
     )
-    delegate?.createTrackerViewController(self, didFilledTracker: newTracker, for: selectedCategoryIndex)
+    delegate?.createTrackerViewController(self, didFilledTracker: newTracker, for: selectedCategoryId)
   }
 
-  @objc func categoryButtonClicked() { // TODO: Make VC to select category and return it here by selectedCategoryIndex
-    selectedCategoryIndex = Int.random(in: 0..<factory.countCategories()) // dummy for categoryIndex
-    categoryButton.configure(value: factory.fetchCategoryName(by: selectedCategoryIndex))
+  @objc func categoryButtonClicked() {
+    let nextController = CategoryViewController(selectedCategoryId: selectedCategoryId)
+    nextController.delegate = self
+    present(nextController, animated: true)
   }
 
   @objc func scheduleButtonClicked() {
     let nextController = ScheduleViewController(with: schedule)
     nextController.delegate = self
     present(nextController, animated: true)
+  }
+}
+
+// MARK: - ScheduleViewControllerDelegate
+
+extension CreateTrackerViewController: ScheduleViewControllerDelegate {
+  func scheduleViewController(_ viewController: ScheduleViewController, didSelectSchedule schedule: [Bool]) {
+    dismiss(animated: true) { [weak self] in
+      guard let self else { return }
+      self.fetchSchedule(from: schedule)
+    }
+  }
+}
+
+// MARK: - CategoryViewControllerDelegate
+
+extension CreateTrackerViewController: CategoryViewControllerDelegate {
+  func categoryViewController(_ viewController: CategoryViewController, didSelect category: TrackerCategory) {
+    dismiss(animated: true) {
+      [weak self] in
+      guard let self else { return }
+      self.selectedCategoryId = category.id
+      self.categoryButton.configure(value: category.name)
+    }
   }
 }
 
@@ -341,7 +362,11 @@ extension CreateTrackerViewController: UICollectionViewDataSource {
     }
   }
 
-  func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+  func collectionView(
+    _ collectionView: UICollectionView,
+    viewForSupplementaryElementOfKind kind: String,
+    at indexPath: IndexPath
+  ) -> UICollectionReusableView {
     var id: String
     switch kind {
     case UICollectionView.elementKindSectionHeader:
@@ -388,20 +413,32 @@ extension CreateTrackerViewController: UICollectionViewDelegate {
 // MARK: - UICollectionViewDelegateFlowLayout
 
 extension CreateTrackerViewController: UICollectionViewDelegateFlowLayout {
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+  func collectionView(
+    _ collectionView: UICollectionView,
+    layout collectionViewLayout: UICollectionViewLayout,
+    sizeForItemAt indexPath: IndexPath
+  ) -> CGSize {
     CGSize(
       width: Resources.Dimensions.optionCell,
       height: Resources.Dimensions.optionCell
     )
   }
 
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+  func collectionView(
+    _ collectionView: UICollectionView,
+    layout collectionViewLayout: UICollectionViewLayout,
+    minimumInteritemSpacingForSectionAt section: Int
+  ) -> CGFloat {
     let cellsPerLine = Resources.Layouts.optionCellPerLine
     let totalCellsWidth = cellsPerLine * Resources.Dimensions.optionCell
     return (collectionView.frame.width - 2 * leadSpacing - totalCellsWidth) / (cellsPerLine - 1) - 1
   }
 
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+  func collectionView(
+    _ collectionView: UICollectionView,
+    layout collectionViewLayout: UICollectionViewLayout,
+    minimumLineSpacingForSectionAt section: Int
+  ) -> CGFloat {
     switch collectionView.tag {
     case 1:
       return 5
@@ -410,11 +447,19 @@ extension CreateTrackerViewController: UICollectionViewDelegateFlowLayout {
     }
   }
 
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+  func collectionView(
+    _ collectionView: UICollectionView,
+    layout collectionViewLayout: UICollectionViewLayout,
+    referenceSizeForHeaderInSection section: Int
+  ) -> CGSize {
     CGSize(width: collectionView.bounds.width, height: Resources.Dimensions.optionHeader)
   }
 
-  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+  func collectionView(
+    _ collectionView: UICollectionView,
+    layout collectionViewLayout: UICollectionViewLayout,
+    insetForSectionAt section: Int
+  ) -> UIEdgeInsets {
     UIEdgeInsets(
       top: leadSpacing,
       left: leadSpacing,
@@ -648,20 +693,14 @@ private extension CreateTrackerViewController {
 
 private extension CreateTrackerViewController {
   func configureEmojiSection() {
-    configureEmojiCollectionView()
-    contentView.addArrangedSubview(emojiCollectionView)
-    configureEmojiCollectionViewConstraints()
-  }
-
-  func configureEmojiCollectionView() {
     emojiCollectionView.dataSource = self
     emojiCollectionView.delegate = self
     emojiCollectionView.tag = 0
     emojiCollectionView.isScrollEnabled = false
     emojiCollectionView.translatesAutoresizingMaskIntoConstraints = false
-  }
 
-  func configureEmojiCollectionViewConstraints() {
+    contentView.addArrangedSubview(emojiCollectionView)
+
     NSLayoutConstraint.activate([
       emojiCollectionView.heightAnchor.constraint(equalToConstant: Resources.Dimensions.optionViewHeight),
       emojiCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -674,20 +713,14 @@ private extension CreateTrackerViewController {
 
 private extension CreateTrackerViewController {
   func configureColorSection() {
-    configureColorCollectionView()
-    contentView.addArrangedSubview(colorCollectionView)
-    configureColorCollectionViewConstraints()
-  }
-
-  func configureColorCollectionView() {
     colorCollectionView.dataSource = self
     colorCollectionView.delegate = self
     colorCollectionView.tag = 1
     colorCollectionView.isScrollEnabled = false
     colorCollectionView.translatesAutoresizingMaskIntoConstraints = false
-  }
 
-  func configureColorCollectionViewConstraints() {
+    contentView.addArrangedSubview(colorCollectionView)
+
     NSLayoutConstraint.activate([
       colorCollectionView.heightAnchor.constraint(equalToConstant: Resources.Dimensions.optionViewHeight),
       colorCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),

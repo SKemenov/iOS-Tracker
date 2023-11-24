@@ -42,6 +42,7 @@ private extension StatisticViewController {
     titleLabel.text = Resources.Labels.statistic
     titleLabel.font = Resources.Fonts.titleLarge
     titleLabel.textAlignment = .natural
+    titleLabel.translatesAutoresizingMaskIntoConstraints = false
     titleLabel.frame = CGRect(
       x: 0,
       y: 0,
@@ -49,12 +50,8 @@ private extension StatisticViewController {
       height: Resources.Dimensions.titleHeight
     )
     view.addSubview(titleLabel)
-    configureTitleSectionConstraints()
-  }
 
-  func configureTitleSectionConstraints() {
     let leading = Resources.Layouts.leadingElement
-    titleLabel.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       titleLabel.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: Resources.Layouts.vSpacingLargeTitle),
       titleLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: leading),
@@ -69,16 +66,9 @@ private extension StatisticViewController {
 private extension StatisticViewController {
   func configureEmptyViewSection() {
     emptyView.translatesAutoresizingMaskIntoConstraints = false
-    emptyView.configure(
-      title: Resources.Labels.emptyStatistic,
-      iconImage: Resources.Images.emptyStatistic
-    )
+    emptyView.configure(title: Resources.Labels.emptyStatistic, iconImage: Resources.Images.emptyStatistic)
     view.addSubview(emptyView)
-    configureEmptyViewSectionConstraints()
-  }
 
-  func configureEmptyViewSectionConstraints() {
-    emptyView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       emptyView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: Resources.Layouts.vSpacingTitle * 2),
       emptyView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),

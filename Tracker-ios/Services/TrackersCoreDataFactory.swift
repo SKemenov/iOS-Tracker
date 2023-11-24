@@ -23,23 +23,19 @@ final class TrackersCoreDataFactory {
   // MARK: - Public properties
 
   var visibleCategoriesForWeekDay: [TrackerCategory] {
-    let currentCategories = trackerCategoryStore.allCategories
     var newCategories: [TrackerCategory] = []
-    currentCategories.forEach { category in
-      newCategories.append(
-        TrackerCategory(
-          id: category.id,
-          name: category.name,
-          items: category.items.filter { $0.schedule[currentWeekDay] }
-        )
-      )
+    trackerCategoryStore.allCategories.forEach { newCategories.append(
+      TrackerCategory(id: $0.id, name: $0.name, items: $0.items.filter { $0.schedule[currentWeekDay] })
+    )
     }
     return newCategories.filter { !$0.items.isEmpty }
-
-    // return currentCategories.filter { !($0.items.filter { $0.schedule[currentWeekDay] }).isEmpty }
   }
 
   var visibleCategoriesForSearch: [TrackerCategory] {
+    trackerCategoryStore.allCategories.filter { !$0.items.isEmpty }
+  }
+
+  var allCategories: [TrackerCategory] {
     trackerCategoryStore.allCategories
   }
 
@@ -61,8 +57,12 @@ extension TrackersCoreDataFactory {
     trackerCategoryStore.fetchCategoryName(by: thisIndex)
   }
 
-  func addToStoreNew(tracker: Tracker, toCategory categoryIndex: Int) {
-    if let category = trackerCategoryStore.fetchCategory(by: categoryIndex) {
+  func addToStoreNew(category: TrackerCategory) {
+    try? trackerCategoryStore.addNew(category: category)
+  }
+
+  func addToStoreNew(tracker: Tracker, toCategory categoryId: UUID) {
+    if let category = trackerCategoryStore.fetchCategory(by: categoryId) {
       try? trackerStore.addNew(tracker: tracker, to: category)
     }
   }
@@ -99,7 +99,8 @@ private extension TrackersCoreDataFactory {
     trackerRecordStore.deleteTrackerRecordsFromCoreData()
     trackerStore.deleteTrackersFromCoreData()
     trackerCategoryStore.deleteCategoriesFromCoreData()
-    print("STOP! Comment the clearDataStores() methods and restart the app")
+    UserDefaults.standard.hasOnboarded = false
+    fatalError("STOP! Comment the clearDataStores() method in the init() and restart the app")
   }
 
   func fetchTracker(byID id: UUID) -> TrackerCoreData {

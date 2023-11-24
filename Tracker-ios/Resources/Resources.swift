@@ -13,17 +13,19 @@ enum Resources {
     static let newTracker = "Создание трекера"
     static let newEvent = "Новое нерегулярное событие"
     static let newHabit = "Новая привычка"
+    static let newCategory = "Новая категория"
+    static let addCategory = "Добавить категорию"
     static let habit = "Привычка"
     static let event = "Нерегулярное событие"
+    static let category = "Категория"
+    static let schedule = "Расписание"
     static let statistic = "Статистика"
     static let trackers = "Трекеры"
     static let searchBar = "Поиск"
     static let cancel = "Отменить"
     static let create = "Создать"
-    static let category = "Категория"
-    static let newCategory = "Новая категория"
-    static let schedule = "Расписание"
     static let textFieldPlaceholder = "Введите название трекера"
+    static let categoryNamePlaceholder = "Введите название категории"
     static let textFieldRestriction = "Ограничение 38 символов"
     static let done = "Готово"
     static let emoji = "Emoji"
@@ -32,12 +34,16 @@ enum Resources {
     static let emptyStatistic = "Анализировать пока нечего"
     static let emptyTracker = "Что будем отслеживать?"
     static let emptySearch = "Ничего не найдено"
+    static let emptyCategory = "Привычки и события можно \nобъединить по смыслу"
     static let oneDay = "день"
     static let fewDays = "дня"
     static let manyDays = "дней"
     static let everyDays = "Каждый день"
     static let weekDays = "Будни"
     static let weekEnds = "Выходные"
+    static let onboardingPage1 = "Отслеживайте только то, что хотите"
+    static let onboardingPage2 = "Даже если это \nне литры воды и йога"
+    static let onboardingButton = "Вот это технологии!"
 
     // swiftlint:disable:next nesting
     enum WeekDays: String, CaseIterable {
@@ -59,7 +65,7 @@ enum Resources {
     static let statistic = UIImage(systemName: "hare.fill")
     static let chevron = UIImage(systemName: "chevron.right")
     static let addCounter = UIImage(systemName: "plus")
-    static let doneCounter = UIImage(systemName: "checkmark")
+    static let doneMark = UIImage(systemName: "checkmark")
     static let pinTracker = UIImage(systemName: "pin")
   }
 
@@ -68,6 +74,8 @@ enum Resources {
     static let emptySearch = UIImage(named: "DummySearch")
     static let emptyTrackers = UIImage(named: "DummyTrackers")
     static let emptyStatistic = UIImage(named: "DummyStatistic")
+    static let onboardingPage1 = UIImage(named: "OnboardingBgPage1")
+    static let onboardingPage2 = UIImage(named: "OnboardingBgPage2")
   }
 
   // MARK: - UI element's dimensions
@@ -90,6 +98,8 @@ enum Resources {
     static let optionHeader: CGFloat = 20
     static let optionViewHeight: CGFloat = 204
     static let optionBorder: CGFloat = 3
+    static let dividerHeight: CGFloat = 0.5
+    static let markSize: CGFloat = 20
   }
 
   // MARK: - UI element's layouts
@@ -109,6 +119,8 @@ enum Resources {
     static let trackersPerLine: CGFloat = 2
     static let indicatorInset: CGFloat = 4
     static let optionCellPerLine: CGFloat = 6
+    static let vSpacingOnboardingButton: CGFloat = 84
+    static let vSpacingOnboardingPageCtl: CGFloat = 134
   }
 
   // MARK: - Fonts
@@ -121,9 +133,6 @@ enum Resources {
     static let emoji = UIFont.systemFont(ofSize: 32, weight: .bold)
   }
 
-  static let categories = [
-    "Важное"
-  ]
   static let days = [
     "Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"
   ]
