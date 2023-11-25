@@ -78,6 +78,8 @@
 		E9718F182AD19E9400853947 /* TrackersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersViewController.swift; sourceTree = "<group>"; };
 		E9718F1D2AD19E9600853947 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E9718F222AD19E9700853947 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E976D5B62B1204B40001DFA1 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		E976D5B72B1204F30001DFA1 /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/Localizable.strings; sourceTree = "<group>"; };
 		E97842A62AF18A7D00FD305C /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		E9804D3D2AF4C20A004E05D7 /* Tracker.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Tracker.xcdatamodel; sourceTree = "<group>"; };
 		E9804D3F2AF69214004E05D7 /* TrackersCoreDataFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersCoreDataFactory.swift; sourceTree = "<group>"; };
@@ -291,6 +293,8 @@
 				en,
 				Base,
 				ru,
+				es,
+				he,
 			);
 			mainGroup = E9718F082AD19E9400853947;
 			productRefGroup = E9718F122AD19E9400853947 /* Products */;
@@ -388,6 +392,8 @@
 			children = (
 				E9F8D3DD2B11243300A22865 /* en */,
 				E9F8D3DF2B11243800A22865 /* ru */,
+				E976D5B62B1204B40001DFA1 /* es */,
+				E976D5B72B1204F30001DFA1 /* he */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
