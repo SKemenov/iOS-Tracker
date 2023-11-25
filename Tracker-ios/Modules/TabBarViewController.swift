@@ -54,15 +54,16 @@ private extension TabBarViewController {
 
   func setupBorder() {
     let subview = UIView()
-    subview.translatesAutoresizingMaskIntoConstraints = false
     subview.backgroundColor = .ypGray
+    subview.translatesAutoresizingMaskIntoConstraints = false
+
     tabBar.addSubview(subview)
 
     NSLayoutConstraint.activate([
-      subview.heightAnchor.constraint(equalToConstant: Resources.Dimensions.dividerHeight),
       subview.leadingAnchor.constraint(equalTo: tabBar.leadingAnchor),
       subview.trailingAnchor.constraint(equalTo: tabBar.trailingAnchor),
-      subview.topAnchor.constraint(equalTo: tabBar.topAnchor)
+      subview.topAnchor.constraint(equalTo: tabBar.topAnchor),
+      subview.heightAnchor.constraint(equalToConstant: Resources.Dimensions.dividerHeight)
     ])
   }
 }
