@@ -129,8 +129,8 @@ private extension TrackersViewController {
       break
     }
     if shiftDays == 0 {
-      for day in (weekday..<Resources.days.count) where schedule[day] {
-        shiftDays = Resources.days.count - day + 1
+      for day in (weekday..<Resources.Labels.shortWeekDays.count) where schedule[day] {
+        shiftDays = Resources.Labels.shortWeekDays.count - day + 1
         break
       }
     }

@@ -60,6 +60,7 @@ final class CreateTrackerViewController: UIViewController {
   private var buttonsStackView = UIStackView()
   private var cancelButton = ActionButton()
   private var createButton = ActionButton()
+  private lazy var isRtl = UIView.userInterfaceLayoutDirection(for: titleLabel.semanticContentAttribute) == .rightToLeft
 
   // MARK: - Private layout properties
 
@@ -229,7 +230,7 @@ private extension CreateTrackerViewController {
     default:
       var finalSchedule: [String] = []
       for index in 0..<schedule.count where schedule[index] {
-        finalSchedule.append(Resources.days[index])
+        finalSchedule.append(Resources.Labels.shortWeekDays[index])
       }
       let finalScheduleJoined = finalSchedule.joined(separator: ", ")
       scheduleButton.configure(value: finalScheduleJoined)
@@ -574,6 +575,7 @@ private extension CreateTrackerViewController {
     textField.placeholder = Resources.Labels.textFieldPlaceholder
     textField.clearButtonMode = .whileEditing
     textField.textColor = .ypBlack
+    textField.textAlignment = isRtl ? .right : .natural
     textField.translatesAutoresizingMaskIntoConstraints = false
     textField.frame = CGRect(
       x: 0,

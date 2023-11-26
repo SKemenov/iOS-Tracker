@@ -57,6 +57,7 @@ final class ScheduleViewController: UIViewController {
       updateDoneButtonState()
     }
   }
+  private lazy var isRtl = UIView.userInterfaceLayoutDirection(for: titleLabel.semanticContentAttribute) == .rightToLeft
 
   // MARK: - Public properties
 
@@ -174,10 +175,11 @@ private extension ScheduleViewController {
   func configureOptionsLabel(index: Int) {
     let label = UILabel()
     label.textColor = .ypBlack
-    label.text = Resources.Labels.WeekDays.allCases[index].rawValue
+    label.text = Resources.Labels.fullWeekDays[index]
+    // label.text = Resources.Labels.WeekDays.allCases[index].rawValue // TODO: Remove before PR
     label.textAlignment = .natural
     label.frame = CGRect(
-      x: leadSpacing,
+      x: isRtl ? -leadSpacing : leadSpacing,
       y: Resources.Dimensions.fieldHeight * CGFloat(index),
       width: optionsViewWidth,
       height: Resources.Dimensions.fieldHeight
@@ -193,7 +195,7 @@ private extension ScheduleViewController {
     daySwitch.onTintColor = .ypBlue
     daySwitch.addTarget(self, action: #selector(onSwitchChange(_:)), for: .touchUpInside)
     daySwitch.frame = CGRect(
-      x: optionsViewWidth - leadSpacing - switchWidth,
+      x: isRtl ? leadSpacing : optionsViewWidth - leadSpacing - switchWidth,
       y: Resources.Dimensions.fieldHeight * CGFloat(index) + switchHeight,
       width: switchWidth,
       height: switchHeight

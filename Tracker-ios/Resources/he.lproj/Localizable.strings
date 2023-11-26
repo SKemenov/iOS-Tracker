@@ -38,22 +38,21 @@
 "labels.weekDays" = "ימי חול";
 "labels.weekEnds" = "סוף שבוע";
 "labels.onboardingPage1" = "עקוב רק אחר מה שאתה רוצה";
-"labels.onboardingPage2" = "גם אם זה לא יוגה \nוליטר מים";
+"labels.onboardingPage2" = "גם אם זה לא יוגה וליטר מים";
 "labels.onboardingButton" = "אלו הן הטכנולוגיות!";
 
-"labels.weekDays.monday" = "יום שני";
-"labels.weekDays.tuesday" = "יום שלישי";
-"labels.weekDays.wednesday" = "יום רביעי";
-"labels.weekDays.thursday" = "יום חמישי";
-"labels.weekDays.friday" = "שישי";
-"labels.weekDays.saturday" = "שבת";
-"labels.weekDays.sunday" = "יום ראשון";
+"labels.fullWeekDays.monday" = "יום שני";
+"labels.fullWeekDays.tuesday" = "יום שלישי";
+"labels.fullWeekDays.wednesday" = "יום רביעי";
+"labels.fullWeekDays.thursday" = "יום חמישי";
+"labels.fullWeekDays.friday" = "יום שישי";
+"labels.fullWeekDays.saturday" = "יום שבת";
+"labels.fullWeekDays.sunday" = "יום ראשון";
 
-"labels.days.0" = "Mo";
-"labels.days.1" = "Tu";
-"labels.days.2" = "We";
-"labels.days.3" = "Th";
-"labels.days.4" = "Fr";
-"labels.days.5" = "Sa";
-"labels.days.6" = "Su";
-
+"labels.shortWeekDays.0" = "יום ב'";
+"labels.shortWeekDays.1" = "יום ג'";
+"labels.shortWeekDays.2" = "יום ד'";
+"labels.shortWeekDays.3" = "יום ה'";
+"labels.shortWeekDays.4" = "יום ו'";
+"labels.shortWeekDays.5" = "יום ש'";
+"labels.shortWeekDays.6" = "יום א'";

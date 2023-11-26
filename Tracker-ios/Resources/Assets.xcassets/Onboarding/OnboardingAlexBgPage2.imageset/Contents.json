@@ -1,19 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "DummyStatistic@1x.png",
+      "filename" : "OnboardingAlexBgPage2.jpg",
       "idiom" : "universal",
       "language-direction" : "left-to-right",
       "scale" : "1x"
     },
     {
-      "filename" : "DummyStatistic@2x.png",
       "idiom" : "universal",
       "language-direction" : "left-to-right",
       "scale" : "2x"
     },
     {
-      "filename" : "DummyStatistic@3x.png",
       "idiom" : "universal",
       "language-direction" : "left-to-right",
       "scale" : "3x"

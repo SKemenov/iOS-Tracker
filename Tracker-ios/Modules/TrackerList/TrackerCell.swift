@@ -115,16 +115,12 @@ extension TrackerCell {
     updateCounter(counter)
   }
 
-  func updateCounter(_ counter: Int) {
-    switch counter {
-    case _ where (1 == counter % 10) && !(10...19 ~= counter % 100):
-      counterLabel.text = String(counter) + " " + Resources.Labels.oneDay
-    case _ where (2...4 ~= counter % 10) && !(10...19 ~= counter % 100):
-      counterLabel.text = String(counter) + " " + Resources.Labels.fewDays
-    default:
-      counterLabel.text = String(counter) + " " + Resources.Labels.manyDays
+    func updateCounter(_ counter: Int) {
+      counterLabel.text = String.localizedStringWithFormat(
+        NSLocalizedString("numberOfDays", comment: "Counter of total tracker's completed days"),
+        counter
+      )
     }
-  }
 }
 
 // MARK: - Configure TrackerCell UI Section

@@ -1,0 +1,58 @@
+/* 
+  Localizable.strings
+  Tracker-ios
+
+  Created by Sergey Kemenov on 24.11.2023.
+  
+*/
+
+"labels.newTracker" = "Tracker erstellen";
+"labels.newEvent" = "Neues Ereignis";
+"labels.newHabit" = "Neue Gewohnheit";
+"labels.newCategory" = "Neue Kategorie";
+"labels.addCategory" = "Kategorie hinzufügen";
+"labels.habit" = "Gewohnheit";
+"labels.event" = "Ereignis";
+"labels.category" = "Kategorie";
+"labels.schedule" = "Zeitplan";
+"labels.statistic" = "Statistik";
+"labels.trackers" = "Tracker";
+"labels.searchBar" = "Suchen";
+"labels.cancel" = "Abbrechen";
+"labels.create" = "Erstellen";
+"labels.textFieldPlaceholder" = "Geben Sie hier den Namen des Trackers ein";
+"labels.categoryNamePlaceholder" = "Geben Sie hier den Namen der Kategorie ein";
+"labels.textFieldRestriction" = "Nicht mehr als 38 Zeichen";
+"labels.done" = "Fertig";
+"labels.emoji" = "Emoji";
+"labels.color" = "Farbe";
+"labels.filters" = "Filter";
+"labels.emptyStatistic" = "Es gibt noch nichts zu analysieren";
+"labels.emptyTracker" = "Was werden wir verfolgen?";
+"labels.emptySearch" = "Nichts gefunden";
+"labels.emptyCategory" = "Gewohnheiten und Ereignisse können nach Bedeutung kombiniert werden";
+"labels.oneDay" = "Tag";
+"labels.fewDays" = "Tage";
+"labels.manyDays" = "Tage";
+"labels.everyDays" = "Jeden Tag";
+"labels.weekDays" = "Wochentage";
+"labels.weekEnds" = "Wochenende";
+"labels.onboardingPage1" = "Verfolgen Sie nur das, was Sie wollen";
+"labels.onboardingPage2" = "Auch wenn es kein Liter Wasser ist und Yoga";
+"labels.onboardingButton" = "Das sind die Technologien!";
+
+"labels.fullWeekDays.monday" = "Montag";
+"labels.fullWeekDays.tuesday" = "Dienstag";
+"labels.fullWeekDays.wednesday" = "Mittwoch";
+"labels.fullWeekDays.thursday" = "Donnerstag";
+"labels.fullWeekDays.friday" = "Freitag";
+"labels.fullWeekDays.saturday" = "Samstag";
+"labels.fullWeekDays.sunday" = "Sonntag";
+
+"labels.shortWeekDays.0" = "Mo";
+"labels.shortWeekDays.1" = "Di";
+"labels.shortWeekDays.2" = "Mi";
+"labels.shortWeekDays.3" = "Do";
+"labels.shortWeekDays.4" = "Fr";
+"labels.shortWeekDays.5" = "Sa";
+"labels.shortWeekDays.6" = "So";

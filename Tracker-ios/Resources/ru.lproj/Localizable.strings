@@ -41,18 +41,18 @@
 "labels.onboardingPage2" = "Даже если это \nне литры воды и йога";
 "labels.onboardingButton" = "Вот это технологии!";
 
-"labels.weekDays.monday" = "Понедельник";
-"labels.weekDays.tuesday" = "Вторник";
-"labels.weekDays.wednesday" = "Среда";
-"labels.weekDays.thursday" = "Четверг";
-"labels.weekDays.friday" = "Пятница";
-"labels.weekDays.saturday" = "Суббота";
-"labels.weekDays.sunday" = "Воскресенье";
+"labels.fullWeekDays.monday" = "Понедельник";
+"labels.fullWeekDays.tuesday" = "Вторник";
+"labels.fullWeekDays.wednesday" = "Среда";
+"labels.fullWeekDays.thursday" = "Четверг";
+"labels.fullWeekDays.friday" = "Пятница";
+"labels.fullWeekDays.saturday" = "Суббота";
+"labels.fullWeekDays.sunday" = "Воскресенье";
 
-"labels.days.0" = "Пн";
-"labels.days.1" = "Вт";
-"labels.days.2" = "Ср";
-"labels.days.3" = "Чт";
-"labels.days.4" = "Пт";
-"labels.days.5" = "Сб";
-"labels.days.6" = "Вс";
+"labels.shortWeekDays.0" = "Пн";
+"labels.shortWeekDays.1" = "Вт";
+"labels.shortWeekDays.2" = "Ср";
+"labels.shortWeekDays.3" = "Чт";
+"labels.shortWeekDays.4" = "Пт";
+"labels.shortWeekDays.5" = "Сб";
+"labels.shortWeekDays.6" = "Вс";
