@@ -68,6 +68,7 @@ private extension StatisticViewController {
   func updateStatisticView() {
     trackersCompletedCounter = factory.totalRecords
     emptyView.isHidden = !isEmpty
+    stackView.isHidden = isEmpty
   }
 
   func addToStat(_ view: StatsView, viewModel: StatsViewModel) {
