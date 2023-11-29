@@ -185,7 +185,6 @@ final class CreateTrackerViewController: UIViewController {
       schedule = schedule.map { $0 || true }
       scheduleIsFulfilled = true
     }
-    view.backgroundColor = .ypWhite
     configureUI()
     textField.delegate = self
     textField.becomeFirstResponder()
@@ -196,6 +195,7 @@ final class CreateTrackerViewController: UIViewController {
 
 private extension CreateTrackerViewController {
   func configureUI() {
+    view.backgroundColor = .ypWhite
     configureTitleSection()
     configureMainScrollViewSection()
     configureTextFieldSection()
@@ -484,12 +484,12 @@ private extension CreateTrackerViewController {
     titleLabel.font = Resources.Fonts.titleUsual
     titleLabel.textAlignment = .center
     titleLabel.translatesAutoresizingMaskIntoConstraints = false
-    titleLabel.frame = CGRect(
-      x: 0,
-      y: 0,
-      width: view.frame.width,
-      height: Resources.Dimensions.titleHeight + Resources.Layouts.vSpacingTitle
-    )
+    //    titleLabel.frame = CGRect(
+    //      x: 0,
+    //      y: 0,
+    //      width: view.frame.width,
+    //      height: Resources.Dimensions.titleHeight + Resources.Layouts.vSpacingTitle
+    //    )
   }
 
   func configureTitleSectionConstraints() {

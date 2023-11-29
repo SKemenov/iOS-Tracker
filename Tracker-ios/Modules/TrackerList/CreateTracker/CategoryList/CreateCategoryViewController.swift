@@ -43,7 +43,7 @@ final class CreateCategoryViewController: UIViewController {
 
   private let addButton: ActionButton = {
     let addButton = ActionButton()
-    addButton.setTitle(Resources.Labels.addCategory, for: .normal)
+    addButton.setTitle(Resources.Labels.done, for: .normal)
     addButton.setTitleColor(.ypLightGray, for: .disabled)
     addButton.isEnabled = false
     addButton.translatesAutoresizingMaskIntoConstraints = false
@@ -70,16 +70,6 @@ final class CreateCategoryViewController: UIViewController {
   // MARK: - Public properties
 
   weak var delegate: CreateCategoryViewControllerDelegate?
-
-  // MARK: - Inits
-
-//  init() {
-//    super.init(nibName: nil, bundle: nil)
-//  }
-//
-//  required init?(coder: NSCoder) {
-//    fatalError("init(coder:) has not been implemented")
-//  }
 
   // MARK: - Life circle
 

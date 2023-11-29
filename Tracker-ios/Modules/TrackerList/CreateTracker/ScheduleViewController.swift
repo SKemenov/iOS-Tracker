@@ -78,7 +78,6 @@ final class ScheduleViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    view.backgroundColor = .ypWhite
     configureUI()
   }
 }
@@ -87,6 +86,7 @@ final class ScheduleViewController: UIViewController {
 
 private extension ScheduleViewController {
   func configureUI() {
+    view.backgroundColor = .ypWhite
     configureTitleSection()
     configureOptionsSection()
     configureDoneButtonSection()
@@ -123,12 +123,12 @@ private extension ScheduleViewController {
     titleLabel.font = Resources.Fonts.titleUsual
     titleLabel.textAlignment = .center
     titleLabel.translatesAutoresizingMaskIntoConstraints = false
-    titleLabel.frame = CGRect(
-      x: 0,
-      y: 0,
-      width: view.frame.width,
-      height: Resources.Dimensions.titleHeight + Resources.Layouts.vSpacingTitle
-    )
+    //    titleLabel.frame = CGRect(
+    //      x: 0,
+    //      y: 0,
+    //      width: view.frame.width,
+    //      height: Resources.Dimensions.titleHeight + Resources.Layouts.vSpacingTitle
+    //    )
 
     view.addSubview(titleLabel)
 
@@ -176,7 +176,6 @@ private extension ScheduleViewController {
     let label = UILabel()
     label.textColor = .ypBlack
     label.text = Resources.Labels.fullWeekDays[index]
-    // label.text = Resources.Labels.WeekDays.allCases[index].rawValue // TODO: Remove before PR
     label.textAlignment = .natural
     label.frame = CGRect(
       x: isRtl ? -leadSpacing : leadSpacing,
@@ -191,8 +190,9 @@ private extension ScheduleViewController {
     let daySwitch = UISwitch()
     daySwitch.isOn = schedule[index]
     daySwitch.tag = index
-    daySwitch.thumbTintColor = .ypWhite
+    daySwitch.thumbTintColor = .white
     daySwitch.onTintColor = .ypBlue
+    daySwitch.tintColor = .ypLightGray
     daySwitch.addTarget(self, action: #selector(onSwitchChange(_:)), for: .touchUpInside)
     daySwitch.frame = CGRect(
       x: isRtl ? leadSpacing : optionsViewWidth - leadSpacing - switchWidth,

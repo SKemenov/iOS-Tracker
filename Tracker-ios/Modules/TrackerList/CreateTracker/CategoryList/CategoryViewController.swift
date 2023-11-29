@@ -71,7 +71,6 @@ final class CategoryViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     self.hideKeyboardWhenTappedAround()
-    view.backgroundColor = .ypWhite
 
     makeEmptyViewForCategories()
     configureUI()
@@ -166,6 +165,7 @@ extension CategoryViewController: UITableViewDataSource {
 
 private extension CategoryViewController {
   func configureUI() {
+    view.backgroundColor = .ypWhite
     view.addSubview(titleLabel)
     view.addSubview(emptyView)
     view.addSubview(tableView)

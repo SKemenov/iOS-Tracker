@@ -481,7 +481,7 @@ private extension TrackersViewController {
     view.addSubview(filtersButton)
 
     filtersButton.setTitle(Resources.Labels.filters, for: .normal)
-    filtersButton.setTitleColor(.ypWhite, for: .normal)
+    filtersButton.setTitleColor(.white, for: .normal)
     filtersButton.backgroundColor = .ypBlue
     filtersButton.titleLabel?.font = Resources.Fonts.textField
     filtersButton.addTarget(self, action: #selector(filtersButtonClicked), for: .touchUpInside)

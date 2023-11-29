@@ -54,7 +54,7 @@ private extension TabBarViewController {
 
   func setupBorder() {
     let subview = UIView()
-    subview.backgroundColor = .ypBackground
+    subview.backgroundColor = traitCollection.userInterfaceStyle == .dark ? .black : .ypBackground
     subview.translatesAutoresizingMaskIntoConstraints = false
 
     tabBar.addSubview(subview)
