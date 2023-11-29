@@ -19,8 +19,8 @@ final class EmptyView: UIView {
     let label = UILabel()
     label.textAlignment = .center
     label.textColor = .ypBlack
+    label.numberOfLines = 2
     label.font = Resources.Fonts.textNotification
-    label.translatesAutoresizingMaskIntoConstraints = false
     return label
   }()
 
@@ -29,7 +29,6 @@ final class EmptyView: UIView {
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
-    configureEmptyViewConstraints()
   }
 
   required init?(coder: NSCoder) {
@@ -48,23 +47,16 @@ final class EmptyView: UIView {
 
 private extension EmptyView {
   func configureUI() {
-    configureEmptyView()
-    addSubview(fullView)
-    fullView.addSubview(centeredView)
-    centeredView.addSubview(iconImageView)
-    centeredView.addSubview(primaryLabel)
-    configureEmptyViewConstraints()
-  }
-
-  func configureEmptyView() {
-    primaryLabel.numberOfLines = 2
     fullView.translatesAutoresizingMaskIntoConstraints = false
     centeredView.translatesAutoresizingMaskIntoConstraints = false
     iconImageView.translatesAutoresizingMaskIntoConstraints = false
     primaryLabel.translatesAutoresizingMaskIntoConstraints = false
-  }
 
-  func configureEmptyViewConstraints() {
+    addSubview(fullView)
+    fullView.addSubview(centeredView)
+    centeredView.addSubview(iconImageView)
+    centeredView.addSubview(primaryLabel)
+
     let imageSize = Resources.Dimensions.bigIcon
     let titleHeight = Resources.Dimensions.notificationHeight * 2
     let spacing = Resources.Layouts.spacingElement
@@ -91,5 +83,6 @@ private extension EmptyView {
       primaryLabel.trailingAnchor.constraint(equalTo: centeredView.trailingAnchor, constant: -spacing),
       primaryLabel.bottomAnchor.constraint(equalTo: centeredView.bottomAnchor),
       primaryLabel.heightAnchor.constraint(equalToConstant: titleHeight)
-    ])  }
+    ])
+  }
 }
