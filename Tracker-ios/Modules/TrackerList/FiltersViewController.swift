@@ -60,14 +60,8 @@ final class FiltersViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    // self.hideKeyboardWhenTappedAround()
-    view.backgroundColor = .ypWhite
-
     configureUI()
-    tableView.reloadData()
-    tableView.dataSource = self
-    tableView.delegate = self
-    tableView.register(CategoryCell.self, forCellReuseIdentifier: cellID)
+    configureTableView()
   }
 }
 
@@ -108,10 +102,18 @@ extension FiltersViewController: UITableViewDataSource {
   }
 }
 
-// MARK: - Private methods to configure UI section
+// MARK: - Private methods to configure tableView & UI section
 
 private extension FiltersViewController {
+  func configureTableView() {
+    tableView.reloadData()
+    tableView.dataSource = self
+    tableView.delegate = self
+    tableView.register(CategoryCell.self, forCellReuseIdentifier: cellID)
+  }
+
   func configureUI() {
+    view.backgroundColor = .ypWhite
     view.addSubview(titleLabel)
     view.addSubview(tableView)
 

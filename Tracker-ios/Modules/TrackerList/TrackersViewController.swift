@@ -77,7 +77,6 @@ final class TrackersViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     self.hideKeyboardWhenTappedAround()
-    view.backgroundColor = .ypWhite
     currentDate = Date() + TimeInterval(Resources.shiftTimeZone)
 
     searchBar.searchBar.delegate = self
@@ -136,21 +135,19 @@ private extension TrackersViewController {
     switch selectedFilterIndex {
     case 0:
       fetchVisibleCategoriesFromFactory()
-      filtersButton.setTitleColor(.ypWhite, for: .normal)
     case 1:
       currentDate = Date()
       datePicker.setDate(currentDate, animated: true)
+      selectedFilterIndex = 0
       fetchVisibleCategoriesFromFactory()
-      filtersButton.setTitleColor(.ypWhite, for: .normal)
     case 2:
-      filtersButton.setTitleColor(.ypRed, for: .normal)
       print(#function)
     case 3:
-      filtersButton.setTitleColor(.ypRed, for: .normal)
       print(#function)
     default:
       break
     }
+    filtersButton.setTitleColor(selectedFilterIndex == 0 ? .ypWhite : .ypRed, for: .normal)
   }
 
   func setWeekDayForTracker(with schedule: [Bool]) {
@@ -376,6 +373,7 @@ extension TrackersViewController: FiltersViewControllerDelegate {
 private extension TrackersViewController {
 
   func configureUI() {
+    view.backgroundColor = .ypWhite
     configureNavigationBarSection()
     configureEmptyViewSection()
     configureCollectionViewSection()
