@@ -192,8 +192,6 @@ private extension CategoryViewController {
 
       addButton.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: vSpacing),
       addButton.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -vSpacing),
-      //   addButton.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
-      //   addButton.widthAnchor.constraint(equalToConstant: view.frame.width - 2 * Resources.Layouts.leadingButton),
       addButton.heightAnchor.constraint(equalToConstant: Resources.Dimensions.buttonHeight),
       addButton.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -vSpacing)
     ])
