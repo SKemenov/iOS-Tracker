@@ -34,6 +34,7 @@ final class TrackersViewController: UIViewController {
     $0.searchBar.searchTextField.clearButtonMode = .never
     return $0
   }(UISearchController(searchResultsController: nil))
+  private var filtersButton = ActionButton()
 
   private lazy var safeArea: UILayoutGuide = {
     view.safeAreaLayoutGuide
@@ -49,6 +50,7 @@ final class TrackersViewController: UIViewController {
 
   private var visibleCategories: [TrackerCategory] = []
   private var weekday = 0
+  private var selectedFilterIndex = 0
 
   private var currentDate = Date() {
     didSet {
@@ -107,18 +109,48 @@ private extension TrackersViewController {
     dismiss(animated: true)
   }
 
+  @objc func filtersButtonClicked() {
+    let nextController = FiltersViewController(selectedFilterIndex: selectedFilterIndex)
+    nextController.modalPresentationStyle = .popover
+    nextController.delegate = self
+    navigationController?.present(nextController, animated: true)
+  }
+
   func updateTrackerCollectionView() {
     collectionView.reloadData()
     collectionView.collectionViewLayout.invalidateLayout()
     collectionView.layoutSubviews()
     collectionView.isHidden = isVisibleCategoriesEmpty
-    emptyView.isHidden = !collectionView.isHidden
+    filtersButton.isHidden = isVisibleCategoriesEmpty
+    emptyView.isHidden = !isVisibleCategoriesEmpty
   }
 
   func fetchTracker(from tracker: Tracker, for categoryId: UUID) {
     factory.addToStoreNew(tracker: tracker, toCategory: categoryId)
     setWeekDayForTracker(with: tracker.schedule)
     fetchVisibleCategoriesFromFactory()
+  }
+
+  func useSelectedFilter(for index: Int) {
+    selectedFilterIndex = index
+    switch selectedFilterIndex {
+    case 0:
+      fetchVisibleCategoriesFromFactory()
+      filtersButton.setTitleColor(.ypWhite, for: .normal)
+    case 1:
+      currentDate = Date()
+      datePicker.setDate(currentDate, animated: true)
+      fetchVisibleCategoriesFromFactory()
+      filtersButton.setTitleColor(.ypWhite, for: .normal)
+    case 2:
+      filtersButton.setTitleColor(.ypRed, for: .normal)
+      print(#function)
+    case 3:
+      filtersButton.setTitleColor(.ypRed, for: .normal)
+      print(#function)
+    default:
+      break
+    }
   }
 
   func setWeekDayForTracker(with schedule: [Bool]) {
@@ -327,6 +359,18 @@ extension TrackersViewController: TrackerCellDelegate {
   }
 }
 
+// MARK: - FiltersViewControllerDelegate
+
+extension TrackersViewController: FiltersViewControllerDelegate {
+  func filtersViewController(_ viewController: FiltersViewController, didSelect index: Int) {
+    dismiss(animated: true) {
+      [weak self] in
+      guard let self else { return }
+      self.useSelectedFilter(for: index)
+    }
+  }
+}
+
 // MARK: - Private methods to configure UI & NavigationBar section
 
 private extension TrackersViewController {
@@ -335,6 +379,7 @@ private extension TrackersViewController {
     configureNavigationBarSection()
     configureEmptyViewSection()
     configureCollectionViewSection()
+    configureFiltersButtonSection()
   }
 
   func configureNavigationBarSection() {
@@ -374,7 +419,7 @@ private extension TrackersViewController {
 
   func configureDatePicker() {
     datePicker.sizeThatFits(CGSize(width: 77, height: 64))
-    datePicker.backgroundColor = .ypBackground
+    datePicker.backgroundColor = .ypDataPicker
     datePicker.tintColor = .ypBlue
     datePicker.datePickerMode = .date
     datePicker.preferredDatePickerStyle = .compact
@@ -426,6 +471,28 @@ private extension TrackersViewController {
       emptyView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
       emptyView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
       emptyView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
+    ])
+  }
+}
+
+// MARK: - Private methods to configure Filters section
+
+private extension TrackersViewController {
+  func configureFiltersButtonSection() {
+    filtersButton.translatesAutoresizingMaskIntoConstraints = false
+    view.addSubview(filtersButton)
+
+    filtersButton.setTitle(Resources.Labels.filters, for: .normal)
+    filtersButton.setTitleColor(.ypWhite, for: .normal)
+    filtersButton.backgroundColor = .ypBlue
+    filtersButton.titleLabel?.font = Resources.Fonts.textField
+    filtersButton.addTarget(self, action: #selector(filtersButtonClicked), for: .touchUpInside)
+
+    NSLayoutConstraint.activate([
+      filtersButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+      filtersButton.widthAnchor.constraint(equalToConstant: Resources.Dimensions.filterWidth),
+      filtersButton.heightAnchor.constraint(equalToConstant: Resources.Dimensions.filterHeight),
+      filtersButton.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -Resources.Layouts.vSpacingButton)
     ])
   }
 }
