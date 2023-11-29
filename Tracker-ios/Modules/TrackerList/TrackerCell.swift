@@ -141,7 +141,7 @@ private extension TrackerCell {
   }
 
   func configureTrackerCellConstraints() {
-    let height = Resources.Dimensions.trackerContentHeight
+    let height = Resources.Dimensions.contentHeight
     let spacing = Resources.Layouts.leadingTracker
     let smallSpacing = Resources.Layouts.hSpacingButton
     let largeSpacing = Resources.Layouts.leadingElement
