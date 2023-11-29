@@ -34,7 +34,7 @@ final class CategoryViewModel {
   }
 }
 
-// MARK: - nameTrackerCategoryStoreDelegate
+// MARK: - TrackerCategoryStoreDelegate
 
 extension CategoryViewModel: TrackerCategoryStoreDelegate {
   func trackerCategoryStore(didUpdate store: TrackerCategoryStore) {
