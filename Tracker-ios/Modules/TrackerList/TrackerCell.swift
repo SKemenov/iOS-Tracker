@@ -1,7 +1,7 @@
 //
 //  TrackerCell.swift
 //  Tracker-ios
-//
+//  Refactored `TrackerCell`
 //  Created by Sergey Kemenov on 08.10.2023.
 //
 
@@ -115,12 +115,12 @@ extension TrackerCell {
     updateCounter(counter)
   }
 
-    func updateCounter(_ counter: Int) {
-      counterLabel.text = String.localizedStringWithFormat(
-        NSLocalizedString("numberOfDays", comment: "Counter of total tracker's completed days"),
-        counter
-      )
-    }
+  func updateCounter(_ counter: Int) {
+    counterLabel.text = String.localizedStringWithFormat(
+      NSLocalizedString("numberOfDays", comment: "Counter of total tracker's completed days"),
+      counter
+    )
+  }
 }
 
 // MARK: - Configure TrackerCell UI Section
