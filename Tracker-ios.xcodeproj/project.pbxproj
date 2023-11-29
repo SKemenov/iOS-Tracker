@@ -49,6 +49,7 @@
 		E9908BA22AFBDEFC00C82DF4 /* OptionCellHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9908BA12AFBDEFC00C82DF4 /* OptionCellHeader.swift */; };
 		E9908BA42AFC122300C82DF4 /* ColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9908BA32AFC122300C82DF4 /* ColorCell.swift */; };
 		E9A654762AE7CC6C00C692EE /* TrackerHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A654752AE7CC6C00C692EE /* TrackerHeader.swift */; };
+		E9B7B4982B173368007D066D /* FiltersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B7B4972B173368007D066D /* FiltersViewController.swift */; };
 		E9E899D02ADB1CC5003D464E /* OptionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E899CF2ADB1CC5003D464E /* OptionButton.swift */; };
 		E9F8D3DC2B11243300A22865 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E9F8D3DE2B11243300A22865 /* Localizable.strings */; };
 /* End PBXBuildFile section */
@@ -112,6 +113,7 @@
 		E9908BA12AFBDEFC00C82DF4 /* OptionCellHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionCellHeader.swift; sourceTree = "<group>"; };
 		E9908BA32AFC122300C82DF4 /* ColorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCell.swift; sourceTree = "<group>"; };
 		E9A654752AE7CC6C00C692EE /* TrackerHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerHeader.swift; sourceTree = "<group>"; };
+		E9B7B4972B173368007D066D /* FiltersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersViewController.swift; sourceTree = "<group>"; };
 		E9E899CF2ADB1CC5003D464E /* OptionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionButton.swift; sourceTree = "<group>"; };
 		E9F8D3DD2B11243300A22865 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		E9F8D3DF2B11243800A22865 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -230,6 +232,7 @@
 			isa = PBXGroup;
 			children = (
 				E9718F182AD19E9400853947 /* TrackersViewController.swift */,
+				E9B7B4972B173368007D066D /* FiltersViewController.swift */,
 				E9A654752AE7CC6C00C692EE /* TrackerHeader.swift */,
 				E9434AAA2AD2BB9A00EF821F /* TrackerCell.swift */,
 				E9DAAA0F2B0FDC8B000B51E3 /* CreateTracker */,
@@ -396,6 +399,7 @@
 				E9718F172AD19E9400853947 /* SceneDelegate.swift in Sources */,
 				E9434ABF2AD91AEA00EF821F /* ActionButton.swift in Sources */,
 				E9804D422AF6CD4D004E05D7 /* TrackerStore.swift in Sources */,
+				E9B7B4982B173368007D066D /* FiltersViewController.swift in Sources */,
 				E9434AA82AD2B3A500EF821F /* UIColor+Extensions.swift in Sources */,
 				E9434AAE2AD2C3F300EF821F /* Resources.swift in Sources */,
 				E93C3FE72ADEA05C00579917 /* TextField+Extensions.swift in Sources */,
