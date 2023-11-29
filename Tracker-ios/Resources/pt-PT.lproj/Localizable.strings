@@ -5,7 +5,6 @@
   Created by Sergey Kemenov on 24.11.2023.
   
 */
-
 "labels.newTracker" = "Criando um rastreador";
 "labels.newEvent" = "Novo Evento";
 "labels.newHabit" = "Novo Hábito";
@@ -16,6 +15,10 @@
 "labels.category" = "Categoria";
 "labels.schedule" = "Agendar";
 "labels.statistic" = "Estatísticas";
+"labels.stat0" = "Melhor período";
+"labels.stat1" = "Dias ideais";
+"labels.stat2" = "Rastreadores concluídos";
+"labels.stat3" = "Média";
 "labels.trackers" = "Rastreadores";
 "labels.searchBar" = "Pesquisar";
 "labels.cancel" = "Cancelar";
@@ -27,6 +30,10 @@
 "labels.emoji" = "Emoji";
 "labels.color" = "Cor";
 "labels.filters" = "Filtros";
+"labels.filter0" = "Todos os rastreadores";
+"labels.filter1" = "Rastreadores de hoje";
+"labels.filter2" = "Concluído";
+"labels.filter3" = "Inacabado";
 "labels.emptyStatistic" = "Ainda não há nada para analisar";
 "labels.emptyTracker" = "O que iremos rastrear?";
 "labels.emptySearch" = "Nada encontrado";

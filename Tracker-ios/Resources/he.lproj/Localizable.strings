@@ -16,6 +16,10 @@
 "labels.category" = "קטגוריה";
 "labels.schedule" = "לוח זמנים";
 "labels.statistic" = "סטטיסטיקה";
+"labels.stat0" = "התקופה הטובה ביותר";
+"labels.stat1" = "ימים אידיאליים";
+"labels.stat2" = "המעקבים הושלמו";
+"labels.stat3" = "ממוצע";
 "labels.trackers" = "עוקבים";
 "labels.searchBar" = "חיפוש";
 "labels.cancel" = "בטל";
@@ -27,6 +31,10 @@
 "labels.emoji" = "אימוג'י";
 "labels.color" = "צבע";
 "labels.filters" = "מסננים";
+"labels.filter0" = "כל העוקבים";
+"labels.filter1" = "עוקבים להיום";
+"labels.filter2" = "הושלם";
+"labels.filter3" = "לא גמור";
 "labels.emptyStatistic" = "אין עדיין מה לנתח";
 "labels.emptyTracker" = "מה נעקוב?";
 "labels.emptySearch" = "לא נמצא דבר";

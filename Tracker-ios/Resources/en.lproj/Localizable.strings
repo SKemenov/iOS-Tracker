@@ -16,6 +16,10 @@
 "labels.category" = "Category";
 "labels.schedule" = "Schedule";
 "labels.statistic" = "Statistics";
+"labels.stat0" = "Best Period";
+"labels.stat1" = "Ideal Days";
+"labels.stat2" = "Trackers Completed";
+"labels.stat3" = "Average";
 "labels.trackers" = "Trackers";
 "labels.searchBar" = "Search";
 "labels.cancel" = "Cancel";
@@ -27,6 +31,10 @@
 "labels.emoji" = "Emoji";
 "labels.color" = "Color";
 "labels.filters" = "Filters";
+"labels.filter0" = "All trackers";
+"labels.filter1" = "Trackers for today";
+"labels.filter2" = "Completed";
+"labels.filter3" = "Unfinished";
 "labels.emptyStatistic" = "There is nothing to analyze yet";
 "labels.emptyTracker" = "What will we track?";
 "labels.emptySearch" = "Nothing found";

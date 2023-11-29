@@ -16,6 +16,10 @@
 "labels.category" = "Kategorie";
 "labels.schedule" = "Zeitplan";
 "labels.statistic" = "Statistik";
+"labels.stat0" = "Bester Zeitraum";
+"labels.stat1" = "Ideale Tage";
+"labels.stat2" = "Tracker abgeschlossen";
+"labels.stat3" = "Durchschnitt";
 "labels.trackers" = "Tracker";
 "labels.searchBar" = "Suchen";
 "labels.cancel" = "Abbrechen";
@@ -27,6 +31,10 @@
 "labels.emoji" = "Emoji";
 "labels.color" = "Farbe";
 "labels.filters" = "Filter";
+"labels.filter0" = "Alle Tracker";
+"labels.filter1" = "Tracker für heute";
+"labels.filter2" = "Abgeschlossen";
+"labels.filter3" = "Unvollendet";
 "labels.emptyStatistic" = "Es gibt noch nichts zu analysieren";
 "labels.emptyTracker" = "Was werden wir verfolgen?";
 "labels.emptySearch" = "Nichts gefunden";

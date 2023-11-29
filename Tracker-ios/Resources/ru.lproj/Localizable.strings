@@ -16,6 +16,10 @@
 "labels.category" = "Категория";
 "labels.schedule" = "Расписание";
 "labels.statistic" = "Статистика";
+"labels.stat0" = "Лучший период";
+"labels.stat1" = "Идеальные дни";
+"labels.stat2" = "Трекеров завершено";
+"labels.stat3" = "Среднее значение";
 "labels.trackers" = "Трекеры";
 "labels.searchBar" = "Поиск";
 "labels.cancel" = "Отменить";
@@ -27,6 +31,10 @@
 "labels.emoji" = "Emoji";
 "labels.color" = "Цвет";
 "labels.filters" = "Фильтры";
+"labels.filter0" = "Все трекеры";
+"labels.filter1" = "Трекеры на сегодня";
+"labels.filter2" = "Завершенные";
+"labels.filter3" = "Незавершенные";
 "labels.emptyStatistic" = "Анализировать пока нечего";
 "labels.emptyTracker" = "Что будем отслеживать?";
 "labels.emptySearch" = "Ничего не найдено";
