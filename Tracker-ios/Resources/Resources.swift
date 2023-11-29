@@ -64,6 +64,20 @@ enum Resources {
     //      case saturday = "Суббота"
     //      case sunday = "Воскресенье"
     //    }
+    static let filtersList = [
+      NSLocalizedString("labels.filter0", comment: "labels for filter - All Trackers"),
+      NSLocalizedString("labels.filter1", comment: "labels for filter - Trackers for today"),
+      NSLocalizedString("labels.filter2", comment: "labels for filter - Completed"),
+      NSLocalizedString("labels.filter3", comment: "labels for filter - Unfinished")
+    ]
+
+    static let statisticsList = [
+      NSLocalizedString("labels.stat0", comment: "labels for stat - Best Period"),
+      NSLocalizedString("labels.stat1", comment: "labels for stat - Ideal Days"),
+      NSLocalizedString("labels.stat2", comment: "labels for stat - Trackers Completed"),
+      NSLocalizedString("labels.stat3", comment: "labels for stat - Average")
+    ]
+
     static let fullWeekDays = [
       NSLocalizedString("labels.fullWeekDays.monday", comment: "labels for Monday"),
       NSLocalizedString("labels.fullWeekDays.tuesday", comment: "labels for Tuesday"),
@@ -118,7 +132,7 @@ enum Resources {
     static let notificationHeight: CGFloat = 18
     static let titleHeight: CGFloat = 42
     static let trackerHeight: CGFloat = 148
-    static let trackerContentHeight: CGFloat = 90
+    static let contentHeight: CGFloat = 90
     static let trackerCounterHeight: CGFloat = 58
     static let sectionHeight: CGFloat = 46
     static let iPhoneSeWidth: CGFloat = 320
@@ -126,8 +140,11 @@ enum Resources {
     static let optionHeader: CGFloat = 20
     static let optionViewHeight: CGFloat = 204
     static let optionBorder: CGFloat = 3
+    static let gradientBorder: CGFloat = 1
     static let dividerHeight: CGFloat = 0.5
     static let markSize: CGFloat = 20
+    static let filterWidth: CGFloat = 114
+    static let filterHeight: CGFloat = 50
   }
 
   // MARK: - UI element's layouts
@@ -159,6 +176,7 @@ enum Resources {
     static let textField = UIFont.systemFont(ofSize: 17, weight: .regular)
     static let sectionHeader = UIFont.systemFont(ofSize: 19, weight: .bold)
     static let emoji = UIFont.systemFont(ofSize: 32, weight: .bold)
+    static let statCounter = UIFont.systemFont(ofSize: 34, weight: .bold)
   }
 
 
