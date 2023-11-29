@@ -6,3 +6,8 @@
 //
 
 import Foundation
+
+struct StatsViewModel {
+  let counter: Int
+  let title: String
+}
