@@ -39,6 +39,10 @@ final class TrackersCoreDataFactory {
     trackerCategoryStore.allCategories
   }
 
+  var totalRecords: Int {
+    trackerRecordStore.totalRecords
+  }
+
   // MARK: - Init
 
   private init() {

@@ -27,6 +27,15 @@ final class TrackerRecordStore {
   init(context: NSManagedObjectContext) {
     self.context = context
   }
+
+  // MARK: - Public properties
+
+  var totalRecords: Int {
+    let request = TrackerRecordCoreData.fetchRequest()
+    request.returnsObjectsAsFaults = false
+    guard let records = try? context.fetch(request) else { return 0 }
+    return records.count
+  }
 }
 
 // MARK: - Public methods
