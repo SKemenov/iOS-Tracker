@@ -13,8 +13,8 @@ final class TrackerTests: XCTestCase {
 
   func testViewController() {
     let vc = TabBarViewController()
-    let isRewrite = false
-    assertSnapshot(of: vc, as: .image(traits: .init(userInterfaceStyle: .dark)), record: isRewrite)
-    assertSnapshot(of: vc, as: .image(traits: .init(userInterfaceStyle: .light)), record: isRewrite)
+    isRecording = false
+    assertSnapshot(of: vc, as: .image(traits: .init(userInterfaceStyle: .dark)))
+    assertSnapshot(of: vc, as: .image(traits: .init(userInterfaceStyle: .light)))
   }
 }
