@@ -40,7 +40,7 @@ final class StatisticViewController: UIViewController {
 
   private var trackersCompletedCounter: Int = 0 {
     didSet {
-      statCompleted.update(counter: trackersCompletedCounter)
+      statCompleted.counter = trackersCompletedCounter
     }
   }
 
@@ -73,7 +73,7 @@ private extension StatisticViewController {
 
   func addToStat(_ view: StatsView, viewModel: StatsViewModel) {
     view.frame.size = CGSize(width: statWidth, height: statHeight)
-    view.configure(viewModel: StatsViewModel(counter: viewModel.counter, title: viewModel.title))
+    view.viewModel = viewModel
     view.translatesAutoresizingMaskIntoConstraints = false
     view.gradientBorder(width: Resources.Dimensions.gradientBorder, colors: [.ypRed, .green, .ypBlue])
     stackView.addArrangedSubview(view)

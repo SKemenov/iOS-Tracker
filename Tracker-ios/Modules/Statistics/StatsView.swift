@@ -37,6 +37,23 @@ final class StatsView: UIView {
     return label
   }()
 
+  // MARK: - Public properties
+
+  var viewModel: StatsViewModel? {
+    didSet {
+      guard let viewModel else { return }
+      counterLabel.text = String(viewModel.counter)
+      descriptionLabel.text = viewModel.title
+    }
+  }
+
+  var counter: Int? {
+    didSet {
+      guard let counter else { return }
+      counterLabel.text = String(counter)
+    }
+  }
+
   // MARK: - Inits
 
   override init(frame: CGRect) {
@@ -46,17 +63,6 @@ final class StatsView: UIView {
 
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
-  }
-
-  // MARK: - Public methods
-
-  func configure(viewModel: StatsViewModel) {
-    counterLabel.text = String(viewModel.counter)
-    descriptionLabel.text = viewModel.title
-  }
-
-  func update(counter: Int) {
-    counterLabel.text = String(counter)
   }
 }
 
