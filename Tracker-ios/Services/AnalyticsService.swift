@@ -11,12 +11,12 @@ import YandexMobileMetrica
 final class AnalyticsService {
   static func activate() {
     guard let configuration = YMMYandexMetricaConfiguration(apiKey: "269441e0-ab7b-4c03-9f29-ec3e375b961a") else {
-      return 
+      return
     }
     YMMYandexMetrica.activate(with: configuration)
   }
 
-  func report(event: String, params : [AnyHashable : Any]) {
+  func report(event: String, params: [AnyHashable: Any]) {
     YMMYandexMetrica.reportEvent(event, parameters: params) { error in
       print("REPORT ERROR: %@", error.localizedDescription)
     }
