@@ -14,7 +14,7 @@ final class TrackersCoreDataFactory {
   private let trackerStore = TrackerStore()
   private let trackerCategoryStore = TrackerCategoryStore.shared
   private let trackerRecordStore = TrackerRecordStore()
-  private var currentWeekDay = 0
+  private var selectedWeekDay = 0
 
   // MARK: - Public singleton
 
@@ -25,7 +25,16 @@ final class TrackersCoreDataFactory {
   var visibleCategoriesForWeekDay: [TrackerCategory] {
     var newCategories: [TrackerCategory] = []
     trackerCategoryStore.allCategories.forEach { newCategories.append(
-      TrackerCategory(id: $0.id, name: $0.name, items: $0.items.filter { $0.schedule[currentWeekDay] })
+      TrackerCategory(id: $0.id, name: $0.name, items: $0.items.filter {
+        switch selectedFilterIndex {
+        case 2:
+          $0.schedule[selectedWeekDay] && (isTrackerDone(with: $0.id, on: selectedDate) == true)
+        case 3:
+          $0.schedule[selectedWeekDay] && (isTrackerDone(with: $0.id, on: selectedDate) == false)
+        default:
+          $0.schedule[selectedWeekDay]
+        }
+      })
     )
     }
     return newCategories.filter { !$0.items.isEmpty }
@@ -42,6 +51,14 @@ final class TrackersCoreDataFactory {
   var totalRecords: Int {
     trackerRecordStore.totalRecords
   }
+
+  var selectedDate = Date() {
+    didSet {
+      selectedWeekDay = selectedDate.weekday()
+    }
+  }
+
+  var selectedFilterIndex = 0
 
   // MARK: - Init
 
@@ -90,8 +107,20 @@ extension TrackersCoreDataFactory {
     trackerRecordStore.countRecords(for: fetchTracker(byID: id))
   }
 
-  func setCurrentWeekDay(to date: Date) {
-    currentWeekDay = date.weekday()
+  func setWeekDayForTracker(with schedule: [Bool]) -> TimeInterval {
+    guard schedule[selectedWeekDay] == false else { return 0 }
+    var shiftDays = 0
+    for day in (0...selectedWeekDay).reversed() where schedule[day] {
+      shiftDays = selectedWeekDay - day
+      break
+    }
+    if shiftDays == 0 {
+      for day in (selectedWeekDay..<Resources.Labels.shortWeekDays.count) where schedule[day] {
+        shiftDays = Resources.Labels.shortWeekDays.count - day + 1
+        break
+      }
+    }
+    return TimeInterval(shiftDays * 24 * 60 * 60)
   }
 }
 

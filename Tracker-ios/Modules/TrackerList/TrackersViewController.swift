@@ -9,6 +9,7 @@ import UIKit
 
 // MARK: - Class
 
+// swiftlint:disable file_length
 final class TrackersViewController: UIViewController {
   // MARK: - Private UI properties
 
@@ -34,6 +35,7 @@ final class TrackersViewController: UIViewController {
     $0.searchBar.searchTextField.clearButtonMode = .never
     return $0
   }(UISearchController(searchResultsController: nil))
+
   private var filtersButton = ActionButton()
 
   private lazy var safeArea: UILayoutGuide = {
@@ -49,15 +51,18 @@ final class TrackersViewController: UIViewController {
   private var searchBarUserInput = ""
 
   private var visibleCategories: [TrackerCategory] = []
-  private var weekday = 0
-  private var selectedFilterIndex = 0
-
-  private var currentDate = Date() {
+  private var selectedFilterIndex = 0 {
     didSet {
-      weekday = currentDate.weekday()
-      factory.setCurrentWeekDay(to: currentDate)
+      factory.selectedFilterIndex = selectedFilterIndex
     }
   }
+
+  private var selectedDate = Date() {
+    didSet {
+      factory.selectedDate = selectedDate
+    }
+  }
+
   private var isVisibleCategoriesEmpty: Bool {
     return visibleCategories.filter { !$0.items.isEmpty }.isEmpty
   }
@@ -77,7 +82,7 @@ final class TrackersViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     self.hideKeyboardWhenTappedAround()
-    currentDate = Date() + TimeInterval(Resources.shiftTimeZone)
+    selectedDate = Date() + TimeInterval(Resources.shiftTimeZone)
 
     searchBar.searchBar.delegate = self
 
@@ -103,7 +108,7 @@ private extension TrackersViewController {
   }
 
   @objc func datePickerValueChanged(_ sender: UIDatePicker) {
-    currentDate = sender.date
+    selectedDate = sender.date
     fetchVisibleCategoriesFromFactory()
     dismiss(animated: true)
   }
@@ -132,50 +137,29 @@ private extension TrackersViewController {
 
   func useSelectedFilter(for index: Int) {
     selectedFilterIndex = index
-    switch selectedFilterIndex {
-    case 0:
-      fetchVisibleCategoriesFromFactory()
-    case 1:
-      currentDate = Date()
-      datePicker.setDate(currentDate, animated: true)
+    if selectedFilterIndex == 1 {
+      selectedDate = Date()
+      datePicker.setDate(selectedDate, animated: true)
       selectedFilterIndex = 0
-      fetchVisibleCategoriesFromFactory()
-    case 2:
-      print(#function)
-    case 3:
-      print(#function)
-    default:
-      break
     }
+    fetchVisibleCategoriesFromFactory()
     filtersButton.setTitleColor(selectedFilterIndex == 0 ? .ypWhite : .ypRed, for: .normal)
   }
 
   func setWeekDayForTracker(with schedule: [Bool]) {
-    guard schedule[weekday] == false else { return }
-    var shiftDays = 0
-    for day in (0...weekday).reversed() where schedule[day] {
-      shiftDays = weekday - day
-      break
-    }
-    if shiftDays == 0 {
-      for day in (weekday..<Resources.Labels.shortWeekDays.count) where schedule[day] {
-        shiftDays = Resources.Labels.shortWeekDays.count - day + 1
-        break
-      }
-    }
-    currentDate -= TimeInterval(shiftDays * 24 * 60 * 60)
-    datePicker.setDate(currentDate, animated: true)
+    selectedDate -= factory.setWeekDayForTracker(with: schedule)
+    datePicker.setDate(selectedDate, animated: true)
   }
 
   func fetchVisibleCategoriesFromFactory() {
-    clearVisibleCategories()
+    //    clearVisibleCategories()
+    visibleCategories = []
     visibleCategories = factory.visibleCategoriesForWeekDay
     updateTrackerCollectionView()
   }
 
-  func clearVisibleCategories() {
-    visibleCategories = []
-  }
+  //  func clearVisibleCategories() {
+  //  }
 
   private func searchInTrackers() {
     var newCategories: [TrackerCategory] = []
@@ -189,17 +173,11 @@ private extension TrackersViewController {
   }
 
   func makeEmptyViewForTrackers() {
-    emptyView.configure(
-      title: Resources.Labels.emptyTracker,
-      iconImage: Resources.Images.emptyTrackers
-    )
+    emptyView.configure(title: Resources.Labels.emptyTracker, iconImage: Resources.Images.emptyTrackers)
   }
 
   func makeEmptyViewForSearchBar() {
-    emptyView.configure(
-      title: Resources.Labels.emptySearch,
-      iconImage: Resources.Images.emptySearch
-    )
+    emptyView.configure(title: Resources.Labels.emptySearch, iconImage: Resources.Images.emptySearch)
   }
 }
 
@@ -241,6 +219,7 @@ extension TrackersViewController: UICollectionViewDataSource {
       let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as? TrackerCell else {
       return UICollectionViewCell()
     }
+
     let currentTracker = visibleCategories[indexPath.section].items[indexPath.row]
     cell.delegate = self
     cell.configureCell(
@@ -249,7 +228,7 @@ extension TrackersViewController: UICollectionViewDataSource {
       title: currentTracker.title,
       counter: factory.getRecordsCounter(with: currentTracker.id)
     )
-    cell.makeItDone(factory.isTrackerDone(with: currentTracker.id, on: currentDate))
+    cell.makeItDone(factory.isTrackerDone(with: currentTracker.id, on: selectedDate))
     return cell
   }
 
@@ -327,6 +306,47 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
   }
 }
 
+// MARK: - UICollectionViewDelegate
+
+extension TrackersViewController: UICollectionViewDelegate {
+  func collectionView(
+    _ collectionView: UICollectionView,
+    contextMenuConfigurationForItemsAt indexPaths: [IndexPath],
+    point: CGPoint
+  ) -> UIContextMenuConfiguration? {
+    guard !indexPaths.isEmpty else { return nil }
+
+    let indexPath = indexPaths[0]
+    let isPinned = false
+    // swiftlint:disable:next trailing_closure
+    return UIContextMenuConfiguration(actionProvider: { _ in
+      return UIMenu(children: [
+        UIAction(
+          title: Resources.Labels.contextMenuList[isPinned ? 3 : 0],
+          image: isPinned ? Resources.SfSymbols.unpinTracker : Resources.SfSymbols.pinTracker
+        ) { [weak self] _ in
+          self?.pinCell(indexPath: indexPath)
+        },
+        UIAction(title: Resources.Labels.contextMenuList[1], image: Resources.SfSymbols.editTracker) { [weak self] _ in
+          self?.editCell(indexPath: indexPath)
+        },
+        UIAction(
+          title: Resources.Labels.contextMenuList[2],
+          image: Resources.SfSymbols.deleteTracker,
+          attributes: .destructive
+        ) { [weak self] _ in
+          self?.deleteCell(indexPath: indexPath)
+        }
+      ])
+    })
+  }
+
+  //  func collectionView(_ collectionView: UICollectionView, previewForHighlightingContextMenuWithConfiguration configuration: UIContextMenuConfiguration) -> UITargetedPreview? {
+  //    print(#function)
+  //    return
+  //  }
+}
+
 // MARK: - NewTrackerViewControllerDelegate
 
 extension TrackersViewController: NewTrackerViewControllerDelegate {
@@ -347,11 +367,10 @@ extension TrackersViewController: NewTrackerViewControllerDelegate {
 
 extension TrackersViewController: TrackerCellDelegate {
   func trackerCellDidTapDone(for cell: TrackerCell) {
-    guard currentDate.sameDay(Date()) || currentDate.beforeDay(Date()) else { return }
+    guard selectedDate.sameDay(Date()) || selectedDate.beforeDay(Date()) else { return }
     guard let indexPath = collectionView.indexPath(for: cell) else { return }
     let tracker = visibleCategories[indexPath.section].items[indexPath.row]
-    guard tracker.schedule[weekday] else { return }
-    cell.makeItDone(factory.setTrackerDone(with: tracker.id, on: currentDate))
+    cell.makeItDone(factory.setTrackerDone(with: tracker.id, on: selectedDate))
     cell.updateCounter(factory.getRecordsCounter(with: tracker.id))
   }
 }
@@ -421,7 +440,7 @@ private extension TrackersViewController {
     datePicker.tintColor = .ypBlue
     datePicker.datePickerMode = .date
     datePicker.preferredDatePickerStyle = .compact
-    datePicker.setDate(currentDate, animated: true)
+    datePicker.setDate(selectedDate, animated: true)
     datePicker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
     datePicker.layer.cornerRadius = Resources.Dimensions.smallCornerRadius
     datePicker.layer.masksToBounds = true
@@ -437,6 +456,8 @@ private extension TrackersViewController {
     collectionView.dataSource = self
     collectionView.delegate = self
     collectionView.backgroundColor = .ypWhite
+    collectionView.alwaysBounceVertical = true
+    collectionView.allowsMultipleSelection = false
     collectionView.translatesAutoresizingMaskIntoConstraints = false
     collectionView.scrollIndicatorInsets = UIEdgeInsets(
       top: Resources.Layouts.indicatorInset,
@@ -478,13 +499,13 @@ private extension TrackersViewController {
 private extension TrackersViewController {
   func configureFiltersButtonSection() {
     filtersButton.translatesAutoresizingMaskIntoConstraints = false
-    view.addSubview(filtersButton)
-
     filtersButton.setTitle(Resources.Labels.filters, for: .normal)
     filtersButton.setTitleColor(.white, for: .normal)
     filtersButton.backgroundColor = .ypBlue
     filtersButton.titleLabel?.font = Resources.Fonts.textField
     filtersButton.addTarget(self, action: #selector(filtersButtonClicked), for: .touchUpInside)
+
+    view.addSubview(filtersButton)
 
     NSLayoutConstraint.activate([
       filtersButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
