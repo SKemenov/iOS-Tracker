@@ -78,11 +78,23 @@ final class TrackerCell: UICollectionViewCell {
 
   weak var delegate: TrackerCellDelegate?
 
+  var viewModel: Tracker? {
+    didSet {
+      guard let viewModel else { return }
+      titleView.backgroundColor = Resources.colors[viewModel.color]
+      counterButton.backgroundColor = Resources.colors[viewModel.color]
+      titleLabel.text = viewModel.title
+      emojiLabel.text = Resources.emojis[viewModel.emoji]
+
+      updateCounter(0)
+    }
+  }
+
   // MARK: - Inits
 
   override init(frame: CGRect) {
     super.init(frame: frame)
-    configureTrackerCell()
+    configureUI()
     counterButton.addTarget(self, action: #selector(didTapDoneButton), for: .touchUpInside)
   }
 
@@ -126,21 +138,14 @@ extension TrackerCell {
 // MARK: - Configure TrackerCell UI Section
 
 private extension TrackerCell {
-  func configureTrackerCell() {
-    configureTrackerCellSubviews()
-    configureTrackerCellConstraints()
-  }
-
-  func configureTrackerCellSubviews() {
+  func configureUI() {
     contentView.addSubview(titleView)
     contentView.addSubview(emojiLabel)
     contentView.addSubview(titleLabel)
     contentView.addSubview(counterButton)
     contentView.addSubview(counterLabel)
     contentView.addSubview(counterImageView)
-  }
 
-  func configureTrackerCellConstraints() {
     let height = Resources.Dimensions.contentHeight
     let spacing = Resources.Layouts.leadingTracker
     let smallSpacing = Resources.Layouts.hSpacingButton

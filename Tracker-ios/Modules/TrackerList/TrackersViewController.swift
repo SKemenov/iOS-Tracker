@@ -390,6 +390,17 @@ extension TrackersViewController: FiltersViewControllerDelegate {
 // MARK: - Private methods to configure UI & NavigationBar section
 
 private extension TrackersViewController {
+  func pinCell(indexPath: IndexPath) {
+    print(#function)
+  }
+
+  func editCell(indexPath: IndexPath) {
+    print(#function)
+  }
+
+  func deleteCell(indexPath: IndexPath) {
+    print(#function)
+  }
 
   func configureUI() {
     view.backgroundColor = .ypWhite
