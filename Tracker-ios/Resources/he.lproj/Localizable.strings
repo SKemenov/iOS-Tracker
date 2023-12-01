@@ -16,10 +16,6 @@
 "labels.category" = "קטגוריה";
 "labels.schedule" = "לוח זמנים";
 "labels.statistic" = "סטטיסטיקה";
-"labels.stat0" = "התקופה הטובה ביותר";
-"labels.stat1" = "ימים אידיאליים";
-"labels.stat2" = "המעקבים הושלמו";
-"labels.stat3" = "ממוצע";
 "labels.trackers" = "עוקבים";
 "labels.searchBar" = "חיפוש";
 "labels.cancel" = "בטל";
@@ -31,10 +27,6 @@
 "labels.emoji" = "אימוג'י";
 "labels.color" = "צבע";
 "labels.filters" = "מסננים";
-"labels.filter0" = "כל העוקבים";
-"labels.filter1" = "עוקבים להיום";
-"labels.filter2" = "הושלם";
-"labels.filter3" = "לא גמור";
 "labels.emptyStatistic" = "אין עדיין מה לנתח";
 "labels.emptyTracker" = "מה נעקוב?";
 "labels.emptySearch" = "לא נמצא דבר";
@@ -48,6 +40,21 @@
 "labels.onboardingPage1" = "עקוב רק אחר מה שאתה רוצה";
 "labels.onboardingPage2" = "גם אם זה לא יוגה וליטר מים";
 "labels.onboardingButton" = "אלו הן הטכנולוגיות!";
+
+"labels.context.0" = "הצמדה";
+"labels.context.1" = "ערוך";
+"labels.context.2" = "מחק";
+"labels.context.3" = "בטל הצמדה";
+
+"labels.filter.0" = "כל העוקבים";
+"labels.filter.1" = "עוקבים להיום";
+"labels.filter.2" = "הושלם";
+"labels.filter.3" = "לא גמור";
+
+"labels.stat.0" = "התקופה הטובה ביותר";
+"labels.stat.1" = "ימים אידיאליים";
+"labels.stat.2" = "המעקבים הושלמו";
+"labels.stat.3" = "ממוצע";
 
 "labels.fullWeekDays.monday" = "יום שני";
 "labels.fullWeekDays.tuesday" = "יום שלישי";

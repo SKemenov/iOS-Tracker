@@ -16,10 +16,6 @@
 "labels.category" = "Categoría";
 "labels.schedule" = "Programación";
 "labels.statistic" = "Estadísticas";
-"labels.stat0" = "Mejor período";
-"labels.stat1" = "Días ideales";
-"labels.stat2" = "Rastreadores completados";
-"labels.stat3" = "Promedio";
 "labels.trackers" = "Rastreadores";
 "labels.searchBar" = "Buscar";
 "labels.cancel" = "Cancelar";
@@ -31,10 +27,6 @@
 "labels.emoji" = "Emoji";
 "etiquetas.color" = "Color";
 "labels.filters" = "Filtros";
-"labels.filter0" = "Todos los rastreadores";
-"labels.filter1" = "Rastreadores de hoy";
-"labels.filter2" = "Completado";
-"labels.filter3" = "Sin terminar";
 "labels.emptyStatistic" = "Aún no hay nada que analizar";
 "labels.emptyTracker" = "¿Qué rastrearemos?";
 "labels.emptySearch" = "No se encontró nada";
@@ -48,6 +40,21 @@
 "labels.onboardingPage1" = "Seguimiento sólo de lo que desee";
 "labels.onboardingPage2" = "Aunque no sea yoga \ny litros de agua";
 "labels.onboardingButton" = "¡Esas son las tecnologías!";
+
+"labels.context.0" = "Fijar";
+"labels.context.1" = "Editar";
+"labels.context.2" = "Eliminar";
+"labels.context.3" = "Desanclar";
+
+"labels.filter.0" = "Todos los rastreadores";
+"labels.filter.1" = "Rastreadores de hoy";
+"labels.filter.2" = "Completado";
+"labels.filter.3" = "Sin terminar";
+
+"labels.stat.0" = "Mejor período";
+"labels.stat.1" = "Días ideales";
+"labels.stat.2" = "Rastreadores completados";
+"labels.stat.3" = "Promedio";
 
 "labels.fullWeekDays.monday" = "lunes";
 "labels.fullWeekDays.tuesday" = "martes";

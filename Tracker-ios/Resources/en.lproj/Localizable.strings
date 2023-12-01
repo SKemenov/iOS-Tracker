@@ -16,10 +16,6 @@
 "labels.category" = "Category";
 "labels.schedule" = "Schedule";
 "labels.statistic" = "Statistics";
-"labels.stat0" = "Best Period";
-"labels.stat1" = "Ideal Days";
-"labels.stat2" = "Trackers Completed";
-"labels.stat3" = "Average";
 "labels.trackers" = "Trackers";
 "labels.searchBar" = "Search";
 "labels.cancel" = "Cancel";
@@ -31,10 +27,6 @@
 "labels.emoji" = "Emoji";
 "labels.color" = "Color";
 "labels.filters" = "Filters";
-"labels.filter0" = "All trackers";
-"labels.filter1" = "Trackers for today";
-"labels.filter2" = "Completed";
-"labels.filter3" = "Unfinished";
 "labels.emptyStatistic" = "There is nothing to analyze yet";
 "labels.emptyTracker" = "What will we track?";
 "labels.emptySearch" = "Nothing found";
@@ -48,6 +40,21 @@
 "labels.onboardingPage1" = "Track only what you want";
 "labels.onboardingPage2" = "Even if it's not yoga \nand liters of water";
 "labels.onboardingButton" = "Those are the technologies!";
+
+"labels.context.0" = "Pin";
+"labels.context.1" = "Edit";
+"labels.context.2" = "Delete";
+"labels.context.3" = "Unpin";
+
+"labels.filter.0" = "All trackers";
+"labels.filter.1" = "Trackers for today";
+"labels.filter.2" = "Completed";
+"labels.filter.3" = "Unfinished";
+
+"labels.stat.0" = "Best Period";
+"labels.stat.1" = "Ideal Days";
+"labels.stat.2" = "Trackers Completed";
+"labels.stat.3" = "Average";
 
 "labels.fullWeekDays.monday" = "Monday";
 "labels.fullWeekDays.tuesday" = "Tuesday";

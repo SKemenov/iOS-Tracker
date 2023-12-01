@@ -16,10 +16,6 @@
 "labels.category" = "Категория";
 "labels.schedule" = "Расписание";
 "labels.statistic" = "Статистика";
-"labels.stat0" = "Лучший период";
-"labels.stat1" = "Идеальные дни";
-"labels.stat2" = "Трекеров завершено";
-"labels.stat3" = "Среднее значение";
 "labels.trackers" = "Трекеры";
 "labels.searchBar" = "Поиск";
 "labels.cancel" = "Отменить";
@@ -31,10 +27,6 @@
 "labels.emoji" = "Emoji";
 "labels.color" = "Цвет";
 "labels.filters" = "Фильтры";
-"labels.filter0" = "Все трекеры";
-"labels.filter1" = "Трекеры на сегодня";
-"labels.filter2" = "Завершенные";
-"labels.filter3" = "Незавершенные";
 "labels.emptyStatistic" = "Анализировать пока нечего";
 "labels.emptyTracker" = "Что будем отслеживать?";
 "labels.emptySearch" = "Ничего не найдено";
@@ -48,6 +40,21 @@
 "labels.onboardingPage1" = "Отслеживайте только то, что хотите";
 "labels.onboardingPage2" = "Даже если это \nне литры воды и йога";
 "labels.onboardingButton" = "Вот это технологии!";
+
+"labels.context.0" = "Закрепить";
+"labels.context.1" = "Редактировать";
+"labels.context.2" = "Удалить";
+"labels.context.3" = "Открепить";
+
+"labels.filter.0" = "Все трекеры";
+"labels.filter.1" = "Трекеры на сегодня";
+"labels.filter.2" = "Завершенные";
+"labels.filter.3" = "Незавершенные";
+
+"labels.stat.0" = "Лучший период";
+"labels.stat.1" = "Идеальные дни";
+"labels.stat.2" = "Трекеров завершено";
+"labels.stat.3" = "Среднее значение";
 
 "labels.fullWeekDays.monday" = "Понедельник";
 "labels.fullWeekDays.tuesday" = "Вторник";

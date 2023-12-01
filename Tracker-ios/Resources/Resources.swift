@@ -54,28 +54,25 @@ enum Resources {
       comment: "labels for textFieldRestriction"
     )
 
-    // swift lint:disable:next nesting // TODO: Remove before PR
-    //    enum WeekDays: String, CaseIterable {
-    //      case monday = "Понедельник"
-    //      case tuesday = "Вторник"
-    //      case wednesday = "Среда"
-    //      case thursday = "Четверг"
-    //      case friday = "Пятница"
-    //      case saturday = "Суббота"
-    //      case sunday = "Воскресенье"
-    //    }
+    static let contextMenuList = [
+      NSLocalizedString("labels.context.0", comment: "labels for context menu - Pin"),
+      NSLocalizedString("labels.context.1", comment: "labels for context menu - Edit"),
+      NSLocalizedString("labels.context.2", comment: "labels for context menu - Delete"),
+      NSLocalizedString("labels.context.3", comment: "labels for context menu - Unpin")
+    ]
+
     static let filtersList = [
-      NSLocalizedString("labels.filter0", comment: "labels for filter - All Trackers"),
-      NSLocalizedString("labels.filter1", comment: "labels for filter - Trackers for today"),
-      NSLocalizedString("labels.filter2", comment: "labels for filter - Completed"),
-      NSLocalizedString("labels.filter3", comment: "labels for filter - Unfinished")
+      NSLocalizedString("labels.filter.0", comment: "labels for filter - All Trackers"),
+      NSLocalizedString("labels.filter.1", comment: "labels for filter - Trackers for today"),
+      NSLocalizedString("labels.filter.2", comment: "labels for filter - Completed"),
+      NSLocalizedString("labels.filter.3", comment: "labels for filter - Unfinished")
     ]
 
     static let statisticsList = [
-      NSLocalizedString("labels.stat0", comment: "labels for stat - Best Period"),
-      NSLocalizedString("labels.stat1", comment: "labels for stat - Ideal Days"),
-      NSLocalizedString("labels.stat2", comment: "labels for stat - Trackers Completed"),
-      NSLocalizedString("labels.stat3", comment: "labels for stat - Average")
+      NSLocalizedString("labels.stat.0", comment: "labels for stat - Best Period"),
+      NSLocalizedString("labels.stat.1", comment: "labels for stat - Ideal Days"),
+      NSLocalizedString("labels.stat.2", comment: "labels for stat - Trackers Completed"),
+      NSLocalizedString("labels.stat.3", comment: "labels for stat - Average")
     ]
 
     static let fullWeekDays = [
@@ -109,6 +106,9 @@ enum Resources {
     static let addCounter = UIImage(systemName: "plus")
     static let doneMark = UIImage(systemName: "checkmark")
     static let pinTracker = UIImage(systemName: "pin")
+    static let unpinTracker = UIImage(systemName: "pin.slash")
+    static let editTracker = UIImage(systemName: "rectangle.and.pencil.and.ellipsis")
+    static let deleteTracker = UIImage(systemName: "trash")
   }
 
   // MARK: - UI element's images

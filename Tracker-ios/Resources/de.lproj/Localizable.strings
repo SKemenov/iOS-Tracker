@@ -16,10 +16,6 @@
 "labels.category" = "Kategorie";
 "labels.schedule" = "Zeitplan";
 "labels.statistic" = "Statistik";
-"labels.stat0" = "Bester Zeitraum";
-"labels.stat1" = "Ideale Tage";
-"labels.stat2" = "Tracker abgeschlossen";
-"labels.stat3" = "Durchschnitt";
 "labels.trackers" = "Tracker";
 "labels.searchBar" = "Suchen";
 "labels.cancel" = "Abbrechen";
@@ -31,10 +27,6 @@
 "labels.emoji" = "Emoji";
 "labels.color" = "Farbe";
 "labels.filters" = "Filter";
-"labels.filter0" = "Alle Tracker";
-"labels.filter1" = "Tracker für heute";
-"labels.filter2" = "Abgeschlossen";
-"labels.filter3" = "Unvollendet";
 "labels.emptyStatistic" = "Es gibt noch nichts zu analysieren";
 "labels.emptyTracker" = "Was werden wir verfolgen?";
 "labels.emptySearch" = "Nichts gefunden";
@@ -48,6 +40,21 @@
 "labels.onboardingPage1" = "Verfolgen Sie nur das, was Sie wollen";
 "labels.onboardingPage2" = "Auch wenn es kein Liter Wasser ist und Yoga";
 "labels.onboardingButton" = "Das sind die Technologien!";
+
+"labels.context.0" = "Pin";
+"labels.context.1" = "Bearbeiten";
+"labels.context.2" = "Löschen";
+"labels.context.3" = "Unpin";
+
+"labels.filter.0" = "Alle Tracker";
+"labels.filter.1" = "Tracker für heute";
+"labels.filter.2" = "Abgeschlossen";
+"labels.filter.3" = "Unvollendet";
+
+"labels.stat.0" = "Bester Zeitraum";
+"labels.stat.1" = "Ideale Tage";
+"labels.stat.2" = "Tracker abgeschlossen";
+"labels.stat.3" = "Durchschnitt";
 
 "labels.fullWeekDays.monday" = "Montag";
 "labels.fullWeekDays.tuesday" = "Dienstag";
