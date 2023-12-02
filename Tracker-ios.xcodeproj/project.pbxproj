@@ -42,6 +42,7 @@
 		E9718F1E2AD19E9600853947 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E9718F1D2AD19E9600853947 /* Assets.xcassets */; };
 		E97364F62B18C86700C82046 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97364F52B18C86700C82046 /* AnalyticsService.swift */; };
 		E97364F82B1A0A4900C82046 /* TrackerCellMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97364F72B1A0A4900C82046 /* TrackerCellMainView.swift */; };
+		E97364FA2B1B3EC100C82046 /* TrackerCellPreviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97364F92B1B3EC100C82046 /* TrackerCellPreviewController.swift */; };
 		E97842A72AF18A7D00FD305C /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97842A62AF18A7D00FD305C /* UIViewController+Extensions.swift */; };
 		E9804D3E2AF4C20A004E05D7 /* Tracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E9804D3C2AF4C20A004E05D7 /* Tracker.xcdatamodeld */; };
 		E9804D402AF69214004E05D7 /* TrackersCoreDataFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9804D3F2AF69214004E05D7 /* TrackersCoreDataFactory.swift */; };
@@ -122,6 +123,7 @@
 		E9718F1D2AD19E9600853947 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E97364F52B18C86700C82046 /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
 		E97364F72B1A0A4900C82046 /* TrackerCellMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCellMainView.swift; sourceTree = "<group>"; };
+		E97364F92B1B3EC100C82046 /* TrackerCellPreviewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCellPreviewController.swift; sourceTree = "<group>"; };
 		E976D5B62B1204B40001DFA1 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		E976D5B72B1204F30001DFA1 /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/Localizable.strings; sourceTree = "<group>"; };
 		E97842A62AF18A7D00FD305C /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
@@ -291,6 +293,7 @@
 				E9434AAA2AD2BB9A00EF821F /* TrackerCell.swift */,
 				E97364F72B1A0A4900C82046 /* TrackerCellMainView.swift */,
 				E9DAAA0F2B0FDC8B000B51E3 /* CreateTracker */,
+				E97364F92B1B3EC100C82046 /* TrackerCellPreviewController.swift */,
 			);
 			path = TrackerList;
 			sourceTree = "<group>";
@@ -555,6 +558,7 @@
 				E9908BA22AFBDEFC00C82DF4 /* OptionCellHeader.swift in Sources */,
 				E9434AB62AD520FB00EF821F /* TabBarViewController.swift in Sources */,
 				E9434AB22AD51FDC00EF821F /* StatisticViewController.swift in Sources */,
+				E97364FA2B1B3EC100C82046 /* TrackerCellPreviewController.swift in Sources */,
 				E90BE6462B08B1CF001ADB6A /* OnboardingViewController.swift in Sources */,
 				E9908BA42AFC122300C82DF4 /* ColorCell.swift in Sources */,
 				E9804D4A2AFB9F57004E05D7 /* EmojiCell.swift in Sources */,

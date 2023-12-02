@@ -82,10 +82,23 @@ extension TrackersCoreDataFactory {
     try? trackerCategoryStore.addNew(category: category)
   }
 
-  func addToStoreNew(tracker: Tracker, toCategory categoryId: UUID) {
+  func addNewOrUpdate(tracker: Tracker, toCategory categoryId: UUID) {
     if let category = trackerCategoryStore.fetchCategory(by: categoryId) {
-      try? trackerStore.addNew(tracker: tracker, to: category)
+      try? trackerStore.addNewOrUpdate(tracker: tracker, to: category)
     }
+  }
+
+  func setPinFor(tracker: Tracker) {
+    let newPinValue = !tracker.isPinned
+    let newTracker = Tracker(
+      id: tracker.id,
+      title: tracker.title,
+      emoji: tracker.emoji,
+      color: tracker.color,
+      isPinned: newPinValue,
+      schedule: tracker.schedule
+    )
+    try? trackerStore.setPinFor(tracker: newTracker)
   }
 
   func setTrackerDone(with id: UUID, on date: Date) -> Bool {

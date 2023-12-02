@@ -106,6 +106,7 @@ enum Resources {
     static let addCounter = UIImage(systemName: "plus")
     static let doneMark = UIImage(systemName: "checkmark")
     static let pinTracker = UIImage(systemName: "pin")
+    static let pinFillTracker = UIImage(systemName: "pin.fill")
     static let unpinTracker = UIImage(systemName: "pin.slash")
     static let editTracker = UIImage(systemName: "rectangle.and.pencil.and.ellipsis")
     static let deleteTracker = UIImage(systemName: "trash")
@@ -179,6 +180,7 @@ enum Resources {
     static let statCounter = UIFont.systemFont(ofSize: 34, weight: .bold)
   }
 
+  static let pinCategoryName = "Закрепленные"
 
   static let colors: [UIColor] = [
     .ypSelection01, .ypSelection02, .ypSelection03, .ypSelection04, .ypSelection05, .ypSelection06,

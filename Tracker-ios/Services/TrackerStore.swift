@@ -64,9 +64,12 @@ final class TrackerStore: NSObject {
 // MARK: - Public Methods
 
 extension TrackerStore {
-  func addNew(tracker: Tracker, to category: TrackerCategoryCoreData) throws {
+  func addNewOrUpdate(tracker: Tracker, to category: TrackerCategoryCoreData) throws {
     print(#fileID, #function)
-    let trackerInCoreData = TrackerCoreData(context: context)
+    let trackerAlreadyInStore = fetchTracker(byID: tracker.id)
+    let operation = trackerAlreadyInStore == nil ? "add" : "update"
+    print("TrackerCoreData: Trying to \(operation) tracker with ID [\(tracker.id)] and title - \(tracker.title)")
+    let trackerInCoreData = trackerAlreadyInStore ?? TrackerCoreData(context: context)
     trackerInCoreData.title = tracker.title
     trackerInCoreData.id = tracker.id
     trackerInCoreData.color = Int32(tracker.color)
@@ -78,8 +81,16 @@ extension TrackerStore {
     trackerInCoreData.friday = tracker.schedule[4]
     trackerInCoreData.saturday = tracker.schedule[5]
     trackerInCoreData.sunday = tracker.schedule[6]
+    trackerInCoreData.isPinned = tracker.isPinned
     trackerInCoreData.category = category
-    print("CategoryCoreData: Trying to add tracker with ID [\(tracker.id)] and title - \(tracker.title)")
+    saveContext()
+  }
+
+  func setPinFor(tracker: Tracker) throws {
+    print(#fileID, #function)
+    guard let trackerInCoreData = fetchTracker(byID: tracker.id) else { return }
+      print("TrackerCoreData: Trying to set isPinned [\(tracker.isPinned)] for Tracker - \(tracker.title)")
+    trackerInCoreData.isPinned = tracker.isPinned
     saveContext()
   }
 

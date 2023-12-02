@@ -285,6 +285,7 @@ private extension CreateTrackerViewController {
       title: userInput,
       emoji: emojiIndex,
       color: colorIndex,
+      isPinned: false,
       schedule: schedule
     )
     delegate?.createTrackerViewController(self, didFilledTracker: newTracker, for: selectedCategoryId)

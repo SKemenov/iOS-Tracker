@@ -70,6 +70,9 @@ final class TrackerCategoryStore: NSObject {
     super.init()
     controller.delegate = self
     try? controller.performFetch()
+    if isCategoryCoreDataEmpty() {
+      try? addNew(category: TrackerCategory(id: UUID(), name: Resources.pinCategoryName, items: []))
+    }
   }
 
   var allCategories: [TrackerCategory] {
@@ -188,6 +191,7 @@ private extension TrackerCategoryStore {
       title: title,
       emoji: Int(trackerFromCoreData.emoji),
       color: Int(trackerFromCoreData.color),
+      isPinned: trackerFromCoreData.isPinned,
       schedule: [
         trackerFromCoreData.monday,
         trackerFromCoreData.tuesday,
