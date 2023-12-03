@@ -15,6 +15,7 @@ final class TrackersCoreDataFactory {
   private let trackerCategoryStore = TrackerCategoryStore.shared
   private let trackerRecordStore = TrackerRecordStore()
   private var selectedWeekDay = 0
+  private var sggelectedWeekDay = 0
 
   // MARK: - Public singleton
 

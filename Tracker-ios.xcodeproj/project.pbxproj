@@ -288,12 +288,12 @@
 			isa = PBXGroup;
 			children = (
 				E9718F182AD19E9400853947 /* TrackersViewController.swift */,
+				E97364F92B1B3EC100C82046 /* TrackerCellPreviewController.swift */,
 				E9B7B4972B173368007D066D /* FiltersViewController.swift */,
 				E9A654752AE7CC6C00C692EE /* TrackerHeader.swift */,
 				E9434AAA2AD2BB9A00EF821F /* TrackerCell.swift */,
 				E97364F72B1A0A4900C82046 /* TrackerCellMainView.swift */,
 				E9DAAA0F2B0FDC8B000B51E3 /* CreateTracker */,
-				E97364F92B1B3EC100C82046 /* TrackerCellPreviewController.swift */,
 			);
 			path = TrackerList;
 			sourceTree = "<group>";

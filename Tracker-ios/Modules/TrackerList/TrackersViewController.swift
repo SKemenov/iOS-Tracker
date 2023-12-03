@@ -130,7 +130,7 @@ private extension TrackersViewController {
   }
 
   func fetchTracker(from tracker: Tracker, for categoryId: UUID) {
-    factory.addToStoreNew(tracker: tracker, toCategory: categoryId)
+    factory.addNewOrUpdate(tracker: tracker, toCategory: categoryId)
     setWeekDayForTracker(with: tracker.schedule)
     fetchVisibleCategoriesFromFactory()
   }
@@ -222,12 +222,8 @@ extension TrackersViewController: UICollectionViewDataSource {
 
     let currentTracker = visibleCategories[indexPath.section].items[indexPath.row]
     cell.delegate = self
-    cell.configureCell(
-      bgColor: Resources.colors[currentTracker.color],
-      emoji: Resources.emojis[currentTracker.emoji],
-      title: currentTracker.title,
-      counter: factory.getRecordsCounter(with: currentTracker.id)
-    )
+    cell.viewModel = currentTracker
+    cell.counter = factory.getRecordsCounter(with: currentTracker.id)
     cell.makeItDone(factory.isTrackerDone(with: currentTracker.id, on: selectedDate))
     return cell
   }
@@ -317,7 +313,7 @@ extension TrackersViewController: UICollectionViewDelegate {
     guard !indexPaths.isEmpty else { return nil }
 
     let indexPath = indexPaths[0]
-    let isPinned = false
+    let isPinned = visibleCategories[indexPath.section].items[indexPath.row].isPinned
     // swiftlint:disable:next trailing_closure
     return UIContextMenuConfiguration(actionProvider: { _ in
       return UIMenu(children: [
@@ -391,6 +387,8 @@ extension TrackersViewController: FiltersViewControllerDelegate {
 
 private extension TrackersViewController {
   func pinCell(indexPath: IndexPath) {
+    factory.setPinFor(tracker: visibleCategories[indexPath.section].items[indexPath.row])
+    fetchVisibleCategoriesFromFactory()
     print(#function)
   }
 
