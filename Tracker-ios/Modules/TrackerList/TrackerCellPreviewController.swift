@@ -11,24 +11,25 @@ import UIKit
 
 final class TrackerCellPreviewController: UIViewController {
 
-  private lazy var mainView = TrackerCellMainView(
-    frame: CGRect(
-      origin: CGPoint(x: 0, y: 0),
-      size: CGSize(
-        width: view.frame.width,
-        height: Resources.Dimensions.contentHeight
-      )
-    ),
-    tracker: viewModel
-  )
+  //  private lazy var mainView = TrackerCellMainView(
+  //    frame: CGRect(
+  //      origin: CGPoint(x: 0, y: 0),
+  //      size: CGSize(
+  //        width: view.frame.width,
+  //        height: Resources.Dimensions.contentHeight
+  //      )
+  //    ),
+  //    tracker: viewModel
+  //  )
 
   // MARK: - Public properties
 
-  var viewModel: Tracker {
-    didSet {
-      mainView.viewModel = viewModel
-    }
-  }
+  private var viewModel: Tracker
+  //  {
+  //    didSet {
+  //      mainView.viewModel = viewModel
+  //    }
+  //  }
 
   // MARK: - Inits
   init(with viewModel: Tracker) {
@@ -44,14 +45,24 @@ final class TrackerCellPreviewController: UIViewController {
   // MARK: - Configure TrackerCellPreviewController UI Section
 
   private func configureUI() {
+    var mainView = TrackerCellMainView(
+      frame: CGRect(
+        origin: CGPoint(x: 0, y: 0),
+        size: CGSize(
+          width: view.frame.width,
+          height: Resources.Dimensions.contentHeight
+        )
+      ),
+      tracker: viewModel
+    )
+
     view.addSubview(mainView)
 
     NSLayoutConstraint.activate([
       mainView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
       mainView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
       mainView.topAnchor.constraint(equalTo: view.topAnchor),
-      mainView.heightAnchor.constraint(equalToConstant: Resources.Dimensions.contentHeight),
+      mainView.heightAnchor.constraint(equalToConstant: Resources.Dimensions.contentHeight)
     ])
-
   }
 }

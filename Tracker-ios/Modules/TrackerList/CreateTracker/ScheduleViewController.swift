@@ -49,7 +49,7 @@ final class ScheduleViewController: UIViewController {
     return Resources.Dimensions.fieldHeight / 3
   }()
 
-  private let daysOfWeek = 7
+  private let daysOfWeek = Calendar.current.weekdaySymbols.count
   private var schedule: [Bool]
 
   private lazy var formIsFulfilled = false {
@@ -79,6 +79,7 @@ final class ScheduleViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     configureUI()
+    print(#function, daysOfWeek)
   }
 }
 
@@ -123,12 +124,6 @@ private extension ScheduleViewController {
     titleLabel.font = Resources.Fonts.titleUsual
     titleLabel.textAlignment = .center
     titleLabel.translatesAutoresizingMaskIntoConstraints = false
-    //    titleLabel.frame = CGRect(
-    //      x: 0,
-    //      y: 0,
-    //      width: view.frame.width,
-    //      height: Resources.Dimensions.titleHeight + Resources.Layouts.vSpacingTitle
-    //    )
 
     view.addSubview(titleLabel)
 
@@ -175,6 +170,7 @@ private extension ScheduleViewController {
   func configureOptionsLabel(index: Int) {
     let label = UILabel()
     label.textColor = .ypBlack
+    // label.text = Calendar.current.weekdaySymbols[index]
     label.text = Resources.Labels.fullWeekDays[index]
     label.textAlignment = .natural
     label.frame = CGRect(

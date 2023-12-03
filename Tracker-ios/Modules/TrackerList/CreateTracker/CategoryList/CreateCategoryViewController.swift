@@ -121,7 +121,8 @@ extension CreateCategoryViewController: UITextFieldDelegate {
   }
 
   func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-    true
+    userInput = textField.text ?? ""
+    return true
   }
 }
 

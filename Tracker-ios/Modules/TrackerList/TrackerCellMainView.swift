@@ -60,14 +60,12 @@ final class TrackerCellMainView: UIView {
       titleLabel.text = viewModel.title
       emojiLabel.text = Resources.emojis[viewModel.emoji]
       isPinned = viewModel.isPinned
-      print(#function, viewModel)
     }
   }
 
   var isPinned = false {
     didSet {
       pinImageView.isHidden = !isPinned
-      print(#function, pinImageView.isHidden)
     }
   }
 

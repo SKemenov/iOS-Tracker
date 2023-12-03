@@ -57,10 +57,8 @@ final class TrackersViewController: UIViewController {
     }
   }
 
-  private var selectedDate = Date() {
-    didSet {
-      factory.selectedDate = selectedDate
-    }
+  private var selectedDate: Date {
+    factory.selectedDate
   }
 
   private var isVisibleCategoriesEmpty: Bool {
@@ -82,7 +80,7 @@ final class TrackersViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     self.hideKeyboardWhenTappedAround()
-    selectedDate = Date() + TimeInterval(Resources.shiftTimeZone)
+    // selectedDate = Date() // + TimeInterval(Resources.shiftTimeZone)
 
     searchBar.searchBar.delegate = self
 
@@ -108,7 +106,7 @@ private extension TrackersViewController {
   }
 
   @objc func datePickerValueChanged(_ sender: UIDatePicker) {
-    selectedDate = sender.date
+    factory.selectedDate = sender.date
     fetchVisibleCategoriesFromFactory()
     dismiss(animated: true)
   }
@@ -138,7 +136,7 @@ private extension TrackersViewController {
   func useSelectedFilter(for index: Int) {
     selectedFilterIndex = index
     if selectedFilterIndex == 1 {
-      selectedDate = Date()
+      factory.selectedDate = Date()
       datePicker.setDate(selectedDate, animated: true)
       selectedFilterIndex = 0
     }
@@ -147,7 +145,7 @@ private extension TrackersViewController {
   }
 
   func setWeekDayForTracker(with schedule: [Bool]) {
-    selectedDate -= factory.setWeekDayForTracker(with: schedule)
+    factory.setWeekDayForTracker(with: schedule)
     datePicker.setDate(selectedDate, animated: true)
   }
 
@@ -313,28 +311,34 @@ extension TrackersViewController: UICollectionViewDelegate {
     guard !indexPaths.isEmpty else { return nil }
 
     let indexPath = indexPaths[0]
-    let isPinned = visibleCategories[indexPath.section].items[indexPath.row].isPinned
-    // swiftlint:disable:next trailing_closure
-    return UIContextMenuConfiguration(actionProvider: { _ in
-      return UIMenu(children: [
-        UIAction(
-          title: Resources.Labels.contextMenuList[isPinned ? 3 : 0],
-          image: isPinned ? Resources.SfSymbols.unpinTracker : Resources.SfSymbols.pinTracker
-        ) { [weak self] _ in
-          self?.pinCell(indexPath: indexPath)
-        },
-        UIAction(title: Resources.Labels.contextMenuList[1], image: Resources.SfSymbols.editTracker) { [weak self] _ in
-          self?.editCell(indexPath: indexPath)
-        },
-        UIAction(
-          title: Resources.Labels.contextMenuList[2],
-          image: Resources.SfSymbols.deleteTracker,
-          attributes: .destructive
-        ) { [weak self] _ in
-          self?.deleteCell(indexPath: indexPath)
-        }
-      ])
-    })
+    let currentTracker = visibleCategories[indexPath.section].items[indexPath.row]
+    let isPinned = currentTracker.isPinned
+    // swift lint:disable:next trailing_closure
+    return UIContextMenuConfiguration(
+      previewProvider: { TrackerCellPreviewController(with: currentTracker) },
+      actionProvider: { _ in
+        return UIMenu(children: [
+          UIAction(
+            title: Resources.Labels.contextMenuList[isPinned ? 3 : 0],
+            image: isPinned ? Resources.SfSymbols.unpinTracker : Resources.SfSymbols.pinTracker
+          ) { [weak self] _ in
+            self?.pinCell(indexPath: indexPath)
+          },
+          UIAction(
+            title: Resources.Labels.contextMenuList[1],
+            image: Resources.SfSymbols.editTracker
+          ) { [weak self] _ in
+            self?.editCell(indexPath: indexPath)
+          },
+          UIAction(
+            title: Resources.Labels.contextMenuList[2],
+            image: Resources.SfSymbols.deleteTracker,
+            attributes: .destructive
+          ) { [weak self] _ in
+            self?.deleteCell(indexPath: indexPath)
+          }
+        ])
+      })
   }
 
   //  func collectionView(_ collectionView: UICollectionView, previewForHighlightingContextMenuWithConfiguration configuration: UIContextMenuConfiguration) -> UITargetedPreview? {

@@ -16,38 +16,6 @@ protocol TrackerCellDelegate: AnyObject {
 
 final class TrackerCell: UICollectionViewCell {
   // MARK: - Private properties
-
-  //  private let titleView: UIView = {
-  //    let view = UIView()
-  //    view.layer.cornerRadius = Resources.Dimensions.cornerRadius
-  //    view.layer.masksToBounds = true
-  //    view.translatesAutoresizingMaskIntoConstraints = false
-  //    return view
-  //  }()
-  //
-  //  private let titleLabel: UILabel = {
-  //    let label = UILabel()
-  //    label.numberOfLines = 2
-  //    label.textAlignment = .natural
-  //    label.textColor = .ypWhite
-  //    label.font = Resources.Fonts.textNotification
-  //    label.translatesAutoresizingMaskIntoConstraints = false
-  //    return label
-  //  }()
-  //
-  //  private let emojiLabel: UILabel = {
-  //    let label = UILabel()
-  //    label.numberOfLines = 1
-  //    label.textAlignment = .center
-  //    label.textColor = .ypWhite
-  //    label.font = Resources.Fonts.textNotification
-  //    label.backgroundColor = .ypWhiteAlpha
-  //    label.layer.cornerRadius = Resources.Dimensions.mediumCornerRadius
-  //    label.layer.masksToBounds = true
-  //    label.translatesAutoresizingMaskIntoConstraints = false
-  //    return label
-  //  }()
-
   private let counterLabel: UILabel = {
     let label = UILabel()
     label.numberOfLines = 1
@@ -92,14 +60,9 @@ final class TrackerCell: UICollectionViewCell {
 
   var viewModel: Tracker? {
     didSet {
-      //      titleView.backgroundColor = Resources.colors[viewModel.color]
-      //      titleLabel.text = viewModel.title
-      //      emojiLabel.text = Resources.emojis[viewModel.emoji]
-      //      isPinned = viewModel.isPinned
       mainView.viewModel = viewModel
       guard let colorIndex = viewModel?.color else { return }
       counterButton.backgroundColor = Resources.colors[colorIndex]
-      // updateCounter(0)
     }
   }
 
@@ -117,16 +80,6 @@ final class TrackerCell: UICollectionViewCell {
       )
     }
   }
-
-  // MARK: - Inits
-
-  //  required init(frame: CGRect, tracker: Tracker) {
-  //    // self.mainView = mainView
-  //    self.viewModel = tracker
-  //    super.init(frame: frame)
-  //    configureUI()
-  //    counterButton.addTarget(self, action: #selector(didTapDoneButton), for: .touchUpInside)
-  //  }
 
   // MARK: - Inits
 
@@ -157,14 +110,6 @@ extension TrackerCell {
     counterButton.alpha = isCompleted ? 0.7 : 1
   }
 
-  //  func configureCell(bgColor: UIColor, emoji: String, title: String, counter: Int) {
-  //    titleView.backgroundColor = bgColor
-  //    counterButton.backgroundColor = bgColor
-  //    titleLabel.text = title
-  //    emojiLabel.text = emoji
-  //    updateCounter(counter)
-  //  }
-
   func updateCounter(_ counter: Int) {
     counterLabel.text = String.localizedStringWithFormat(
       NSLocalizedString("numberOfDays", comment: "Counter of total tracker's completed days"),
@@ -177,45 +122,19 @@ extension TrackerCell {
 
 private extension TrackerCell {
   func configureUI() {
-    //    var mainView = TrackerCellMainView(
-    //      frame: CGRect(
-    //        origin: CGPoint(x: 0, y: 0),
-    //        size: CGSize(
-    //          width: contentView.frame.width,
-    //          height: Resources.Dimensions.contentHeight
-    //        )
-    //      ),
-    //      tracker: viewModel
-    // contentView.addSubview(titleLabel)
-    //    )
 
     contentView.addSubview(mainView)
-    // contentView.addSubview(emojiLabel)
-    // contentView.addSubview(titleLabel)
     contentView.addSubview(counterButton)
     contentView.addSubview(counterLabel)
     contentView.addSubview(counterImageView)
 
-    let height = Resources.Dimensions.contentHeight
     let spacing = Resources.Layouts.leadingTracker
-    let smallSpacing = Resources.Layouts.hSpacingButton
-    let largeSpacing = Resources.Layouts.leadingElement
 
     NSLayoutConstraint.activate([
       mainView.leadingAnchor.constraint(equalTo: leadingAnchor),
       mainView.trailingAnchor.constraint(equalTo: trailingAnchor),
       mainView.topAnchor.constraint(equalTo: topAnchor),
-      mainView.heightAnchor.constraint(equalToConstant: height),
-
-      //      emojiLabel.leadingAnchor.constraint(equalTo: titleView.leadingAnchor, constant: spacing),
-      //      emojiLabel.topAnchor.constraint(equalTo: titleView.topAnchor, constant: spacing),
-      //      emojiLabel.widthAnchor.constraint(equalToConstant: Resources.Dimensions.smallIcon),
-      //      emojiLabel.heightAnchor.constraint(equalToConstant: Resources.Dimensions.smallIcon),
-      //
-      //      titleLabel.leadingAnchor.constraint(equalTo: titleView.leadingAnchor, constant: spacing),
-      //      titleLabel.trailingAnchor.constraint(equalTo: titleView.trailingAnchor, constant: -spacing),
-      //      titleLabel.topAnchor.constraint(equalTo: emojiLabel.bottomAnchor, constant: smallSpacing),
-      //      titleLabel.bottomAnchor.constraint(equalTo: titleView.bottomAnchor, constant: -spacing),
+      mainView.heightAnchor.constraint(equalToConstant: Resources.Dimensions.contentHeight),
 
       counterButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -Resources.Layouts.leadingElement),
       counterButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -spacing),
@@ -223,9 +142,8 @@ private extension TrackerCell {
       counterButton.heightAnchor.constraint(equalToConstant: Resources.Dimensions.cornerRadius * 2),
 
       counterLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: spacing),
-      counterLabel.trailingAnchor.constraint(equalTo: counterButton.leadingAnchor, constant: -smallSpacing),
-      counterLabel.topAnchor.constraint(equalTo: mainView.bottomAnchor, constant: largeSpacing),
-      counterLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -spacing * 2),
+      counterLabel.trailingAnchor.constraint(equalTo: counterButton.leadingAnchor, constant: -spacing),
+      counterLabel.centerYAnchor.constraint(equalTo: counterButton.centerYAnchor),
 
       counterImageView.centerXAnchor.constraint(equalTo: counterButton.centerXAnchor),
       counterImageView.centerYAnchor.constraint(equalTo: counterButton.centerYAnchor),

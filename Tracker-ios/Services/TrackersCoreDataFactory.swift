@@ -14,8 +14,11 @@ final class TrackersCoreDataFactory {
   private let trackerStore = TrackerStore()
   private let trackerCategoryStore = TrackerCategoryStore.shared
   private let trackerRecordStore = TrackerRecordStore()
-  private var selectedWeekDay = 0
-  private var sggelectedWeekDay = 0
+  private var selectedWeekDayIndex = 0 {
+    didSet {
+      print(#function, selectedWeekDayIndex)
+    }
+  }
 
   // MARK: - Public singleton
 
@@ -25,18 +28,22 @@ final class TrackersCoreDataFactory {
 
   var visibleCategoriesForWeekDay: [TrackerCategory] {
     var newCategories: [TrackerCategory] = []
-    trackerCategoryStore.allCategories.forEach { newCategories.append(
-      TrackerCategory(id: $0.id, name: $0.name, items: $0.items.filter {
-        switch selectedFilterIndex {
-        case 2:
-          $0.schedule[selectedWeekDay] && (isTrackerDone(with: $0.id, on: selectedDate) == true)
-        case 3:
-          $0.schedule[selectedWeekDay] && (isTrackerDone(with: $0.id, on: selectedDate) == false)
-        default:
-          $0.schedule[selectedWeekDay]
-        }
-      })
-    )
+    if
+      !pinnedTrackers.isEmpty,
+      let pinnedCategoryId = trackerCategoryStore.pinnedCategoryId,
+      let pinnedCategory = allCategories.first(where: { $0.id == pinnedCategoryId }) {
+      // print(#function, "pinnedTrackers.isEmpty is ", pinnedTrackers.isEmpty)
+      // let pinnedCategory = allCategories.filter { $0.name == Resources.pinCategoryName }[0]
+      newCategories.append(
+        TrackerCategory(id: pinnedCategory.id, name: pinnedCategory.name, items: filteredTrackers(from: pinnedTrackers))
+      )
+    }
+    trackerCategoryStore.allCategories.forEach {
+      newCategories.append(TrackerCategory(
+        id: $0.id,
+        name: $0.name,
+        items: filteredTrackers(from: $0.items.filter { !pinnedTrackers.contains($0) })
+      ))
     }
     return newCategories.filter { !$0.items.isEmpty }
   }
@@ -53,9 +60,21 @@ final class TrackersCoreDataFactory {
     trackerRecordStore.totalRecords
   }
 
+  var pinnedTrackers: [Tracker] {
+    trackerStore.pinnedTrackers
+  }
+  
+  var customCalendar = Calendar(identifier: .gregorian) {
+    didSet {
+      customCalendar.firstWeekday = 2
+      print(#function, customCalendar.firstWeekday)
+    }
+  }
+
   var selectedDate = Date() {
     didSet {
-      selectedWeekDay = selectedDate.weekday()
+      // selectedWeekDayIndex = selectedDate.weekday()
+      selectedWeekDayIndex = Calendar.current.component(.weekday, from: selectedDate) - 1
     }
   }
 
@@ -64,6 +83,8 @@ final class TrackersCoreDataFactory {
   // MARK: - Init
 
   private init() {
+    customCalendar.firstWeekday = 2
+    print(#function, customCalendar.firstWeekday)
     // clearDataStores() // uncomment to reset trackerStore & trackerCategoryStore
   }
 }
@@ -71,12 +92,25 @@ final class TrackersCoreDataFactory {
 // MARK: - Public methods
 
 extension TrackersCoreDataFactory {
-  func countCategories() -> Int {
-    return trackerCategoryStore.countCategories()
-  }
+  //  func countCategories() -> Int {
+  //    return trackerCategoryStore.countCategories()
+  //  }
 
   func fetchCategoryName(by thisIndex: Int) -> String {
     trackerCategoryStore.fetchCategoryName(by: thisIndex)
+  }
+
+  func filteredTrackers(from trackers: [Tracker]) -> [Tracker] {
+    trackers.filter {
+      switch selectedFilterIndex {
+      case 2:
+        $0.schedule[selectedWeekDayIndex] && (isTrackerDone(with: $0.id, on: selectedDate) == true)
+      case 3:
+        $0.schedule[selectedWeekDayIndex] && (isTrackerDone(with: $0.id, on: selectedDate) == false)
+      default:
+        $0.schedule[selectedWeekDayIndex]
+      }
+    }
   }
 
   func addToStoreNew(category: TrackerCategory) {
@@ -84,7 +118,7 @@ extension TrackersCoreDataFactory {
   }
 
   func addNewOrUpdate(tracker: Tracker, toCategory categoryId: UUID) {
-    if let category = trackerCategoryStore.fetchCategory(by: categoryId) {
+    if let category = trackerCategoryStore.fetchCategoryBy(id: categoryId) {
       try? trackerStore.addNewOrUpdate(tracker: tracker, to: category)
     }
   }
@@ -121,20 +155,20 @@ extension TrackersCoreDataFactory {
     trackerRecordStore.countRecords(for: fetchTracker(byID: id))
   }
 
-  func setWeekDayForTracker(with schedule: [Bool]) -> TimeInterval {
-    guard schedule[selectedWeekDay] == false else { return 0 }
+  func setWeekDayForTracker(with schedule: [Bool]) {
+    guard schedule[selectedWeekDayIndex] == false else { return }
     var shiftDays = 0
-    for day in (0...selectedWeekDay).reversed() where schedule[day] {
-      shiftDays = selectedWeekDay - day
+    for day in (0...selectedWeekDayIndex).reversed() where schedule[day] {
+      shiftDays = selectedWeekDayIndex - day
       break
     }
     if shiftDays == 0 {
-      for day in (selectedWeekDay..<Resources.Labels.shortWeekDays.count) where schedule[day] {
+      for day in (selectedWeekDayIndex..<Resources.Labels.shortWeekDays.count) where schedule[day] {
         shiftDays = Resources.Labels.shortWeekDays.count - day + 1
         break
       }
     }
-    return TimeInterval(shiftDays * 24 * 60 * 60)
+    selectedDate -= TimeInterval(shiftDays * 24 * 60 * 60)
   }
 }
 
@@ -151,7 +185,7 @@ private extension TrackersCoreDataFactory {
   }
 
   func fetchTracker(byID id: UUID) -> TrackerCoreData {
-    guard let tracker = trackerStore.fetchTracker(byID: id) else {
+    guard let tracker = trackerStore.fetchTrackerBy(id: id) else {
       preconditionFailure("Cannot fount tracker with ID \(id)")
     }
     return tracker
