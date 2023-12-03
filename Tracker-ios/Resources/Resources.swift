@@ -75,25 +75,27 @@ enum Resources {
       NSLocalizedString("labels.stat.3", comment: "labels for stat - Average")
     ]
 
-    static let fullWeekDays = [
-      NSLocalizedString("labels.fullWeekDays.monday", comment: "labels for Monday"),
-      NSLocalizedString("labels.fullWeekDays.tuesday", comment: "labels for Tuesday"),
-      NSLocalizedString("labels.fullWeekDays.wednesday", comment: "labels for Wednesday"),
-      NSLocalizedString("labels.fullWeekDays.thursday", comment: "labels for Thursday"),
-      NSLocalizedString("labels.fullWeekDays.friday", comment: "labels for Friday"),
-      NSLocalizedString("labels.fullWeekDays.saturday", comment: "labels for Saturday"),
-      NSLocalizedString("labels.fullWeekDays.sunday", comment: "labels for Sunday")
-    ]
+    static let fullWeekDays = Calendar.current.weekdaySymbols
+    //    [
+    //      NSLocalizedString("labels.fullWeekDays.monday", comment: "labels for Monday"),
+    //      NSLocalizedString("labels.fullWeekDays.tuesday", comment: "labels for Tuesday"),
+    //      NSLocalizedString("labels.fullWeekDays.wednesday", comment: "labels for Wednesday"),
+    //      NSLocalizedString("labels.fullWeekDays.thursday", comment: "labels for Thursday"),
+    //      NSLocalizedString("labels.fullWeekDays.friday", comment: "labels for Friday"),
+    //      NSLocalizedString("labels.fullWeekDays.saturday", comment: "labels for Saturday"),
+    //      NSLocalizedString("labels.fullWeekDays.sunday", comment: "labels for Sunday")
+    //    ]
 
-    static let shortWeekDays = [
-      NSLocalizedString("labels.shortWeekDays.0", comment: "short labels for Monday"),
-      NSLocalizedString("labels.shortWeekDays.1", comment: "short labels for Tuesday"),
-      NSLocalizedString("labels.shortWeekDays.2", comment: "short labels for Wednesday"),
-      NSLocalizedString("labels.shortWeekDays.3", comment: "short labels for Thursday"),
-      NSLocalizedString("labels.shortWeekDays.4", comment: "short labels for Friday"),
-      NSLocalizedString("labels.shortWeekDays.5", comment: "short labels for Saturday"),
-      NSLocalizedString("labels.shortWeekDays.6", comment: "short labels for Sunday")
-    ]
+    static let shortWeekDays = Calendar.current.shortWeekdaySymbols
+    //    [
+    //      NSLocalizedString("labels.shortWeekDays.0", comment: "short labels for Monday"),
+    //      NSLocalizedString("labels.shortWeekDays.1", comment: "short labels for Tuesday"),
+    //      NSLocalizedString("labels.shortWeekDays.2", comment: "short labels for Wednesday"),
+    //      NSLocalizedString("labels.shortWeekDays.3", comment: "short labels for Thursday"),
+    //      NSLocalizedString("labels.shortWeekDays.4", comment: "short labels for Friday"),
+    //      NSLocalizedString("labels.shortWeekDays.5", comment: "short labels for Saturday"),
+    //      NSLocalizedString("labels.shortWeekDays.6", comment: "short labels for Sunday")
+    //    ]
   }
 
   // MARK: - UI element's SF symbols
@@ -180,7 +182,7 @@ enum Resources {
     static let statCounter = UIFont.systemFont(ofSize: 34, weight: .bold)
   }
 
-  static let pinCategoryName = "Закрепленные"
+  static let pinCategoryName = NSLocalizedString("labels.pinCategoryName", comment: "label for Pinned Category's name")
 
   static let colors: [UIColor] = [
     .ypSelection01, .ypSelection02, .ypSelection03, .ypSelection04, .ypSelection05, .ypSelection06,

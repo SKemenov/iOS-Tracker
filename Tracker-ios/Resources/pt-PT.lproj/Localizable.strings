@@ -39,6 +39,7 @@
 "labels.onboardingPage1" = "Acompanhe apenas \no que você deseja";
 "labels.onboardingPage2" = "Mesmo que não seja ioga e litros de água";
 "labels.onboardingButton" = "Essas são as tecnologias!";
+"labels.pinCategoryName" = "Fixado";
 
 "labels.context.0" = "Fixar";
 "labels.context.1" = "Editar";

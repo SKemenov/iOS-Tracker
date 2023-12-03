@@ -40,6 +40,7 @@
 "labels.onboardingPage1" = "Verfolgen Sie nur das, was Sie wollen";
 "labels.onboardingPage2" = "Auch wenn es kein Liter Wasser ist und Yoga";
 "labels.onboardingButton" = "Das sind die Technologien!";
+"labels.pinCategoryName" = "Angepinnt";
 
 "labels.context.0" = "Pin";
 "labels.context.1" = "Bearbeiten";

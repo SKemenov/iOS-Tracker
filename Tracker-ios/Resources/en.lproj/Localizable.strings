@@ -40,6 +40,7 @@
 "labels.onboardingPage1" = "Track only what you want";
 "labels.onboardingPage2" = "Even if it's not yoga \nand liters of water";
 "labels.onboardingButton" = "Those are the technologies!";
+"labels.pinCategoryName" = "Pinned";
 
 "labels.context.0" = "Pin";
 "labels.context.1" = "Edit";

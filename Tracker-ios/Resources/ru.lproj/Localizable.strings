@@ -40,6 +40,7 @@
 "labels.onboardingPage1" = "Отслеживайте только то, что хотите";
 "labels.onboardingPage2" = "Даже если это \nне литры воды и йога";
 "labels.onboardingButton" = "Вот это технологии!";
+"labels.pinCategoryName" = "Закрепленные";
 
 "labels.context.0" = "Закрепить";
 "labels.context.1" = "Редактировать";
