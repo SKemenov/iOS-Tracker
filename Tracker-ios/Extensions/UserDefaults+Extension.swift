@@ -10,6 +10,7 @@ import Foundation
 extension UserDefaults {
   private enum UserDefaultsKeys: String {
     case hasOnboarded
+    case pinnedCategoryId
   }
 
   var hasOnboarded: Bool {
@@ -18,6 +19,15 @@ extension UserDefaults {
     }
     set {
       setValue(newValue, forKey: UserDefaultsKeys.hasOnboarded.rawValue)
+    }
+  }
+
+  var pinnedCategoryId: String {
+    get {
+      string(forKey: UserDefaultsKeys.pinnedCategoryId.rawValue) ?? ""
+    }
+    set {
+      setValue(newValue, forKey: UserDefaultsKeys.pinnedCategoryId.rawValue)
     }
   }
 }
