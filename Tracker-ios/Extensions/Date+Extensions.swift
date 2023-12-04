@@ -9,27 +9,10 @@ import Foundation
 
 extension Date {
 
-  //  func weekday() -> Int {
-  //    // Use this Int for Index -> Monday is 0
-  //    return Calendar.current.component(.weekday, from: self)
-  //    let systemWeekday = Calendar.current.component(.weekday, from: self)
-  //    let weekdaySymbols = Calendar.current.weekdaySymbols
-  //    let shortWeekdaySymbols = Calendar.current.shortWeekdaySymbols
-  //    let veryShortWeekdaySymbols = Calendar.current.veryShortWeekdaySymbols
-  //    let shortStandaloneWeekdaySymbols = Calendar.current.shortStandaloneWeekdaySymbols
-  //    let firstWeekday = Calendar.current.firstWeekday
-  //    print(#function, systemWeekday, Calendar.current.firstWeekday)
-  //    if Calendar.current.firstWeekday == 1 {
-  //      switch systemWeekday {
-  //      case 2...7:
-  //        return systemWeekday - 2
-  //      default:
-  //        return 6
-  //      }
-  //    } else {
-  //      return systemWeekday - 1
-  //    }
-  //  }
+  func weekdayNumberMondayIsFirst() -> Int {
+    // Use this Int for Index -> Monday is 1
+    [0, 7, 1, 2, 3, 4, 5, 6][Calendar.current.component(.weekday, from: self)]
+  }
 
   func sameDay(_ date: Date) -> Bool {
     Calendar.current.compare(self, to: date, toGranularity: .day) == .orderedSame
