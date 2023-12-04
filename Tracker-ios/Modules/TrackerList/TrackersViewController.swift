@@ -313,38 +313,40 @@ extension TrackersViewController: UICollectionViewDelegate {
     let indexPath = indexPaths[0]
     let currentTracker = visibleCategories[indexPath.section].items[indexPath.row]
     let isPinned = currentTracker.isPinned
-    // swift lint:disable:next trailing_closure
-    return UIContextMenuConfiguration(
-      // previewProvider: { TrackerCellPreviewController(with: currentTracker) },
-      actionProvider: { _ in
-        return UIMenu(children: [
-          UIAction(
-            title: Resources.Labels.contextMenuList[isPinned ? 3 : 0],
-            image: isPinned ? Resources.SfSymbols.unpinTracker : Resources.SfSymbols.pinTracker
-          ) { [weak self] _ in
-            self?.pinCell(indexPath: indexPath)
-          },
-          UIAction(
-            title: Resources.Labels.contextMenuList[1],
-            image: Resources.SfSymbols.editTracker
-          ) { [weak self] _ in
-            self?.editCell(indexPath: indexPath)
-          },
-          UIAction(
-            title: Resources.Labels.contextMenuList[2],
-            image: Resources.SfSymbols.deleteTracker,
-            attributes: .destructive
-          ) { [weak self] _ in
-            self?.deleteCell(indexPath: indexPath)
-          }
-        ])
-      })
+    // swiftlint:disable:next trailing_closure
+    return UIContextMenuConfiguration(actionProvider: { _ in
+      return UIMenu(children: [
+        UIAction(
+          title: Resources.Labels.contextMenuList[isPinned ? 3 : 0],
+          image: isPinned ? Resources.SfSymbols.unpinTracker : Resources.SfSymbols.pinTracker
+        ) { [weak self] _ in
+          self?.pinCell(indexPath: indexPath)
+        },
+        UIAction(
+          title: Resources.Labels.contextMenuList[1],
+          image: Resources.SfSymbols.editTracker
+        ) { [weak self] _ in
+          self?.editCell(indexPath: indexPath)
+        },
+        UIAction(
+          title: Resources.Labels.contextMenuList[2],
+          image: Resources.SfSymbols.deleteTracker,
+          attributes: .destructive
+        ) { [weak self] _ in
+          self?.deleteCell(indexPath: indexPath)
+        }
+      ])
+    })
   }
 
-  //  func collectionView(_ collectionView: UICollectionView, previewForHighlightingContextMenuWithConfiguration configuration: UIContextMenuConfiguration) -> UITargetedPreview? {
-  //    print(#function)
-  //    return
-  //  }
+  func collectionView(
+    _ collectionView: UICollectionView,
+    contextMenuConfiguration configuration: UIContextMenuConfiguration,
+    highlightPreviewForItemAt indexPath: IndexPath
+  ) -> UITargetedPreview? {
+    guard let cell = collectionView.cellForItem(at: indexPath) as? TrackerCell else { return nil }
+    return UITargetedPreview(view: cell.mainView)
+  }
 }
 
 // MARK: - EditTrackerViewControllerDelegate
@@ -416,7 +418,7 @@ private extension TrackersViewController {
     let tracker = visibleCategories[indexPath.section].items[indexPath.row]
     let counter = factory.countRecords(for: tracker.id)
     if let category = factory.fetchCategoryByTracker(id: tracker.id) {
-      let trackerToEdit = EditTracker(tracker: tracker, counter: counter, category: category)
+      let trackerToEdit = TrackerFulfilment(tracker: tracker, counter: counter, category: category)
       let nextController = EditTrackerViewController(trackerToEdit: trackerToEdit)
       nextController.delegate = self
       nextController.isModalInPresentation = true

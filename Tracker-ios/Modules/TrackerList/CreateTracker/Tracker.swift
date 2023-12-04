@@ -29,7 +29,7 @@ struct TrackerCategory: Hashable {
 //  let days: Int
 // }
 
-struct EditTracker: Hashable {
+struct TrackerFulfilment: Hashable {
   let tracker: Tracker
   let counter: Int
   let category: TrackerCategory

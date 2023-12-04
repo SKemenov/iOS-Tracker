@@ -150,21 +150,15 @@ extension TrackersCoreDataFactory {
   }
 
   func setWeekDayForTracker(with schedule: [Bool]) {
-    print(#function, schedule, selectedWeekDayIndex)
     guard schedule[selectedWeekDayIndex] == false else { return }
     var shiftDays = 0
-    print(#function, schedule, selectedWeekDayIndex, shiftDays)
     guard let shiftDaysIndex = schedule.firstIndex(where: { $0 == true }) else { return }
-    print(#function, shiftDaysIndex, selectedWeekDayIndex)
     if shiftDaysIndex > selectedFilterIndex {
       shiftDays = selectedFilterIndex + schedule.count - shiftDaysIndex
-      print(#function, shiftDays, selectedWeekDayIndex, schedule.count, shiftDaysIndex)
     } else {
       shiftDays = selectedFilterIndex - shiftDaysIndex
-      print(#function, shiftDays, selectedWeekDayIndex, shiftDaysIndex)
     }
     selectedDate -= TimeInterval(shiftDays * 24 * 60 * 60)
-    print(#function, selectedDate)
   }
 }
 

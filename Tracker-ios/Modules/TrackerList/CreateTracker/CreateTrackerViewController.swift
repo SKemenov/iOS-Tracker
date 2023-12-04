@@ -206,8 +206,8 @@ private extension CreateTrackerViewController {
   }
 
   func updateFormState() {
-    formIsFulfilled = trackerNameIsFulfilled && categoryIsSelected && scheduleIsFulfilled && scheduleIsFulfilled
-    && emojiIsSelected && colorIsSelected
+    formIsFulfilled = trackerNameIsFulfilled && categoryIsSelected && scheduleIsFulfilled && emojiIsSelected
+    && colorIsSelected
   }
 
   func updateCreateButtonState() {
@@ -512,6 +512,7 @@ private extension CreateTrackerViewController {
     view.addSubview(mainScrollView)
     mainScrollView.addSubview(contentView)
     configureMainScrollViewConstraints()
+    configureContentViewConstraints()
   }
 
   func configureMainScrollView() {

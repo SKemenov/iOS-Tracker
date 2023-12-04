@@ -43,7 +43,7 @@ final class TrackerCell: UICollectionViewCell {
     return imageView
   }()
 
-  private lazy var mainView = TrackerCellMainView(
+  lazy var mainView = TrackerCellMainView(
     frame: CGRect(
       origin: CGPoint(x: 0, y: 0),
       size: CGSize(
