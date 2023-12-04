@@ -55,19 +55,3 @@
 "labels.stat.1" = "Dias ideais";
 "labels.stat.2" = "Rastreadores concluídos";
 "labels.stat.3" = "Média";
-
-"labels.fullWeekDays.monday" = "segunda-feira";
-"labels.fullWeekDays.tuesday" = "terça-feira";
-"labels.fullWeekDays.wednesday" = "quarta-feira";
-"labels.fullWeekDays.thursday" = "quinta-feira";
-"labels.fullWeekDays.friday" = "sexta-feira";
-"labels.fullWeekDays.saturday" = "sábado";
-"labels.fullWeekDays.sunday" = "domingo";
-
-"labels.shortWeekDays.0" = "seg";
-"labels.shortWeekDays.1" = "ter";
-"labels.shortWeekDays.2" = "qua";
-"labels.shortWeekDays.3" = "qui";
-"labels.shortWeekDays.4" = "sex";
-"labels.shortWeekDays.5" = "sáb";
-"labels.shortWeekDays.6" = "dom";

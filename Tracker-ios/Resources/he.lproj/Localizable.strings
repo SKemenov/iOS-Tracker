@@ -56,19 +56,3 @@
 "labels.stat.1" = "ימים אידיאליים";
 "labels.stat.2" = "המעקבים הושלמו";
 "labels.stat.3" = "ממוצע";
-
-"labels.fullWeekDays.monday" = "יום שני";
-"labels.fullWeekDays.tuesday" = "יום שלישי";
-"labels.fullWeekDays.wednesday" = "יום רביעי";
-"labels.fullWeekDays.thursday" = "יום חמישי";
-"labels.fullWeekDays.friday" = "יום שישי";
-"labels.fullWeekDays.saturday" = "יום שבת";
-"labels.fullWeekDays.sunday" = "יום ראשון";
-
-"labels.shortWeekDays.0" = "יום ב'";
-"labels.shortWeekDays.1" = "יום ג'";
-"labels.shortWeekDays.2" = "יום ד'";
-"labels.shortWeekDays.3" = "יום ה'";
-"labels.shortWeekDays.4" = "יום ו'";
-"labels.shortWeekDays.5" = "יום ש'";
-"labels.shortWeekDays.6" = "יום א'";

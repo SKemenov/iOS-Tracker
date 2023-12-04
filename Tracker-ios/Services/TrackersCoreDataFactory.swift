@@ -14,11 +14,7 @@ final class TrackersCoreDataFactory {
   private let trackerStore = TrackerStore()
   private let trackerCategoryStore = TrackerCategoryStore.shared
   private let trackerRecordStore = TrackerRecordStore()
-  private var selectedWeekDayIndex = 0 {
-    didSet {
-      print(#function, selectedWeekDayIndex)
-    }
-  }
+  private var selectedWeekDayIndex = 0
 
   // MARK: - Public singleton
 
@@ -32,8 +28,6 @@ final class TrackersCoreDataFactory {
       !pinnedTrackers.isEmpty,
       let pinnedCategoryId = trackerCategoryStore.pinnedCategoryId,
       let pinnedCategory = allCategories.first(where: { $0.id == pinnedCategoryId }) {
-      // print(#function, "pinnedTrackers.isEmpty is ", pinnedTrackers.isEmpty)
-      // let pinnedCategory = allCategories.filter { $0.name == Resources.pinCategoryName }[0]
       newCategories.append(
         TrackerCategory(id: pinnedCategory.id, name: pinnedCategory.name, items: filteredTrackers(from: pinnedTrackers))
       )
@@ -63,18 +57,10 @@ final class TrackersCoreDataFactory {
   var pinnedTrackers: [Tracker] {
     trackerStore.pinnedTrackers
   }
-  
-  var customCalendar = Calendar(identifier: .gregorian) {
-    didSet {
-      customCalendar.firstWeekday = 2
-      print(#function, customCalendar.firstWeekday)
-    }
-  }
 
-  var selectedDate = Date() {
+  var selectedDate = Date() + TimeInterval(Resources.shiftTimeZone) {
     didSet {
-      // selectedWeekDayIndex = selectedDate.weekday()
-      selectedWeekDayIndex = Calendar.current.component(.weekday, from: selectedDate) - 1
+      selectedWeekDayIndex = selectedDate.weekdayNumberMondayIsFirst() - 1
     }
   }
 
@@ -83,8 +69,6 @@ final class TrackersCoreDataFactory {
   // MARK: - Init
 
   private init() {
-    customCalendar.firstWeekday = 2
-    print(#function, customCalendar.firstWeekday)
     // clearDataStores() // uncomment to reset trackerStore & trackerCategoryStore
   }
 }
@@ -92,10 +76,6 @@ final class TrackersCoreDataFactory {
 // MARK: - Public methods
 
 extension TrackersCoreDataFactory {
-  //  func countCategories() -> Int {
-  //    return trackerCategoryStore.countCategories()
-  //  }
-
   func fetchCategoryName(by thisIndex: Int) -> String {
     trackerCategoryStore.fetchCategoryName(by: thisIndex)
   }
@@ -156,19 +136,21 @@ extension TrackersCoreDataFactory {
   }
 
   func setWeekDayForTracker(with schedule: [Bool]) {
+    print(#function, schedule, selectedWeekDayIndex)
     guard schedule[selectedWeekDayIndex] == false else { return }
     var shiftDays = 0
-    for day in (0...selectedWeekDayIndex).reversed() where schedule[day] {
-      shiftDays = selectedWeekDayIndex - day
-      break
-    }
-    if shiftDays == 0 {
-      for day in (selectedWeekDayIndex..<Resources.Labels.shortWeekDays.count) where schedule[day] {
-        shiftDays = Resources.Labels.shortWeekDays.count - day + 1
-        break
-      }
+    print(#function, schedule, selectedWeekDayIndex, shiftDays)
+    guard let shiftDaysIndex = schedule.firstIndex(where: { $0 == true }) else { return }
+    print(#function, shiftDaysIndex, selectedWeekDayIndex)
+    if shiftDaysIndex > selectedFilterIndex {
+      shiftDays = selectedFilterIndex + schedule.count - shiftDaysIndex
+      print(#function, shiftDays, selectedWeekDayIndex, schedule.count, shiftDaysIndex)
+    } else {
+      shiftDays = selectedFilterIndex - shiftDaysIndex
+      print(#function, shiftDays, selectedWeekDayIndex, shiftDaysIndex)
     }
     selectedDate -= TimeInterval(shiftDays * 24 * 60 * 60)
+    print(#function, selectedDate)
   }
 }
 

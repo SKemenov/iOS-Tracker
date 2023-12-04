@@ -56,19 +56,3 @@
 "labels.stat.1" = "Ideale Tage";
 "labels.stat.2" = "Tracker abgeschlossen";
 "labels.stat.3" = "Durchschnitt";
-
-"labels.fullWeekDays.monday" = "Montag";
-"labels.fullWeekDays.tuesday" = "Dienstag";
-"labels.fullWeekDays.wednesday" = "Mittwoch";
-"labels.fullWeekDays.thursday" = "Donnerstag";
-"labels.fullWeekDays.friday" = "Freitag";
-"labels.fullWeekDays.saturday" = "Samstag";
-"labels.fullWeekDays.sunday" = "Sonntag";
-
-"labels.shortWeekDays.0" = "Mo";
-"labels.shortWeekDays.1" = "Di";
-"labels.shortWeekDays.2" = "Mi";
-"labels.shortWeekDays.3" = "Do";
-"labels.shortWeekDays.4" = "Fr";
-"labels.shortWeekDays.5" = "Sa";
-"labels.shortWeekDays.6" = "So";

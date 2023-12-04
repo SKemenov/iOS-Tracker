@@ -56,19 +56,3 @@
 "labels.stat.1" = "Идеальные дни";
 "labels.stat.2" = "Трекеров завершено";
 "labels.stat.3" = "Среднее значение";
-
-"labels.fullWeekDays.monday" = "Понедельник";
-"labels.fullWeekDays.tuesday" = "Вторник";
-"labels.fullWeekDays.wednesday" = "Среда";
-"labels.fullWeekDays.thursday" = "Четверг";
-"labels.fullWeekDays.friday" = "Пятница";
-"labels.fullWeekDays.saturday" = "Суббота";
-"labels.fullWeekDays.sunday" = "Воскресенье";
-
-"labels.shortWeekDays.0" = "Пн";
-"labels.shortWeekDays.1" = "Вт";
-"labels.shortWeekDays.2" = "Ср";
-"labels.shortWeekDays.3" = "Чт";
-"labels.shortWeekDays.4" = "Пт";
-"labels.shortWeekDays.5" = "Сб";
-"labels.shortWeekDays.6" = "Вс";

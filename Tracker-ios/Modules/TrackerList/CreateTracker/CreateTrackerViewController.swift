@@ -231,7 +231,6 @@ private extension CreateTrackerViewController {
       var finalSchedule: [String] = []
       for index in 0..<schedule.count where schedule[index] {
         finalSchedule.append(Resources.Labels.shortWeekDays[index])
-        // finalSchedule.append(Calendar.current.shortWeekdaySymbols[index])
       }
       let finalScheduleJoined = finalSchedule.joined(separator: ", ")
       scheduleButton.configure(value: finalScheduleJoined)

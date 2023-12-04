@@ -170,7 +170,6 @@ private extension ScheduleViewController {
   func configureOptionsLabel(index: Int) {
     let label = UILabel()
     label.textColor = .ypBlack
-    // label.text = Calendar.current.weekdaySymbols[index]
     label.text = Resources.Labels.fullWeekDays[index]
     label.textAlignment = .natural
     label.frame = CGRect(

@@ -56,19 +56,3 @@
 "labels.stat.1" = "Ideal Days";
 "labels.stat.2" = "Trackers Completed";
 "labels.stat.3" = "Average";
-
-"labels.fullWeekDays.monday" = "Monday";
-"labels.fullWeekDays.tuesday" = "Tuesday";
-"labels.fullWeekDays.wednesday" = "Wednesday";
-"labels.fullWeekDays.thursday" = "Thursday";
-"labels.fullWeekDays.friday" = "Friday";
-"labels.fullWeekDays.saturday" = "Saturday";
-"labels.fullWeekDays.sunday" = "Sunday";
-
-"labels.shortWeekDays.0" = "Mo";
-"labels.shortWeekDays.1" = "Tu";
-"labels.shortWeekDays.2" = "We";
-"labels.shortWeekDays.3" = "Th";
-"labels.shortWeekDays.4" = "Fr";
-"labels.shortWeekDays.5" = "Sa";
-"labels.shortWeekDays.6" = "Su";

@@ -56,19 +56,3 @@
 "labels.stat.1" = "Días ideales";
 "labels.stat.2" = "Rastreadores completados";
 "labels.stat.3" = "Promedio";
-
-"labels.fullWeekDays.monday" = "lunes";
-"labels.fullWeekDays.tuesday" = "martes";
-"labels.fullWeekDays.wednesday" = "miércoles";
-"labels.fullWeekDays.thursday" = "jueves";
-"labels.fullWeekDays.friday" = "viernes";
-"labels.fullWeekDays.saturday" = "sábado";
-"labels.fullWeekDays.sunday" = "domingo";
-
-"labels.shortWeekDays.0" = "Lu";
-"labels.shortWeekDays.1" = "Ma";
-"labels.shortWeekDays.2" = "Mi";
-"labels.shortWeekDays.3" = "Ju";
-"labels.shortWeekDays.4" = "Vi";
-"labels.shortWeekDays.5" = "Sa";
-"labels.shortWeekDays.6" = "Do";
