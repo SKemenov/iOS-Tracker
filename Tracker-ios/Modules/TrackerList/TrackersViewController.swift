@@ -484,6 +484,7 @@ private extension TrackersViewController {
     datePicker.tintColor = .ypBlue
     datePicker.datePickerMode = .date
     datePicker.preferredDatePickerStyle = .compact
+    datePicker.overrideUserInterfaceStyle = .light
     datePicker.setDate(selectedDate, animated: true)
     datePicker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
     datePicker.layer.cornerRadius = Resources.Dimensions.smallCornerRadius
