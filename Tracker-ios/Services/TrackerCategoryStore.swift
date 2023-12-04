@@ -89,7 +89,7 @@ final class TrackerCategoryStore: NSObject {
 // MARK: - Public methods
 
 extension TrackerCategoryStore {
-  func deleteCategoriesFromCoreData() { // service method
+  func deleteCategoriesFromCoreData() {
     print("TCS Run deleteCategoriesFromCoreData()")
     guard !isCategoryCoreDataEmpty() else { return }
     self.fetchedResultsController.fetchedObjects?.forEach { context.delete($0) }
@@ -206,7 +206,7 @@ private extension TrackerCategoryStore {
 // MARK: - Mock methods
 
 private extension TrackerCategoryStore {
-  func showCategoriesFromCoreData() { // service method
+  func showCategoriesFromCoreData() {
     let request = TrackerCategoryCoreData.fetchRequest()
     request.returnsObjectsAsFaults = false
     let categories = try? context.fetch(request)

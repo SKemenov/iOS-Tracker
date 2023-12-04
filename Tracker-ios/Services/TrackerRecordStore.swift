@@ -73,7 +73,7 @@ extension TrackerRecordStore {
     return records.filter { $0.tracker == tracker }.compactMap { $0.date }
   }
 
-  func deleteTrackerRecordsFromCoreData() { // service method
+  func deleteTrackerRecordsFromCoreData() {
     print(#fileID, #function)
     let request = TrackerRecordCoreData.fetchRequest()
     let records = try? context.fetch(request)
@@ -85,7 +85,7 @@ extension TrackerRecordStore {
 // MARK: - Private methods
 
 private extension TrackerRecordStore {
-  func isTrackerRecordCoreDataEmpty() -> Bool { // service method
+  func isTrackerRecordCoreDataEmpty() -> Bool { 
     let checkRequest = TrackerRecordCoreData.fetchRequest()
     guard
       let result = try? context.fetch(checkRequest),
@@ -96,7 +96,7 @@ private extension TrackerRecordStore {
     return true
   }
 
-  func showTrackerRecordsFromCoreData() { // service method
+  func showTrackerRecordsFromCoreData() {
     let request = TrackerRecordCoreData.fetchRequest()
     request.returnsObjectsAsFaults = false
     let records = try? context.fetch(request)

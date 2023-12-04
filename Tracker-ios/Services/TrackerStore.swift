@@ -109,7 +109,7 @@ extension TrackerStore {
     saveContext()
   }
 
-  func deleteTrackersFromCoreData() { // service method
+  func deleteTrackersFromCoreData() {
     print(#fileID, #function)
     self.fetchedResultsController.fetchedObjects?.forEach { context.delete($0) }
     saveContext()
@@ -128,7 +128,7 @@ private extension TrackerStore {
     return true
   }
 
-  func showTrackersFromCoreData() {  // service method
+  func showTrackersFromCoreData() {
     print(#fileID, #function)
     let request = TrackerCoreData.fetchRequest()
     request.returnsObjectsAsFaults = false

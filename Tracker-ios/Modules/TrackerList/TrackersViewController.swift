@@ -414,7 +414,6 @@ private extension TrackersViewController {
     analyticsService.report(event: "click", params: ["screen": "Main", "item": "pin"])
     factory.setPinFor(tracker: visibleCategories[indexPath.section].items[indexPath.row])
     fetchVisibleCategoriesFromFactory()
-    print(#function)
   }
 
   func editCell(indexPath: IndexPath) {
@@ -427,7 +426,6 @@ private extension TrackersViewController {
       nextController.delegate = self
       nextController.isModalInPresentation = true
       present(nextController, animated: true)
-      print(#function)
     }
   }
 
@@ -435,7 +433,6 @@ private extension TrackersViewController {
     analyticsService.report(event: "click", params: ["screen": "Main", "item": "delete"])
     factory.delete(tracker: visibleCategories[indexPath.section].items[indexPath.row])
     fetchVisibleCategoriesFromFactory()
-    print(#function)
   }
 
   func configureUI() {
