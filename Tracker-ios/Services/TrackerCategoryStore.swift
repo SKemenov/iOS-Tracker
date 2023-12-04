@@ -119,16 +119,16 @@ extension TrackerCategoryStore {
   //    return Int(counter)
   //  }
 
-  func fetchCategoryName(by thisIndex: Int) -> String {
-    let request = TrackerCategoryCoreData.fetchRequest()
-    request.returnsObjectsAsFaults = false
-    var categoryName: String = ""
-    guard let categories = try? context.fetch(request) else { return categoryName }
-    for (index, category) in categories.enumerated() where index == thisIndex {
-      categoryName = category.name ?? ""
-    }
-    return categoryName
-  }
+  //  func fetchCategoryName(by thisIndex: Int) -> String {
+  //    let request = TrackerCategoryCoreData.fetchRequest()
+  //    request.returnsObjectsAsFaults = false
+  //    var categoryName: String = ""
+  //    guard let categories = try? context.fetch(request) else { return categoryName }
+  //    for (index, category) in categories.enumerated() where index == thisIndex {
+  //      categoryName = category.name ?? ""
+  //    }
+  //    return categoryName
+  //  }
 
   func addNew(category: TrackerCategory) throws {
     let categoryInCoreData = TrackerCategoryCoreData(context: context)
@@ -146,19 +146,7 @@ extension TrackerCategoryStore {
     category.name = newName
     saveContext()
   }
-}
-
-// MARK: - NSFetchedResultsControllerDelegate
-
-extension TrackerCategoryStore: NSFetchedResultsControllerDelegate {
-  func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
-    delegate?.trackerCategoryStore(didUpdate: self)
-  }
-}
-
-// MARK: - Private methods
-
-private extension TrackerCategoryStore {
+  
   func trackerCategory(from trackerCategoryCoreData: TrackerCategoryCoreData) throws -> TrackerCategory {
     guard let id = trackerCategoryCoreData.id else {
       throw TrackerCategoryStoreError.decodingErrorInvalidId
@@ -181,6 +169,20 @@ private extension TrackerCategoryStore {
     }
     return TrackerCategory(id: id, name: name, items: trackers.sorted { $0.title < $1.title })
   }
+}
+
+// MARK: - NSFetchedResultsControllerDelegate
+
+extension TrackerCategoryStore: NSFetchedResultsControllerDelegate {
+  func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+    delegate?.trackerCategoryStore(didUpdate: self)
+  }
+}
+
+// MARK: - Private methods
+
+private extension TrackerCategoryStore {
+
 
   func tracker(from trackerFromCoreData: TrackerCoreData) throws -> Tracker {
     guard let id = trackerFromCoreData.id else {

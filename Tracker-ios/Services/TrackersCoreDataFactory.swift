@@ -76,9 +76,9 @@ final class TrackersCoreDataFactory {
 // MARK: - Public methods
 
 extension TrackersCoreDataFactory {
-  func fetchCategoryName(by thisIndex: Int) -> String {
-    trackerCategoryStore.fetchCategoryName(by: thisIndex)
-  }
+//  func fetchCategoryName(by thisIndex: Int) -> String {
+//    trackerCategoryStore.fetchCategoryName(by: thisIndex)
+//  }
 
   func filteredTrackers(from trackers: [Tracker]) -> [Tracker] {
     trackers.filter {
@@ -91,6 +91,13 @@ extension TrackersCoreDataFactory {
         $0.schedule[selectedWeekDayIndex]
       }
     }
+  }
+
+  func fetchCategoryByTracker(id: UUID) -> TrackerCategory? {
+    guard
+      let categoryInStore = trackerStore.fetchCategoryByTracker(id: id),
+      let category = try? trackerCategoryStore.trackerCategory(from: categoryInStore) else { return nil }
+    return category
   }
 
   func addToStoreNew(category: TrackerCategory) {
@@ -138,7 +145,7 @@ extension TrackersCoreDataFactory {
     !trackerRecordStore.fetchRecords(for: fetchTracker(byID: id)).filter { $0.sameDay(date) }.isEmpty
   }
 
-  func getRecordsCounter(with id: UUID) -> Int {
+  func countRecords(for id: UUID) -> Int {
     trackerRecordStore.countRecords(for: fetchTracker(byID: id))
   }
 

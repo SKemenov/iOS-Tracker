@@ -9,6 +9,7 @@
 "labels.newTracker" = "Creating a tracker";
 "labels.newEvent" = "New Event";
 "labels.newHabit" = "New Habit";
+"labels.editHabit" = "Edit Habit";
 "labels.newCategory" = "New Category";
 "labels.addCategory" = "Add Category";
 "labels.habit" = "Habit";
@@ -20,6 +21,7 @@
 "labels.searchBar" = "Search";
 "labels.cancel" = "Cancel";
 "labels.create" = "Create";
+"labels.save" = "Save";
 "labels.textFieldPlaceholder" = "Enter tracker's name here";
 "labels.categoryNamePlaceholder" = "Enter category's name here";
 "labels.textFieldRestriction" = "No more than 38 characters";

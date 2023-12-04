@@ -221,7 +221,7 @@ extension TrackersViewController: UICollectionViewDataSource {
     let currentTracker = visibleCategories[indexPath.section].items[indexPath.row]
     cell.delegate = self
     cell.viewModel = currentTracker
-    cell.counter = factory.getRecordsCounter(with: currentTracker.id)
+    cell.counter = factory.countRecords(for: currentTracker.id)
     cell.makeItDone(factory.isTrackerDone(with: currentTracker.id, on: selectedDate))
     return cell
   }
@@ -347,6 +347,22 @@ extension TrackersViewController: UICollectionViewDelegate {
   //  }
 }
 
+// MARK: - EditTrackerViewControllerDelegate
+
+extension TrackersViewController: EditTrackerViewControllerDelegate {
+  func editTrackerViewController(
+    _ viewController: EditTrackerViewController,
+    didChangedTracker tracker: Tracker,
+    with categoryId: UUID
+  ) {
+    dismiss(animated: true) {
+      [weak self] in
+      guard let self else { return }
+      self.fetchTracker(from: tracker, for: categoryId)
+    }
+  }
+}
+
 // MARK: - NewTrackerViewControllerDelegate
 
 extension TrackersViewController: NewTrackerViewControllerDelegate {
@@ -371,7 +387,7 @@ extension TrackersViewController: TrackerCellDelegate {
     guard let indexPath = collectionView.indexPath(for: cell) else { return }
     let tracker = visibleCategories[indexPath.section].items[indexPath.row]
     cell.makeItDone(factory.setTrackerDone(with: tracker.id, on: selectedDate))
-    cell.updateCounter(factory.getRecordsCounter(with: tracker.id))
+    cell.updateCounter(factory.countRecords(for: tracker.id))
   }
 }
 
@@ -397,7 +413,16 @@ private extension TrackersViewController {
   }
 
   func editCell(indexPath: IndexPath) {
-    print(#function)
+    let tracker = visibleCategories[indexPath.section].items[indexPath.row]
+    let counter = factory.countRecords(for: tracker.id)
+    if let category = factory.fetchCategoryByTracker(id: tracker.id) {
+      let trackerToEdit = EditTracker(tracker: tracker, counter: counter, category: category)
+      let nextController = EditTrackerViewController(trackerToEdit: trackerToEdit)
+      nextController.delegate = self
+      nextController.isModalInPresentation = true
+      present(nextController, animated: true)
+      print(#function)
+    }
   }
 
   func deleteCell(indexPath: IndexPath) {

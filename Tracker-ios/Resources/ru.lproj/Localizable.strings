@@ -9,6 +9,7 @@
 "labels.newTracker" = "Создание трекера";
 "labels.newEvent" = "Новое нерегулярное событие";
 "labels.newHabit" = "Новая привычка";
+"labels.editHabit" = "Редактирование привычки";
 "labels.newCategory" = "Новая категория";
 "labels.addCategory" = "Добавить категорию";
 "labels.habit" = "Привычка";
@@ -20,6 +21,7 @@
 "labels.searchBar" = "Поиск";
 "labels.cancel" = "Отменить";
 "labels.create" = "Создать";
+"labels.save" = "Сохранить";
 "labels.textFieldPlaceholder" = "Введите название трекера";
 "labels.categoryNamePlaceholder" = "Введите название категории";
 "labels.textFieldRestriction" = "Ограничение 38 символов";

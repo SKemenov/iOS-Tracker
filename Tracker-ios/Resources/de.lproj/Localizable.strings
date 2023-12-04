@@ -9,6 +9,7 @@
 "labels.newTracker" = "Tracker erstellen";
 "labels.newEvent" = "Neues Ereignis";
 "labels.newHabit" = "Neue Gewohnheit";
+"labels.editHabit" = "Gewohnheit bearbeiten";
 "labels.newCategory" = "Neue Kategorie";
 "labels.addCategory" = "Kategorie hinzufügen";
 "labels.habit" = "Gewohnheit";
@@ -20,6 +21,7 @@
 "labels.searchBar" = "Suchen";
 "labels.cancel" = "Abbrechen";
 "labels.create" = "Erstellen";
+"labels.save" = "Speichern";
 "labels.textFieldPlaceholder" = "Geben Sie hier den Namen des Trackers ein";
 "labels.categoryNamePlaceholder" = "Geben Sie hier den Namen der Kategorie ein";
 "labels.textFieldRestriction" = "Nicht mehr als 38 Zeichen";

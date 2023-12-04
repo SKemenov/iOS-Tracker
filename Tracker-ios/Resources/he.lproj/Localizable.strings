@@ -9,6 +9,7 @@
 "labels.newTracker" = "יצירת מעקב";
 "labels.newEvent" = "אירוע חדש";
 "labels.newHabit" = "הרגל חדש";
+"labels.editHabit" = "ערוך הרגל";
 "labels.newCategory" = "קטגוריה חדשה";
 "labels.addCategory" = "הוסף קטגוריה";
 "labels.habit" = "הרגל";
@@ -20,6 +21,7 @@
 "labels.searchBar" = "חיפוש";
 "labels.cancel" = "בטל";
 "labels.create" = "צור";
+"labels.save" = "שמור";
 "labels.textFieldPlaceholder" = "הזן את שם הגשש כאן";
 "labels.categoryNamePlaceholder" = "הזן את שם הקטגוריה כאן";
 "labels.textFieldRestriction" = "לא יותר מ-38 תווים";

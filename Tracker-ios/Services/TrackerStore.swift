@@ -116,6 +116,14 @@ extension TrackerStore {
     return self.fetchedResultsController.fetchedObjects?.first { $0.id == id }
   }
 
+  func fetchCategoryByTracker(id: UUID) -> TrackerCategoryCoreData? {
+    guard
+      let trackerInCoreData = fetchTrackerBy(id: id),
+      let category = trackerInCoreData.category else { return nil }
+    return category
+    //    return self.fetchedResultsController.fetchedObjects?.first { $0.id == id }?.category
+  }
+
   func delete(tracker: TrackerCoreData) {
     self.fetchedResultsController.fetchedObjects?.filter { $0 == tracker }.forEach { context.delete($0) }
     saveContext()

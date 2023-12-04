@@ -22,9 +22,15 @@ struct TrackerCategory: Hashable {
   let items: [Tracker]
 }
 
-struct TrackerRecord: Hashable {
-  let id: UUID
+// struct TrackerRecord: Hashable {
+//  let id: UUID
+//  let tracker: Tracker
+//  let dates: [Date]
+//  let days: Int
+// }
+
+struct EditTracker: Hashable {
   let tracker: Tracker
-  let dates: [Date]
-  let days: Int
+  let counter: Int
+  let category: TrackerCategory
 }

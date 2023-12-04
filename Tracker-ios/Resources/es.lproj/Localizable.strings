@@ -9,6 +9,7 @@
 "labels.newTracker" = "Creando un rastreador";
 "labels.newEvent" = "Nuevo evento";
 "labels.newHabit" = "Nuevo hábito";
+"labels.editHabit" = "Editar hábito";
 "labels.newCategory" = "Nueva categoría";
 "labels.addCategory" = "Agregar categoría";
 "labels.habit" = "Hábito";
@@ -20,6 +21,7 @@
 "labels.searchBar" = "Buscar";
 "labels.cancel" = "Cancelar";
 "labels.create" = "Crear";
+"labels.save" = "Guardar";
 "labels.textFieldPlaceholder" = "Ingrese aquí el nombre del rastreador";
 "labels.categoryNamePlaceholder" = "Ingrese aquí el nombre de la categoría";
 "labels.textFieldRestriction" = "No más de 38 caracteres";
