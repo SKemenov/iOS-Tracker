@@ -73,11 +73,7 @@ final class TrackerStore: NSObject {
 
 extension TrackerStore {
   func addNewOrUpdate(tracker: Tracker, to category: TrackerCategoryCoreData) throws {
-    print(#fileID, #function)
-    let trackerAlreadyInStore = fetchTrackerBy(id: tracker.id)
-    let operation = trackerAlreadyInStore == nil ? "add" : "update"
-    print("TrackerCoreData: Trying to \(operation) tracker with ID [\(tracker.id)] and title - \(tracker.title)")
-    let trackerInCoreData = trackerAlreadyInStore ?? TrackerCoreData(context: context)
+    let trackerInCoreData = fetchTrackerBy(id: tracker.id) ?? TrackerCoreData(context: context)
     trackerInCoreData.title = tracker.title
     trackerInCoreData.id = tracker.id
     trackerInCoreData.color = Int32(tracker.color)
@@ -100,28 +96,12 @@ extension TrackerStore {
     saveContext()
   }
 
-  //  private func countTrackers() -> Int {
-  //    let request = TrackerCoreData.fetchRequest()
-  //    request.resultType = .countResultType
-  //    guard
-  //      let objects = try? context.execute(request) as? NSAsynchronousFetchResult<NSFetchRequestResult>,
-  //      let counter = objects.finalResult?[0] as? Int32
-  //    else {
-  //      return .zero
-  //    }
-  //    return Int(counter)
-  //  }
-
   func fetchTrackerBy(id: UUID) -> TrackerCoreData? {
-    return self.fetchedResultsController.fetchedObjects?.first { $0.id == id }
+    self.fetchedResultsController.fetchedObjects?.first { $0.id == id }
   }
 
   func fetchCategoryByTracker(id: UUID) -> TrackerCategoryCoreData? {
-    guard
-      let trackerInCoreData = fetchTrackerBy(id: id),
-      let category = trackerInCoreData.category else { return nil }
-    return category
-    //    return self.fetchedResultsController.fetchedObjects?.first { $0.id == id }?.category
+    self.fetchedResultsController.fetchedObjects?.first { $0.id == id }?.category
   }
 
   func delete(tracker: TrackerCoreData) {
@@ -129,7 +109,7 @@ extension TrackerStore {
     saveContext()
   }
 
-  func deleteTrackersFromCoreData() { // TODO: - delete after Sprint 16
+  func deleteTrackersFromCoreData() { // service method
     print(#fileID, #function)
     self.fetchedResultsController.fetchedObjects?.forEach { context.delete($0) }
     saveContext()
@@ -139,20 +119,16 @@ extension TrackerStore {
 // MARK: - Private methods
 
 private extension TrackerStore {
-  func isTrackerCoreDataEmpty() -> Bool { // TODO: - delete after Sprint 16
+  func isTrackerCoreDataEmpty() -> Bool {
     let checkRequest = TrackerCoreData.fetchRequest()
     guard
       let result = try? context.fetch(checkRequest),
       result.isEmpty
-    else {
-      print("isTrackerCoreDataEmpty = false")
-      return false
-    }
-    print("isTrackerCoreDataEmpty = true")
+    else { return false }
     return true
   }
 
-  func showTrackersFromCoreData() {  // TODO: - delete after Sprint 16
+  func showTrackersFromCoreData() {  // service method
     print(#fileID, #function)
     let request = TrackerCoreData.fetchRequest()
     request.returnsObjectsAsFaults = false

@@ -148,7 +148,6 @@ private extension OnboardingViewController {
     label.numberOfLines = 2
     label.textAlignment = .center
     label.textColor = .black
-    // label.textColor = traitCollection.userInterfaceStyle == .dark ? .ypBlack : .ypBlack
     label.text = title
     label.font = Resources.Fonts.emoji
     label.translatesAutoresizingMaskIntoConstraints = false

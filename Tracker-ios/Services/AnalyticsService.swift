@@ -8,7 +8,11 @@
 import Foundation
 import YandexMobileMetrica
 
+// MARK: - Class
+
 final class AnalyticsService {
+  // MARK: - Public methods
+
   static func activate() {
     guard let configuration = YMMYandexMetricaConfiguration(apiKey: "269441e0-ab7b-4c03-9f29-ec3e375b961a") else {
       return

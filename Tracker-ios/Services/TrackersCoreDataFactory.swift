@@ -69,17 +69,13 @@ final class TrackersCoreDataFactory {
   // MARK: - Init
 
   private init() {
-    // clearDataStores() // uncomment to reset trackerStore & trackerCategoryStore
+    // clearDataStores() // uncomment to reset all stores at once
   }
 }
 
 // MARK: - Public methods
 
 extension TrackersCoreDataFactory {
-//  func fetchCategoryName(by thisIndex: Int) -> String {
-//    trackerCategoryStore.fetchCategoryName(by: thisIndex)
-//  }
-
   func filteredTrackers(from trackers: [Tracker]) -> [Tracker] {
     trackers.filter {
       switch selectedFilterIndex {

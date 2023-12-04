@@ -98,38 +98,6 @@ final class EditTrackerViewController: UIViewController {
     private var trackerTitleIsFulfilled: Bool {
       !trackerTitle.isEmpty
     }
-  //
-  //  private var categoryIsSelected = false {
-  //    didSet {
-  //      updateFormState()
-  //    }
-  //  }
-
-  //  private var scheduleIsFulfilled = false {
-  //    didSet {
-  //      updateFormState()
-  //    }
-  //  }
-
-  //  private var emojiIsSelected = false {
-  //    didSet {
-  //      updateFormState()
-  //    }
-  //  }
-
-  //  private var colorIsSelected = false {
-  //    didSet {
-  //      updateFormState()
-  //    }
-  //  }
-
-  //  private var formIsFulfilled = false {
-  //    didSet {
-  //      if formIsFulfilled {
-  //        updateSaveButtonState()
-  //      }
-  //    }
-  //  }
 
   // MARK: - Private global properties
   private let emojiCellID = "emojiCellId"
@@ -137,10 +105,7 @@ final class EditTrackerViewController: UIViewController {
   private let headerID = "header"
 
   private let factory = TrackersCoreDataFactory.shared
-  // private var isHabit = true
   private var viewModel: TrackerFulfilment
-  // private var counter: Int
-  // private var category: TrackerCategory
   private var newSchedule: [Bool]
   private var trackerTitle: String {
     didSet {
@@ -148,23 +113,8 @@ final class EditTrackerViewController: UIViewController {
     }
   }
   private var selectedCategoryId: UUID
-  //  {
-  //    didSet {
-  //      categoryIsSelected = true
-  //    }
-  //  }
   private var emojiIndex: Int
-  //  {
-  //    didSet {
-  //      emojiIsSelected = true
-  //    }
-  //  }
   private var colorIndex: Int
-  //  {
-  //    didSet {
-  //      colorIsSelected = true
-  //    }
-  //  }
 
   // MARK: - Public properties
 
@@ -179,7 +129,6 @@ final class EditTrackerViewController: UIViewController {
     self.newSchedule = viewModel.tracker.schedule
     self.trackerTitle = viewModel.tracker.title
     self.selectedCategoryId = viewModel.category.id
-    print(#function, viewModel)
     super.init(nibName: nil, bundle: nil)
   }
 
@@ -224,7 +173,6 @@ private extension EditTrackerViewController {
     configureEmojiSection()
     configureColorSection()
     configureButtonsSection()
-    print(#function)
   }
 
   func setupState() {
@@ -232,13 +180,6 @@ private extension EditTrackerViewController {
     fetch(schedule: viewModel.tracker.schedule)
     fetch(category: viewModel.category)
   }
-
-  // func updateFormState() {
-    // formIsFulfilled = trackerTitleIsFulfilled
-    // && emojiIsSelected && colorIsSelected
-    //    formIsFulfilled = trackerTitleIsFulfilled && categoryIsSelected && scheduleIsFulfilled && scheduleIsFulfilled
-    //    && emojiIsSelected && colorIsSelected
-  // }
 
   func updateSaveButtonState() {
     saveButton.backgroundColor = trackerTitleIsFulfilled ? .ypBlack : .ypGray
@@ -270,7 +211,6 @@ private extension EditTrackerViewController {
       let finalScheduleJoined = finalSchedule.joined(separator: ", ")
       scheduleButton.configure(value: finalScheduleJoined)
     }
-    // scheduleIsFulfilled = true
   }
 }
 
@@ -379,6 +319,7 @@ extension EditTrackerViewController: UICollectionViewDataSource {
 
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     switch collectionView.tag {
+
     case 0:
       guard let cell = collectionView.dequeueReusableCell(
         withReuseIdentifier: emojiCellID,
@@ -390,13 +331,8 @@ extension EditTrackerViewController: UICollectionViewDataSource {
       cell.layer.cornerRadius = Resources.Dimensions.cornerRadius
       cell.layer.masksToBounds = true
       cell.configureCell(emoji: Resources.emojis[indexPath.item])
-      //      print(#function, collectionView.tag, indexPath.item, emojiIndex)
-      //      if indexPath.item == emojiIndex {
-      //        collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .left)
-      //        cell.isSelected = true
-      //        print(#function, collectionView.tag, indexPath, emojiIndex, cell.isSelected)
-      //      }
       return cell
+
     case 1:
       guard let cell = collectionView.dequeueReusableCell(
         withReuseIdentifier: colorCellID,
@@ -407,13 +343,8 @@ extension EditTrackerViewController: UICollectionViewDataSource {
       cell.layer.cornerRadius = Resources.Dimensions.smallCornerRadius
       cell.layer.masksToBounds = true
       cell.configureCell(bgColor: Resources.colors[indexPath.item])
-      //      print(#function, collectionView.tag, indexPath.item, colorIndex)
-      //      if indexPath.item == colorIndex {
-      //        collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .left)
-      //        cell.isSelected = true
-      //        print(#function, collectionView.tag, indexPath, colorIndex, cell.isSelected)
-      //      }
       return cell
+
     default:
       return UICollectionViewCell()
     }
@@ -454,9 +385,11 @@ extension EditTrackerViewController: UICollectionViewDelegate {
     case 0:
       emojiIndex = indexPath.item
       collectionView.cellForItem(at: indexPath)?.backgroundColor = .ypLightGray
+
     case 1:
       colorIndex = indexPath.item
       collectionView.cellForItem(at: indexPath)?.backgroundColor = Resources.colors[colorIndex].withAlphaComponent(0.3)
+
     default:
       break
     }
@@ -603,8 +536,6 @@ private extension EditTrackerViewController {
     textFieldStackView.addArrangedSubview(textField)
     textFieldStackView.addArrangedSubview(textFieldWarning)
     configureTextFieldConstraints()
-    configureTextFieldWarningConstraints()
-    configureTextFieldStackViewConstraints()
   }
 
   func configureTextFieldStackView() {
@@ -651,21 +582,13 @@ private extension EditTrackerViewController {
       textField.topAnchor.constraint(equalTo: textFieldStackView.topAnchor),
       textField.leadingAnchor.constraint(equalTo: textFieldStackView.leadingAnchor),
       textField.trailingAnchor.constraint(equalTo: textFieldStackView.trailingAnchor),
-      textField.heightAnchor.constraint(equalToConstant: Resources.Dimensions.fieldHeight)
-    ])
-  }
+      textField.heightAnchor.constraint(equalToConstant: Resources.Dimensions.fieldHeight),
 
-  func configureTextFieldWarningConstraints() {
-    NSLayoutConstraint.activate([
       textFieldWarning.topAnchor.constraint(equalTo: textField.bottomAnchor),
       textFieldWarning.leadingAnchor.constraint(equalTo: textFieldStackView.leadingAnchor),
       textFieldWarning.trailingAnchor.constraint(equalTo: textFieldStackView.trailingAnchor),
-      textFieldWarning.heightAnchor.constraint(equalToConstant: Resources.Dimensions.fieldHeight / 2)
-    ])
-  }
+      textFieldWarning.heightAnchor.constraint(equalToConstant: Resources.Dimensions.fieldHeight / 2),
 
-  func configureTextFieldStackViewConstraints() {
-    NSLayoutConstraint.activate([
       textFieldStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: leadSpacing),
       textFieldStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -leadSpacing),
       textFieldStackView.topAnchor.constraint(

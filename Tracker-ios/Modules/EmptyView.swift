@@ -60,8 +60,6 @@ private extension EmptyView {
     let imageSize = Resources.Dimensions.bigIcon
     let titleHeight = Resources.Dimensions.notificationHeight * 2
     let spacing = Resources.Layouts.spacingElement
-    let height = imageSize + spacing + titleHeight
-    let width = Resources.Dimensions.iPhoneSeWidth - spacing * 2
 
     NSLayoutConstraint.activate([
       fullView.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -71,8 +69,8 @@ private extension EmptyView {
 
       centeredView.centerXAnchor.constraint(equalTo: fullView.centerXAnchor),
       centeredView.centerYAnchor.constraint(equalTo: fullView.centerYAnchor),
-      centeredView.widthAnchor.constraint(equalToConstant: width),
-      centeredView.heightAnchor.constraint(equalToConstant: height),
+      centeredView.widthAnchor.constraint(equalToConstant: Resources.Dimensions.iPhoneSeWidth - spacing * 2),
+      centeredView.heightAnchor.constraint(equalToConstant: imageSize + spacing + titleHeight),
 
       iconImageView.centerXAnchor.constraint(equalTo: centeredView.centerXAnchor),
       iconImageView.topAnchor.constraint(equalTo: centeredView.topAnchor),

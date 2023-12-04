@@ -94,7 +94,7 @@ final class CreateTrackerViewController: UIViewController {
 
   // MARK: - Private state properties
 
-  private var trackerNameIsFulfilled = false {
+  private var titleIsFilled = false {
     didSet {
       updateFormState()
     }
@@ -142,7 +142,7 @@ final class CreateTrackerViewController: UIViewController {
   private var schedule = [Bool](repeating: false, count: 7)
   private var userInput = "" {
     didSet {
-      trackerNameIsFulfilled = true
+      titleIsFilled = true
     }
   }
   private var selectedCategoryId = UUID() {
@@ -206,8 +206,7 @@ private extension CreateTrackerViewController {
   }
 
   func updateFormState() {
-    formIsFulfilled = trackerNameIsFulfilled && categoryIsSelected && scheduleIsFulfilled && emojiIsSelected
-    && colorIsSelected
+    formIsFulfilled = titleIsFilled && categoryIsSelected && scheduleIsFulfilled && emojiIsSelected && colorIsSelected
   }
 
   func updateCreateButtonState() {
@@ -476,25 +475,13 @@ extension CreateTrackerViewController: UICollectionViewDelegateFlowLayout {
 
 private extension CreateTrackerViewController {
   func configureTitleSection() {
-    configureTitleLabel()
-    view.addSubview(titleLabel)
-    configureTitleSectionConstraints()
-  }
-
-  func configureTitleLabel() {
     titleLabel.text = isHabit ? Resources.Labels.newHabit : Resources.Labels.newEvent
     titleLabel.font = Resources.Fonts.titleUsual
     titleLabel.textAlignment = .center
     titleLabel.translatesAutoresizingMaskIntoConstraints = false
-    //    titleLabel.frame = CGRect(
-    //      x: 0,
-    //      y: 0,
-    //      width: view.frame.width,
-    //      height: Resources.Dimensions.titleHeight + Resources.Layouts.vSpacingTitle
-    //    )
-  }
 
-  func configureTitleSectionConstraints() {
+    view.addSubview(titleLabel)
+
     NSLayoutConstraint.activate([
       titleLabel.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: Resources.Layouts.vSpacingTitle),
       titleLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
@@ -507,39 +494,25 @@ private extension CreateTrackerViewController {
 
 private extension CreateTrackerViewController {
   func configureMainScrollViewSection() {
-    configureMainScrollView()
-    configureContentView()
-    view.addSubview(mainScrollView)
-    mainScrollView.addSubview(contentView)
-    configureMainScrollViewConstraints()
-    configureContentViewConstraints()
-  }
-
-  func configureMainScrollView() {
     mainScrollView.translatesAutoresizingMaskIntoConstraints = false
     mainScrollView.contentSize = CGSize(
       width: view.frame.width,
       height: scrollViewHeight
     )
-  }
 
-  func configureContentView() {
     contentView.translatesAutoresizingMaskIntoConstraints = false
     contentView.axis = .vertical
     contentView.spacing = Resources.Layouts.vSpacingElement
-  }
 
-  func configureMainScrollViewConstraints() {
+    view.addSubview(mainScrollView)
+    mainScrollView.addSubview(contentView)
+
     NSLayoutConstraint.activate([
       mainScrollView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
       mainScrollView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
       mainScrollView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-      mainScrollView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
-    ])
-  }
+      mainScrollView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
 
-  func configureContentViewConstraints() {
-    NSLayoutConstraint.activate([
       contentView.topAnchor.constraint(equalTo: mainScrollView.topAnchor),
       contentView.leadingAnchor.constraint(equalTo: mainScrollView.leadingAnchor),
       contentView.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor),
@@ -560,8 +533,6 @@ private extension CreateTrackerViewController {
     textFieldStackView.addArrangedSubview(textField)
     textFieldStackView.addArrangedSubview(textFieldWarning)
     configureTextFieldConstraints()
-    configureTextFieldWarningConstraints()
-    configureTextFieldStackViewConstraints()
   }
 
   func configureTextFieldStackView() {
@@ -608,21 +579,13 @@ private extension CreateTrackerViewController {
       textField.topAnchor.constraint(equalTo: textFieldStackView.topAnchor),
       textField.leadingAnchor.constraint(equalTo: textFieldStackView.leadingAnchor),
       textField.trailingAnchor.constraint(equalTo: textFieldStackView.trailingAnchor),
-      textField.heightAnchor.constraint(equalToConstant: Resources.Dimensions.fieldHeight)
-    ])
-  }
+      textField.heightAnchor.constraint(equalToConstant: Resources.Dimensions.fieldHeight),
 
-  func configureTextFieldWarningConstraints() {
-    NSLayoutConstraint.activate([
       textFieldWarning.topAnchor.constraint(equalTo: textField.bottomAnchor),
       textFieldWarning.leadingAnchor.constraint(equalTo: textFieldStackView.leadingAnchor),
       textFieldWarning.trailingAnchor.constraint(equalTo: textFieldStackView.trailingAnchor),
-      textFieldWarning.heightAnchor.constraint(equalToConstant: Resources.Dimensions.fieldHeight / 2)
-    ])
-  }
+      textFieldWarning.heightAnchor.constraint(equalToConstant: Resources.Dimensions.fieldHeight / 2),
 
-  func configureTextFieldStackViewConstraints() {
-    NSLayoutConstraint.activate([
       textFieldStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: leadSpacing),
       textFieldStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -leadSpacing),
       textFieldStackView.topAnchor.constraint(

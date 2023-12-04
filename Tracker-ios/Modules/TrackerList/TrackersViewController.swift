@@ -81,10 +81,7 @@ final class TrackersViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     self.hideKeyboardWhenTappedAround()
-    // selectedDate = Date() // + TimeInterval(Resources.shiftTimeZone)
-
     searchBar.searchBar.delegate = self
-
     configureUI()
     fetchVisibleCategoriesFromFactory()
   }
@@ -139,12 +136,6 @@ private extension TrackersViewController {
 
   func fetchTracker(from tracker: Tracker, for categoryId: UUID) {
     factory.addNewOrUpdate(tracker: tracker, toCategory: categoryId)
-    setWeekDayForTracker(with: tracker.schedule)
-    fetchVisibleCategoriesFromFactory()
-  }
-
-  func updateTracker(from tracker: Tracker, for categoryId: UUID) {
-    factory.update(tracker: tracker, toCategory: categoryId)
     fetchVisibleCategoriesFromFactory()
   }
 
@@ -165,16 +156,12 @@ private extension TrackersViewController {
   }
 
   func fetchVisibleCategoriesFromFactory() {
-    //    clearVisibleCategories()
     visibleCategories = []
     visibleCategories = factory.visibleCategoriesForWeekDay
     updateTrackerCollectionView()
   }
 
-  //  func clearVisibleCategories() {
-  //  }
-
-  private func searchInTrackers() {
+  func searchInTrackers() {
     var newCategories: [TrackerCategory] = []
     factory.visibleCategoriesForSearch.forEach { newCategories.append(
       TrackerCategory(id: $0.id, name: $0.name, items: $0.items.filter {
@@ -375,7 +362,7 @@ extension TrackersViewController: EditTrackerViewControllerDelegate {
     dismiss(animated: true) {
       [weak self] in
       guard let self else { return }
-      self.updateTracker(from: tracker, for: categoryId)
+      self.fetchTracker(from: tracker, for: categoryId)
     }
   }
 }

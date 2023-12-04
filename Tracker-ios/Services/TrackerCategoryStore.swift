@@ -89,46 +89,12 @@ final class TrackerCategoryStore: NSObject {
 // MARK: - Public methods
 
 extension TrackerCategoryStore {
-  //  var numberOfSections: Int {
-  //    allCategories.count
-  //  }
-
-  //  func numberOfItemsInSection(_ section: Int) -> Int {
-  //    allCategories[section].items.count
-  //  }
-
-  func deleteCategoriesFromCoreData() { // TODO: - delete after Sprint 16
+  func deleteCategoriesFromCoreData() { // service method
     print("TCS Run deleteCategoriesFromCoreData()")
     guard !isCategoryCoreDataEmpty() else { return }
     self.fetchedResultsController.fetchedObjects?.forEach { context.delete($0) }
-    //    let request = TrackerCategoryCoreData.fetchRequest()
-    //    let categories = try? context.fetch(request)
-    //    categories?.forEach { context.delete($0) }
     saveContext()
   }
-
-  //  func countCategories() -> Int {
-  //    let request = TrackerCategoryCoreData.fetchRequest()
-  //    request.resultType = .countResultType
-  //    guard
-  //      let objects = try? context.execute(request) as? NSAsynchronousFetchResult<NSFetchRequestResult>,
-  //      let counter = objects.finalResult?[0] as? Int32
-  //    else {
-  //      return .zero
-  //    }
-  //    return Int(counter)
-  //  }
-
-  //  func fetchCategoryName(by thisIndex: Int) -> String {
-  //    let request = TrackerCategoryCoreData.fetchRequest()
-  //    request.returnsObjectsAsFaults = false
-  //    var categoryName: String = ""
-  //    guard let categories = try? context.fetch(request) else { return categoryName }
-  //    for (index, category) in categories.enumerated() where index == thisIndex {
-  //      categoryName = category.name ?? ""
-  //    }
-  //    return categoryName
-  //  }
 
   func addNew(category: TrackerCategory) throws {
     let categoryInCoreData = TrackerCategoryCoreData(context: context)
@@ -138,7 +104,7 @@ extension TrackerCategoryStore {
   }
 
   func fetchCategoryBy(id: UUID) -> TrackerCategoryCoreData? {
-    return self.fetchedResultsController.fetchedObjects?.first { $0.id == id }
+    self.fetchedResultsController.fetchedObjects?.first { $0.id == id }
   }
 
   func renameCategoryBy(id: UUID, newName: String) {
@@ -146,7 +112,7 @@ extension TrackerCategoryStore {
     category.name = newName
     saveContext()
   }
-  
+
   func trackerCategory(from trackerCategoryCoreData: TrackerCategoryCoreData) throws -> TrackerCategory {
     guard let id = trackerCategoryCoreData.id else {
       throw TrackerCategoryStoreError.decodingErrorInvalidId
@@ -182,8 +148,6 @@ extension TrackerCategoryStore: NSFetchedResultsControllerDelegate {
 // MARK: - Private methods
 
 private extension TrackerCategoryStore {
-
-
   func tracker(from trackerFromCoreData: TrackerCoreData) throws -> Tracker {
     guard let id = trackerFromCoreData.id else {
       throw TrackerCategoryStoreError.decodingErrorInvalidId
@@ -210,39 +174,22 @@ private extension TrackerCategoryStore {
   }
 
   func setupPinnedCategory() {
-    //    print(#function, allCategories)
-    //    print(#function, allCategories.filter { $0.name == Resources.pinCategoryName })
-    //    print(#function, Resources.pinCategoryName, UserDefaults.standard.pinnedCategoryId as Any)
-    //    let pinnedCategory = allCategories.filter { $0.name == Resources.pinCategoryName }[0]
-    //    print(#function, isCategoryCoreDataEmpty(), pinnedCategory.name, pinnedCategory.id)
-    //    UserDefaults.standard.pinnedCategoryId = pinnedCategory.id.uuidString
     if isCategoryCoreDataEmpty() {
       let pinnedCategoryId = UUID()
       try? addNew(category: TrackerCategory(id: pinnedCategoryId, name: Resources.pinCategoryName, items: []))
       UserDefaults.standard.pinnedCategoryId = pinnedCategoryId.uuidString
-      print(#function, pinnedCategoryId, Resources.pinCategoryName, UserDefaults.standard.pinnedCategoryId as Any)
     }
-    print(#function, Resources.pinCategoryName, UserDefaults.standard.pinnedCategoryId as Any)
     if
       let pinnedCategoryId,
       let pinnedCategory = fetchCategoryBy(id: pinnedCategoryId),
       pinnedCategory.name != Resources.pinCategoryName {
         renameCategoryBy(id: pinnedCategoryId, newName: Resources.pinCategoryName)
-        // print(#function, pinnedCategoryId, pinnedCategory.name!, Resources.pinCategoryName)
     }
   }
 
   func isCategoryCoreDataEmpty() -> Bool {
     guard let categories = self.fetchedResultsController.fetchedObjects else { return true }
     return categories.isEmpty
-    //    let checkRequest = TrackerCategoryCoreData.fetchRequest()
-    //    guard
-    //      let result = try? context.fetch(checkRequest),
-    //      result.isEmpty
-    //    else {
-    //      return false
-    //    }
-    //    return true
   }
 
   func isCategoryCoreDataHasTrackers() -> Bool {
@@ -259,7 +206,7 @@ private extension TrackerCategoryStore {
 // MARK: - Mock methods
 
 private extension TrackerCategoryStore {
-  func showCategoriesFromCoreData() { // TODO: - delete after Sprint 16
+  func showCategoriesFromCoreData() { // service method
     let request = TrackerCategoryCoreData.fetchRequest()
     request.returnsObjectsAsFaults = false
     let categories = try? context.fetch(request)

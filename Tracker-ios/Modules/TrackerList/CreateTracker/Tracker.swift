@@ -22,13 +22,6 @@ struct TrackerCategory: Hashable {
   let items: [Tracker]
 }
 
-// struct TrackerRecord: Hashable {
-//  let id: UUID
-//  let tracker: Tracker
-//  let dates: [Date]
-//  let days: Int
-// }
-
 struct TrackerFulfilment: Hashable {
   let tracker: Tracker
   let counter: Int
