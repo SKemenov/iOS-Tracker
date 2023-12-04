@@ -12,6 +12,7 @@
 "labels.editHabit" = "Editar hábito";
 "labels.newCategory" = "Nueva categoría";
 "labels.addCategory" = "Agregar categoría";
+"labels.editCategory" = "Editar categoría";
 "labels.habit" = "Hábito";
 "labels.event" = "Evento";
 "labels.category" = "Categoría";
@@ -44,6 +45,8 @@
 "labels.onboardingButton" = "¡Esas son las tecnologías!";
 "labels.pinCategoryName" = "Fijado";
 "labels.confirmTrackerDelete" = "¿Está seguro de que desea eliminar el rastreador?";
+"labels.confirmCategoryDelete" = "¿Está seguro de que esta categoría no es necesaria?";
+"labels.cancelCategoryDelete" = "Imposible eliminar: esta categoría con rastreadores";
 
 "labels.context.0" = "Fijar";
 "labels.context.1" = "Editar";

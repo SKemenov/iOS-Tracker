@@ -107,6 +107,11 @@ extension TrackerCategoryStore {
     self.fetchedResultsController.fetchedObjects?.first { $0.id == id }
   }
 
+  func deleteCategoryBy(id: UUID) {
+    self.fetchedResultsController.fetchedObjects?.filter { $0.id == id }.forEach { context.delete($0) }
+    saveContext()
+  }
+
   func renameCategoryBy(id: UUID, newName: String) {
     guard let category = fetchCategoryBy(id: id) else { return }
     category.name = newName

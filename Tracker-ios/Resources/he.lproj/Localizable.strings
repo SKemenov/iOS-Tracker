@@ -12,6 +12,7 @@
 "labels.editHabit" = "ערוך הרגל";
 "labels.newCategory" = "קטגוריה חדשה";
 "labels.addCategory" = "הוסף קטגוריה";
+"labels.editCategory" = "ערוך קטגוריה";
 "labels.habit" = "הרגל";
 "labels.event" = "אירוע";
 "labels.category" = "קטגוריה";
@@ -44,6 +45,8 @@
 "labels.onboardingButton" = "אלו הן הטכנולוגיות!";
 "labels.pinCategoryName" = "מוצמד";
 "labels.confirmTrackerDelete" = "האם אתה בטוח שברצונך למחוק את הגשש?";
+"labels.confirmCategoryDelete" = "האם אתה בטוח שאין צורך בקטגוריה זו?";
+"labels.cancelCategoryDelete" = "אי אפשר למחוק - קטגוריה זו עם עוקבים";
 
 "labels.context.0" = "הצמדה";
 "labels.context.1" = "ערוך";

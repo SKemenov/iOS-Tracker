@@ -10,10 +10,7 @@ import UIKit
 // MARK: - Protocol
 
 protocol CreateCategoryViewControllerDelegate: AnyObject {
-  func createCategoryViewController(
-    _ viewController: CreateCategoryViewController,
-    didFilledCategory category: TrackerCategory
-  )
+  func createCategoryViewController(_ viewController: CreateCategoryViewController, name: String, id: UUID?)
 }
 
 // MARK: - Class
@@ -22,7 +19,6 @@ final class CreateCategoryViewController: UIViewController {
   // MARK: - Private  UI properties
   private var titleLabel: UILabel = {
     let titleLabel = UILabel()
-    titleLabel.text = Resources.Labels.newCategory
     titleLabel.font = Resources.Fonts.titleUsual
     titleLabel.textAlignment = .center
     titleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -41,7 +37,7 @@ final class CreateCategoryViewController: UIViewController {
     return textField
   }()
 
-  private let addButton: ActionButton = {
+  private let doneButton: ActionButton = {
     let addButton = ActionButton()
     addButton.setTitle(Resources.Labels.done, for: .normal)
     addButton.setTitleColor(.ypLightGray, for: .disabled)
@@ -54,23 +50,47 @@ final class CreateCategoryViewController: UIViewController {
 
   private let analyticsService = AnalyticsService()
   private let cellID = "CategoryCell"
-  private var userInput = "" {
+  //  private var categoryName = "" {
+  //    didSet {
+  //      formIsFulfilled = !categoryName.isEmpty
+  //    }
+  //  }
+
+  //  private var formIsFulfilled = false {
+  //    didSet {
+  //      if formIsFulfilled {
+  //        updateAddButtonState()
+  //      }
+  //    }
+  //  }
+  private var category: TrackerCategory?
+  private var categoryName: String {
     didSet {
-      formIsFulfilled = !userInput.isEmpty
+      updateAddButtonState()
     }
   }
 
-  private var formIsFulfilled = false {
-    didSet {
-      if formIsFulfilled {
-        updateAddButtonState()
-      }
-    }
+  private var isEdit = false
+  private var categoryNameIsFilled: Bool {
+    !categoryName.isEmpty
   }
 
   // MARK: - Public properties
 
   weak var delegate: CreateCategoryViewControllerDelegate?
+
+  // MARK: - Inits
+
+  init(category: TrackerCategory?) {
+    isEdit = category != nil
+    self.category = category
+    self.categoryName = category?.name ?? ""
+    super.init(nibName: nil, bundle: nil)
+  }
+
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
 
   // MARK: - Life circle
 
@@ -81,7 +101,7 @@ final class CreateCategoryViewController: UIViewController {
 
     configureUI()
 
-    addButton.addTarget(self, action: #selector(addButtonClicked), for: .touchUpInside)
+    doneButton.addTarget(self, action: #selector(addButtonClicked), for: .touchUpInside)
     updateAddButtonState()
 
     textField.delegate = self
@@ -94,13 +114,18 @@ final class CreateCategoryViewController: UIViewController {
 private extension CreateCategoryViewController {
   @objc func addButtonClicked() {
     analyticsService.report(event: "click", params: ["screen": "category", "item": "create"])
-    let newCategory = TrackerCategory(id: UUID(), name: userInput, items: [])
-    delegate?.createCategoryViewController(self, didFilledCategory: newCategory)
+    if let category {
+    delegate?.createCategoryViewController(self, name: categoryName, id: category.id)
+      print(#function, "update")
+    } else {
+      delegate?.createCategoryViewController(self, name: categoryName, id: nil)
+      print(#function, "create")
+    }
   }
 
   func updateAddButtonState() {
-    addButton.backgroundColor = formIsFulfilled ? .ypBlack : .ypGray
-    addButton.isEnabled = formIsFulfilled
+    doneButton.backgroundColor = categoryNameIsFilled ? .ypBlack : .ypGray
+    doneButton.isEnabled = categoryNameIsFilled
   }
 }
 
@@ -112,18 +137,18 @@ extension CreateCategoryViewController: UITextFieldDelegate {
     shouldChangeCharactersIn range: NSRange,
     replacementString string: String
   ) -> Bool {
-    userInput = textField.text ?? ""
+    categoryName = textField.text ?? ""
     return true
   }
 
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
     textField.resignFirstResponder()
-    userInput = textField.text ?? ""
+    categoryName = textField.text ?? ""
     return true
   }
 
   func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-    userInput = textField.text ?? ""
+    categoryName = textField.text ?? ""
     return true
   }
 }
@@ -132,9 +157,16 @@ extension CreateCategoryViewController: UITextFieldDelegate {
 
 private extension CreateCategoryViewController {
   func configureUI() {
+    if isEdit {
+      titleLabel.text = Resources.Labels.editCategory
+      textField.text = categoryName
+    } else {
+    titleLabel.text = Resources.Labels.newCategory
+    }
+
     view.addSubview(titleLabel)
     view.addSubview(textField)
-    view.addSubview(addButton)
+    view.addSubview(doneButton)
 
     let safeArea = view.safeAreaLayoutGuide
     let vSpacing = Resources.Layouts.vSpacingElement
@@ -150,10 +182,10 @@ private extension CreateCategoryViewController {
       textField.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -vSpacing),
       textField.heightAnchor.constraint(equalToConstant: Resources.Dimensions.fieldHeight),
 
-      addButton.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: vSpacing),
-      addButton.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -vSpacing),
-      addButton.heightAnchor.constraint(equalToConstant: Resources.Dimensions.buttonHeight),
-      addButton.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -vSpacing)
+      doneButton.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: vSpacing),
+      doneButton.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -vSpacing),
+      doneButton.heightAnchor.constraint(equalToConstant: Resources.Dimensions.buttonHeight),
+      doneButton.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -vSpacing)
     ])
   }
 }

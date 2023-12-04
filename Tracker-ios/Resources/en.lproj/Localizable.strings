@@ -12,6 +12,7 @@
 "labels.editHabit" = "Edit Habit";
 "labels.newCategory" = "New Category";
 "labels.addCategory" = "Add Category";
+"labels.editCategory" = "Edit Category";
 "labels.habit" = "Habit";
 "labels.event" = "Event";
 "labels.category" = "Category";
@@ -44,6 +45,8 @@
 "labels.onboardingButton" = "Those are the technologies!";
 "labels.pinCategoryName" = "Pinned";
 "labels.confirmTrackerDelete" = "Are you sure you want to delete the tracker?";
+"labels.confirmCategoryDelete" = "Are you sure this category is not needed?";
+"labels.cancelCategoryDelete" = "Impossible to delete - this category with trackers";
 
 "labels.context.0" = "Pin";
 "labels.context.1" = "Edit";

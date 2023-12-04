@@ -32,6 +32,14 @@ final class CategoryViewModel {
   func addCategory(_ category: TrackerCategory) {
     try? trackerCategoryStore.addNew(category: category)
   }
+
+  func deleteCategoryBy(id: UUID) {
+    trackerCategoryStore.deleteCategoryBy(id: id)
+  }
+
+  func rename(id: UUID, newName: String) {
+    trackerCategoryStore.renameCategoryBy(id: id, newName: newName)
+  }
 }
 
 // MARK: - TrackerCategoryStoreDelegate

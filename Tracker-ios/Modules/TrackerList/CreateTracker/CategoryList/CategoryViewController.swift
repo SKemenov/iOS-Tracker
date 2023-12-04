@@ -56,7 +56,6 @@ final class CategoryViewController: UIViewController {
 
   // MARK: - Inits
 
-
   init(selectedCategoryId: UUID) {
     super.init(nibName: nil, bundle: nil)
     self.selectedCategoryId = selectedCategoryId
@@ -103,22 +102,47 @@ private extension CategoryViewController {
   }
 
   @objc func addButtonClicked() {
-    let nextController = CreateCategoryViewController()
+    let nextController = CreateCategoryViewController(category: nil)
     nextController.delegate = self
     present(nextController, animated: true)
+  }
+
+  func editCategory(indexPath: IndexPath) {
+    let nextController = CreateCategoryViewController(category: viewModel.categories[indexPath.row])
+    nextController.delegate = self
+    present(nextController, animated: true)
+  }
+
+  func deleteCategory(indexPath: IndexPath) {
+    let category = viewModel.categories[indexPath.row]
+    let isEmpty = category.items.isEmpty
+    let message = isEmpty ? Resources.Labels.confirmCategoryDelete : Resources.Labels.cancelCategoryDelete
+    let actionSheet = UIAlertController(title: nil, message: message, preferredStyle: .actionSheet)
+    if isEmpty {
+      let deleteAction = UIAlertAction(title: Resources.Labels.contextMenuList[2], style: .destructive) { _ in
+        self.viewModel.deleteCategoryBy(id: category.id)
+      }
+      actionSheet.addAction(deleteAction)
+    }
+    let cancelAction = UIAlertAction(title: Resources.Labels.cancel, style: .cancel) { _ in
+      self.dismiss(animated: true)
+    }
+    actionSheet.addAction(cancelAction)
+    present(actionSheet, animated: true, completion: nil)
   }
 }
 
 // MARK: - CreateCategoryViewControllerDelegate
 
 extension CategoryViewController: CreateCategoryViewControllerDelegate {
-  func createCategoryViewController(
-    _ viewController: CreateCategoryViewController,
-    didFilledCategory category: TrackerCategory
-  ) {
+  func createCategoryViewController(_ viewController: CreateCategoryViewController, name: String, id: UUID?) {
     dismiss(animated: true) { [weak self] in
       guard let self else { return }
-      self.viewModel.addCategory(category)
+      if let id {
+        self.viewModel.rename(id: id, newName: name)
+      } else {
+        self.viewModel.addCategory(TrackerCategory(id: UUID(), name: name, items: []))
+      }
     }
   }
 }
@@ -134,6 +158,26 @@ extension CategoryViewController: UITableViewDelegate {
 
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     return viewModel.categories.isEmpty ? .zero : Resources.Dimensions.fieldHeight
+  }
+
+  func tableView(
+    _ tableView: UITableView,
+    contextMenuConfigurationForRowAt indexPath: IndexPath,
+    point: CGPoint
+  ) -> UIContextMenuConfiguration? {
+    return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
+      let editAction = UIAction(
+        title: Resources.Labels.contextMenuList[1], image: Resources.SfSymbols.editElement
+      ) { [weak self] _ in
+        self?.editCategory(indexPath: indexPath)
+      }
+      let deleteAction = UIAction(
+        title: Resources.Labels.contextMenuList[2], image: Resources.SfSymbols.deleteElement, attributes: .destructive
+      ) { [weak self] _ in
+        self?.deleteCategory(indexPath: indexPath)
+      }
+      return UIMenu(title: "", children: [editAction, deleteAction])
+    }
   }
 }
 

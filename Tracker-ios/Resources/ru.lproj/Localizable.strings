@@ -12,6 +12,7 @@
 "labels.editHabit" = "Редактирование привычки";
 "labels.newCategory" = "Новая категория";
 "labels.addCategory" = "Добавить категорию";
+"labels.editCategory" = "Редактирование категории";
 "labels.habit" = "Привычка";
 "labels.event" = "Нерегулярное событие";
 "labels.category" = "Категория";
@@ -44,6 +45,8 @@
 "labels.onboardingButton" = "Вот это технологии!";
 "labels.pinCategoryName" = "Закрепленные";
 "labels.confirmTrackerDelete" = "Уверены что хотите удалить трекер?";
+"labels.confirmCategoryDelete" = "Эта категория точно не нужна?";
+"labels.cancelCategoryDelete" = "Не могу удалить категорию с трекерами";
 
 "labels.context.0" = "Закрепить";
 "labels.context.1" = "Редактировать";

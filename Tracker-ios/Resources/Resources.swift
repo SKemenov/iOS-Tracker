@@ -10,72 +10,81 @@ import UIKit
 enum Resources {
   // MARK: - Localised UI elements
   enum Labels {
-    static let newTracker = NSLocalizedString("labels.newTracker", comment: "labels for newTracker")
-    static let newEvent = NSLocalizedString("labels.newEvent", comment: "labels for newEvent")
-    static let newHabit = NSLocalizedString("labels.newHabit", comment: "labels for newHabit")
-    static let editHabit = NSLocalizedString("labels.editHabit", comment: "labels for editHabit")
-    static let newCategory = NSLocalizedString("labels.newCategory", comment: "labels for newCategory")
-    static let addCategory = NSLocalizedString("labels.addCategory", comment: "labels for addCategory")
-    static let habit = NSLocalizedString("labels.habit", comment: "labels for habit")
-    static let event = NSLocalizedString("labels.event", comment: "labels for event")
-    static let category = NSLocalizedString("labels.category", comment: "labels for category")
-    static let schedule = NSLocalizedString("labels.schedule", comment: "labels for schedule")
-    static let statistic = NSLocalizedString("labels.statistic", comment: "labels for statistic")
-    static let trackers = NSLocalizedString("labels.trackers", comment: "labels for trackers")
-    static let searchBar = NSLocalizedString("labels.searchBar", comment: "labels for searchBar")
-    static let cancel = NSLocalizedString("labels.cancel", comment: "labels for cancel")
-    static let create = NSLocalizedString("labels.create", comment: "labels for create")
-    static let save = NSLocalizedString("labels.save", comment: "labels for save")
-    static let done = NSLocalizedString("labels.done", comment: "labels for done")
-    static let emoji = NSLocalizedString("labels.emoji", comment: "labels for emoji")
-    static let color = NSLocalizedString("labels.color", comment: "labels for color")
-    static let filters = NSLocalizedString("labels.filters", comment: "labels for filters")
-    static let emptyStatistic = NSLocalizedString("labels.emptyStatistic", comment: "labels for emptyStatistic")
-    static let emptyTracker = NSLocalizedString("labels.emptyTracker", comment: "labels for emptyTracker")
-    static let emptySearch = NSLocalizedString("labels.emptySearch", comment: "labels for emptySearch")
-    static let emptyCategory = NSLocalizedString("labels.emptyCategory", comment: "labels for emptyCategory")
-    static let everyDays = NSLocalizedString("labels.everyDays", comment: "labels for everyDays")
-    static let weekDays = NSLocalizedString("labels.weekDays", comment: "labels for weekDays")
-    static let weekEnds = NSLocalizedString("labels.weekEnds", comment: "labels for weekEnds")
-    static let onboardingPage1 = NSLocalizedString("labels.onboardingPage1", comment: "labels for onboardingPage1")
-    static let onboardingPage2 = NSLocalizedString("labels.onboardingPage2", comment: "labels for onboardingPage2")
-    static let onboardingButton = NSLocalizedString("labels.onboardingButton", comment: "labels for onboardingButton")
+    static let newTracker = NSLocalizedString("labels.newTracker", comment: "label for new Tracker")
+    static let newEvent = NSLocalizedString("labels.newEvent", comment: "label for new Event")
+    static let newHabit = NSLocalizedString("labels.newHabit", comment: "label for new Habit")
+    static let editHabit = NSLocalizedString("labels.editHabit", comment: "label to edit Habit")
+    static let newCategory = NSLocalizedString("labels.newCategory", comment: "label for new Category")
+    static let editCategory = NSLocalizedString("labels.editCategory", comment: "label to edit Category")
+    static let addCategory = NSLocalizedString("labels.addCategory", comment: "label to add Category")
+    static let habit = NSLocalizedString("labels.habit", comment: "label for habit")
+    static let event = NSLocalizedString("labels.event", comment: "label for event")
+    static let category = NSLocalizedString("labels.category", comment: "label for category")
+    static let schedule = NSLocalizedString("labels.schedule", comment: "label for schedule")
+    static let statistic = NSLocalizedString("labels.statistic", comment: "label for statistic")
+    static let trackers = NSLocalizedString("labels.trackers", comment: "label for trackers")
+    static let searchBar = NSLocalizedString("labels.searchBar", comment: "label for searchBar")
+    static let cancel = NSLocalizedString("labels.cancel", comment: "label for cancel")
+    static let create = NSLocalizedString("labels.create", comment: "label for create")
+    static let save = NSLocalizedString("labels.save", comment: "label for save")
+    static let done = NSLocalizedString("labels.done", comment: "label for done")
+    static let emoji = NSLocalizedString("labels.emoji", comment: "label for emoji")
+    static let color = NSLocalizedString("labels.color", comment: "label for color")
+    static let filters = NSLocalizedString("labels.filters", comment: "label for filters")
+    static let emptyStatistic = NSLocalizedString("labels.emptyStatistic", comment: "label for empty Statistic")
+    static let emptyTracker = NSLocalizedString("labels.emptyTracker", comment: "label for empty Tracker")
+    static let emptySearch = NSLocalizedString("labels.emptySearch", comment: "label for empty Search")
+    static let emptyCategory = NSLocalizedString("labels.emptyCategory", comment: "label for empty Category")
+    static let everyDays = NSLocalizedString("labels.everyDays", comment: "label for everydays")
+    static let weekDays = NSLocalizedString("labels.weekDays", comment: "label for weekDays")
+    static let weekEnds = NSLocalizedString("labels.weekEnds", comment: "label for weekEnds")
+    static let onboardingPage1 = NSLocalizedString("labels.onboardingPage1", comment: "label for onboarding Page 1")
+    static let onboardingPage2 = NSLocalizedString("labels.onboardingPage2", comment: "label for onboarding Page 2")
+    static let onboardingButton = NSLocalizedString("labels.onboardingButton", comment: "label for onboarding Button")
     static let confirmTrackerDelete = NSLocalizedString(
       "labels.confirmTrackerDelete",
-      comment: "labels for confirmTrackerDelete"
+      comment: "label to confirm Tracker Delete"
+    )
+    static let confirmCategoryDelete = NSLocalizedString(
+      "labels.confirmCategoryDelete",
+      comment: "label to confirm Category Delete"
+    )
+    static let cancelCategoryDelete = NSLocalizedString(
+      "labels.cancelCategoryDelete",
+      comment: "label to asking Category Deleting"
     )
     static let textFieldPlaceholder = NSLocalizedString(
       "labels.textFieldPlaceholder",
-      comment: "labels for textFieldPlaceholder"
+      comment: "label for text Field Placeholder"
     )
     static let categoryNamePlaceholder = NSLocalizedString(
       "labels.categoryNamePlaceholder",
-      comment: "labels for categoryNamePlaceholder"
+      comment: "label for category Name Placeholder"
     )
     static let textFieldRestriction = NSLocalizedString(
       "labels.textFieldRestriction",
-      comment: "labels for textFieldRestriction"
+      comment: "label for text Field Restriction"
     )
 
     static let contextMenuList = [
-      NSLocalizedString("labels.context.0", comment: "labels for context menu - Pin"),
-      NSLocalizedString("labels.context.1", comment: "labels for context menu - Edit"),
-      NSLocalizedString("labels.context.2", comment: "labels for context menu - Delete"),
-      NSLocalizedString("labels.context.3", comment: "labels for context menu - Unpin")
+      NSLocalizedString("labels.context.0", comment: "label for context menu - Pin"),
+      NSLocalizedString("labels.context.1", comment: "label for context menu - Edit"),
+      NSLocalizedString("labels.context.2", comment: "label for context menu - Delete"),
+      NSLocalizedString("labels.context.3", comment: "label for context menu - Unpin")
     ]
 
     static let filtersList = [
-      NSLocalizedString("labels.filter.0", comment: "labels for filter - All Trackers"),
-      NSLocalizedString("labels.filter.1", comment: "labels for filter - Trackers for today"),
-      NSLocalizedString("labels.filter.2", comment: "labels for filter - Completed"),
-      NSLocalizedString("labels.filter.3", comment: "labels for filter - Unfinished")
+      NSLocalizedString("labels.filter.0", comment: "label for filter - All Trackers"),
+      NSLocalizedString("labels.filter.1", comment: "label for filter - Trackers for today"),
+      NSLocalizedString("labels.filter.2", comment: "label for filter - Completed"),
+      NSLocalizedString("labels.filter.3", comment: "label for filter - Unfinished")
     ]
 
     static let statisticsList = [
-      NSLocalizedString("labels.stat.0", comment: "labels for stat - Best Period"),
-      NSLocalizedString("labels.stat.1", comment: "labels for stat - Ideal Days"),
-      NSLocalizedString("labels.stat.2", comment: "labels for stat - Trackers Completed"),
-      NSLocalizedString("labels.stat.3", comment: "labels for stat - Average")
+      NSLocalizedString("labels.stat.0", comment: "label for stat - Best Period"),
+      NSLocalizedString("labels.stat.1", comment: "label for stat - Ideal Days"),
+      NSLocalizedString("labels.stat.2", comment: "label for stat - Trackers Completed"),
+      NSLocalizedString("labels.stat.3", comment: "label for stat - Average")
     ]
 
     static let fullWeekDays = Calendar.current.weekdaySymbols.shift()
