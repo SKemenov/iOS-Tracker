@@ -85,7 +85,7 @@ extension TrackerRecordStore {
 // MARK: - Private methods
 
 private extension TrackerRecordStore {
-  func isTrackerRecordCoreDataEmpty() -> Bool { 
+  func isTrackerRecordCoreDataEmpty() -> Bool {
     let checkRequest = TrackerRecordCoreData.fetchRequest()
     guard
       let result = try? context.fetch(checkRequest),

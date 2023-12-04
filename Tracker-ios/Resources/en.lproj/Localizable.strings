@@ -43,6 +43,7 @@
 "labels.onboardingPage2" = "Even if it's not yoga \nand liters of water";
 "labels.onboardingButton" = "Those are the technologies!";
 "labels.pinCategoryName" = "Pinned";
+"labels.confirmTrackerDelete" = "Are you sure you want to delete the tracker?";
 
 "labels.context.0" = "Pin";
 "labels.context.1" = "Edit";

@@ -43,6 +43,7 @@
 "labels.onboardingPage2" = "גם אם זה לא יוגה וליטר מים";
 "labels.onboardingButton" = "אלו הן הטכנולוגיות!";
 "labels.pinCategoryName" = "מוצמד";
+"labels.confirmTrackerDelete" = "האם אתה בטוח שברצונך למחוק את הגשש?";
 
 "labels.context.0" = "הצמדה";
 "labels.context.1" = "ערוך";

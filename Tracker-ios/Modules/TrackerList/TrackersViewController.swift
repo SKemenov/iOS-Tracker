@@ -315,30 +315,26 @@ extension TrackersViewController: UICollectionViewDelegate {
     let indexPath = indexPaths[0]
     let currentTracker = visibleCategories[indexPath.section].items[indexPath.row]
     let isPinned = currentTracker.isPinned
-    // swiftlint:disable:next trailing_closure
-    return UIContextMenuConfiguration(actionProvider: { _ in
-      return UIMenu(children: [
-        UIAction(
-          title: Resources.Labels.contextMenuList[isPinned ? 3 : 0],
-          image: isPinned ? Resources.SfSymbols.unpinTracker : Resources.SfSymbols.pinTracker
-        ) { [weak self] _ in
-          self?.pinCell(indexPath: indexPath)
-        },
-        UIAction(
-          title: Resources.Labels.contextMenuList[1],
-          image: Resources.SfSymbols.editTracker
-        ) { [weak self] _ in
-          self?.editCell(indexPath: indexPath)
-        },
-        UIAction(
-          title: Resources.Labels.contextMenuList[2],
-          image: Resources.SfSymbols.deleteTracker,
-          attributes: .destructive
-        ) { [weak self] _ in
-          self?.deleteCell(indexPath: indexPath)
-        }
-      ])
-    })
+
+    return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
+      let pinAction = UIAction(
+        title: Resources.Labels.contextMenuList[isPinned ? 3 : 0],
+        image: isPinned ? Resources.SfSymbols.unpinTracker : Resources.SfSymbols.pinTracker
+      ) { [weak self] _ in
+        self?.pinCell(indexPath: indexPath)
+      }
+      let editAction = UIAction(
+        title: Resources.Labels.contextMenuList[1], image: Resources.SfSymbols.editElement
+      ) { [weak self] _ in
+        self?.editCell(indexPath: indexPath)
+      }
+      let deleteAction = UIAction(
+        title: Resources.Labels.contextMenuList[2], image: Resources.SfSymbols.deleteElement, attributes: .destructive
+      ) { [weak self] _ in
+        self?.deleteCell(indexPath: indexPath)
+      }
+      return UIMenu(children: [pinAction, editAction, deleteAction])
+    }
   }
 
   func collectionView(
@@ -430,9 +426,22 @@ private extension TrackersViewController {
   }
 
   func deleteCell(indexPath: IndexPath) {
-    analyticsService.report(event: "click", params: ["screen": "Main", "item": "delete"])
-    factory.delete(tracker: visibleCategories[indexPath.section].items[indexPath.row])
-    fetchVisibleCategoriesFromFactory()
+    let actionSheet = UIAlertController(
+      title: nil,
+      message: Resources.Labels.confirmTrackerDelete,
+      preferredStyle: .actionSheet
+    )
+    let deleteAction = UIAlertAction(title: Resources.Labels.contextMenuList[2], style: .destructive) { _ in
+      self.analyticsService.report(event: "click", params: ["screen": "Main", "item": "delete"])
+      self.factory.delete(tracker: self.visibleCategories[indexPath.section].items[indexPath.row])
+      self.fetchVisibleCategoriesFromFactory()
+    }
+    let cancelAction = UIAlertAction(title: Resources.Labels.cancel, style: .cancel) { _ in
+      self.dismiss(animated: true)
+    }
+    actionSheet.addAction(deleteAction)
+    actionSheet.addAction(cancelAction)
+    present(actionSheet, animated: true, completion: nil)
   }
 
   func configureUI() {

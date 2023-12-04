@@ -43,6 +43,7 @@
 "labels.onboardingPage2" = "Даже если это \nне литры воды и йога";
 "labels.onboardingButton" = "Вот это технологии!";
 "labels.pinCategoryName" = "Закрепленные";
+"labels.confirmTrackerDelete" = "Уверены что хотите удалить трекер?";
 
 "labels.context.0" = "Закрепить";
 "labels.context.1" = "Редактировать";

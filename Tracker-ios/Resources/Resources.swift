@@ -34,15 +34,16 @@ enum Resources {
     static let emptyTracker = NSLocalizedString("labels.emptyTracker", comment: "labels for emptyTracker")
     static let emptySearch = NSLocalizedString("labels.emptySearch", comment: "labels for emptySearch")
     static let emptyCategory = NSLocalizedString("labels.emptyCategory", comment: "labels for emptyCategory")
-    static let oneDay = NSLocalizedString("labels.oneDay", comment: "labels for oneDay")
-    static let fewDays = NSLocalizedString("labels.fewDays", comment: "labels for fewDays")
-    static let manyDays = NSLocalizedString("labels.manyDays", comment: "labels for manyDays")
     static let everyDays = NSLocalizedString("labels.everyDays", comment: "labels for everyDays")
     static let weekDays = NSLocalizedString("labels.weekDays", comment: "labels for weekDays")
     static let weekEnds = NSLocalizedString("labels.weekEnds", comment: "labels for weekEnds")
     static let onboardingPage1 = NSLocalizedString("labels.onboardingPage1", comment: "labels for onboardingPage1")
     static let onboardingPage2 = NSLocalizedString("labels.onboardingPage2", comment: "labels for onboardingPage2")
     static let onboardingButton = NSLocalizedString("labels.onboardingButton", comment: "labels for onboardingButton")
+    static let confirmTrackerDelete = NSLocalizedString(
+      "labels.confirmTrackerDelete",
+      comment: "labels for confirmTrackerDelete"
+    )
     static let textFieldPlaceholder = NSLocalizedString(
       "labels.textFieldPlaceholder",
       comment: "labels for textFieldPlaceholder"
@@ -93,8 +94,8 @@ enum Resources {
     static let pinTracker = UIImage(systemName: "pin")
     static let pinFillTracker = UIImage(systemName: "pin.fill")
     static let unpinTracker = UIImage(systemName: "pin.slash")
-    static let editTracker = UIImage(systemName: "rectangle.and.pencil.and.ellipsis")
-    static let deleteTracker = UIImage(systemName: "trash")
+    static let editElement = UIImage(systemName: "rectangle.and.pencil.and.ellipsis")
+    static let deleteElement = UIImage(systemName: "trash")
   }
 
   // MARK: - UI element's images

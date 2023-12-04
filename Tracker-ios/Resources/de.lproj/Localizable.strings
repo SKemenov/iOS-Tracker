@@ -43,6 +43,7 @@
 "labels.onboardingPage2" = "Auch wenn es kein Liter Wasser ist und Yoga";
 "labels.onboardingButton" = "Das sind die Technologien!";
 "labels.pinCategoryName" = "Angepinnt";
+"labels.confirmTrackerDelete" = "Sind Sie sicher, dass Sie den Tracker löschen möchten?";
 
 "labels.context.0" = "Pin";
 "labels.context.1" = "Bearbeiten";

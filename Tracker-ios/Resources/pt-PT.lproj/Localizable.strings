@@ -42,6 +42,7 @@
 "labels.onboardingPage2" = "Mesmo que não seja ioga e litros de água";
 "labels.onboardingButton" = "Essas são as tecnologias!";
 "labels.pinCategoryName" = "Fixado";
+"labels.confirmTrackerDelete" = "Tem certeza de que deseja excluir o rastreador?";
 
 "labels.context.0" = "Fixar";
 "labels.context.1" = "Editar";

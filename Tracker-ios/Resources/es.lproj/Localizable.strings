@@ -43,6 +43,7 @@
 "labels.onboardingPage2" = "Aunque no sea yoga \ny litros de agua";
 "labels.onboardingButton" = "¡Esas son las tecnologías!";
 "labels.pinCategoryName" = "Fijado";
+"labels.confirmTrackerDelete" = "¿Está seguro de que desea eliminar el rastreador?";
 
 "labels.context.0" = "Fijar";
 "labels.context.1" = "Editar";
