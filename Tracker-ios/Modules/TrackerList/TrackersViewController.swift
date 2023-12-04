@@ -48,6 +48,7 @@ final class TrackersViewController: UIViewController {
   private let headerID = "header"
 
   private let factory = TrackersCoreDataFactory.shared
+  private let analyticsService = AnalyticsService()
   private var searchBarUserInput = ""
 
   private var visibleCategories: [TrackerCategory] = []
@@ -91,6 +92,12 @@ final class TrackersViewController: UIViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     updateTrackerCollectionView()
+    analyticsService.report(event: "open", params: ["screen": "Main"])
+  }
+
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    analyticsService.report(event: "close", params: ["screen": "Main"])
   }
 }
 
@@ -99,6 +106,7 @@ final class TrackersViewController: UIViewController {
 private extension TrackersViewController {
 
   @objc func addButtonClicked() {
+    analyticsService.report(event: "click", params: ["screen": "Main", "item": "add_track"])
     let nextController = NewTrackerViewController()
     nextController.modalPresentationStyle = .popover
     nextController.delegate = self
@@ -106,12 +114,14 @@ private extension TrackersViewController {
   }
 
   @objc func datePickerValueChanged(_ sender: UIDatePicker) {
+    analyticsService.report(event: "click", params: ["screen": "Main", "item": "date"])
     factory.selectedDate = sender.date
     fetchVisibleCategoriesFromFactory()
     dismiss(animated: true)
   }
 
   @objc func filtersButtonClicked() {
+    analyticsService.report(event: "click", params: ["screen": "Main", "item": "filter"])
     let nextController = FiltersViewController(selectedFilterIndex: selectedFilterIndex)
     nextController.modalPresentationStyle = .popover
     nextController.delegate = self
@@ -130,6 +140,11 @@ private extension TrackersViewController {
   func fetchTracker(from tracker: Tracker, for categoryId: UUID) {
     factory.addNewOrUpdate(tracker: tracker, toCategory: categoryId)
     setWeekDayForTracker(with: tracker.schedule)
+    fetchVisibleCategoriesFromFactory()
+  }
+
+  func updateTracker(from tracker: Tracker, for categoryId: UUID) {
+    factory.update(tracker: tracker, toCategory: categoryId)
     fetchVisibleCategoriesFromFactory()
   }
 
@@ -360,7 +375,7 @@ extension TrackersViewController: EditTrackerViewControllerDelegate {
     dismiss(animated: true) {
       [weak self] in
       guard let self else { return }
-      self.fetchTracker(from: tracker, for: categoryId)
+      self.updateTracker(from: tracker, for: categoryId)
     }
   }
 }
@@ -409,12 +424,14 @@ extension TrackersViewController: FiltersViewControllerDelegate {
 
 private extension TrackersViewController {
   func pinCell(indexPath: IndexPath) {
+    analyticsService.report(event: "click", params: ["screen": "Main", "item": "pin"])
     factory.setPinFor(tracker: visibleCategories[indexPath.section].items[indexPath.row])
     fetchVisibleCategoriesFromFactory()
     print(#function)
   }
 
   func editCell(indexPath: IndexPath) {
+    analyticsService.report(event: "click", params: ["screen": "Main", "item": "edit"])
     let tracker = visibleCategories[indexPath.section].items[indexPath.row]
     let counter = factory.countRecords(for: tracker.id)
     if let category = factory.fetchCategoryByTracker(id: tracker.id) {
@@ -428,6 +445,7 @@ private extension TrackersViewController {
   }
 
   func deleteCell(indexPath: IndexPath) {
+    analyticsService.report(event: "click", params: ["screen": "Main", "item": "delete"])
     factory.delete(tracker: visibleCategories[indexPath.section].items[indexPath.row])
     fetchVisibleCategoriesFromFactory()
     print(#function)

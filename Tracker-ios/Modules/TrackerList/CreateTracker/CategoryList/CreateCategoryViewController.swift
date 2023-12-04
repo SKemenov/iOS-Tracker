@@ -52,6 +52,7 @@ final class CreateCategoryViewController: UIViewController {
 
   // MARK: - Private properties
 
+  private let analyticsService = AnalyticsService()
   private let cellID = "CategoryCell"
   private var userInput = "" {
     didSet {
@@ -92,6 +93,7 @@ final class CreateCategoryViewController: UIViewController {
 
 private extension CreateCategoryViewController {
   @objc func addButtonClicked() {
+    analyticsService.report(event: "click", params: ["screen": "category", "item": "create"])
     let newCategory = TrackerCategory(id: UUID(), name: userInput, items: [])
     delegate?.createCategoryViewController(self, didFilledCategory: newCategory)
   }

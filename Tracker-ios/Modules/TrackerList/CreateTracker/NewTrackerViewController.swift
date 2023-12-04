@@ -26,6 +26,8 @@ final class NewTrackerViewController: UIViewController {
   private var newHabitButton = ActionButton()
   private var newEventButton = ActionButton()
 
+  private let analyticsService = AnalyticsService()
+
   // MARK: - Public properties
 
   weak var delegate: NewTrackerViewControllerDelegate?
@@ -54,6 +56,7 @@ extension NewTrackerViewController: CreateTrackerViewControllerDelegate {
 
 private extension NewTrackerViewController {
   @objc func newHabitButtonClicked() {
+    analyticsService.report(event: "click", params: ["screen": "new", "item": "habit"])
     let nextController = CreateTrackerViewController(isHabit: true)
     nextController.delegate = self
     nextController.isModalInPresentation = true
@@ -61,6 +64,7 @@ private extension NewTrackerViewController {
   }
 
   @objc func newEventButtonClicked() {
+    analyticsService.report(event: "click", params: ["screen": "new", "item": "event"])
     let nextController = CreateTrackerViewController(isHabit: false)
     nextController.delegate = self
     nextController.isModalInPresentation = true
