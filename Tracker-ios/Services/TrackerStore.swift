@@ -116,14 +116,14 @@ extension TrackerStore {
     return self.fetchedResultsController.fetchedObjects?.first { $0.id == id }
   }
 
+  func delete(tracker: TrackerCoreData) {
+    self.fetchedResultsController.fetchedObjects?.filter { $0 == tracker }.forEach { context.delete($0) }
+    saveContext()
+  }
+
   func deleteTrackersFromCoreData() { // TODO: - delete after Sprint 16
     print(#fileID, #function)
     self.fetchedResultsController.fetchedObjects?.forEach { context.delete($0) }
-    // let objects = self.fetchedResultsController.fetchedObjects
-    // objects?.forEach { context.delete($0) }
-    //    let request = TrackerCoreData.fetchRequest()
-    //    let trackers = try? context.fetch(request)
-    //    trackers?.forEach { context.delete($0) }
     saveContext()
   }
 }

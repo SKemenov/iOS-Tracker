@@ -116,6 +116,13 @@ extension TrackersCoreDataFactory {
     try? trackerStore.setPinFor(tracker: newTracker)
   }
 
+  func delete(tracker: Tracker) {
+    if let trackerInStore = trackerStore.fetchTrackerBy(id: tracker.id) {
+    trackerRecordStore.deleteAllRecordsFor(tracker: trackerInStore)
+    trackerStore.delete(tracker: trackerInStore)
+    }
+  }
+
   func setTrackerDone(with id: UUID, on date: Date) -> Bool {
     var isCompleted = false
     if isTrackerDone(with: id, on: date) {

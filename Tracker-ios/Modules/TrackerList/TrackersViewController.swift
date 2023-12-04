@@ -315,7 +315,7 @@ extension TrackersViewController: UICollectionViewDelegate {
     let isPinned = currentTracker.isPinned
     // swift lint:disable:next trailing_closure
     return UIContextMenuConfiguration(
-      previewProvider: { TrackerCellPreviewController(with: currentTracker) },
+      // previewProvider: { TrackerCellPreviewController(with: currentTracker) },
       actionProvider: { _ in
         return UIMenu(children: [
           UIAction(
@@ -401,6 +401,8 @@ private extension TrackersViewController {
   }
 
   func deleteCell(indexPath: IndexPath) {
+    factory.delete(tracker: visibleCategories[indexPath.section].items[indexPath.row])
+    fetchVisibleCategoriesFromFactory()
     print(#function)
   }
 

@@ -55,6 +55,13 @@ extension TrackerRecordStore {
     saveContext()
   }
 
+  func deleteAllRecordsFor(tracker: TrackerCoreData) {
+    let request = TrackerRecordCoreData.fetchRequest()
+    guard let records = try? context.fetch(request) else { return }
+    records.filter { $0.tracker == tracker }.forEach { context.delete($0) }
+    saveContext()
+  }
+
   func countRecords(for tracker: TrackerCoreData) -> Int {
     fetchRecords(for: tracker).count
   }
