@@ -95,43 +95,41 @@ final class EditTrackerViewController: UIViewController {
 
   // MARK: - Private state properties
 
-  private var trackerNameIsFulfilled = false {
-    didSet {
-      updateFormState()
+    private var trackerTitleIsFulfilled: Bool {
+      !trackerTitle.isEmpty
     }
-  }
+  //
+  //  private var categoryIsSelected = false {
+  //    didSet {
+  //      updateFormState()
+  //    }
+  //  }
 
-  private var categoryIsSelected = false {
-    didSet {
-      updateFormState()
-    }
-  }
+  //  private var scheduleIsFulfilled = false {
+  //    didSet {
+  //      updateFormState()
+  //    }
+  //  }
 
-  private var scheduleIsFulfilled = false {
-    didSet {
-      updateFormState()
-    }
-  }
+  //  private var emojiIsSelected = false {
+  //    didSet {
+  //      updateFormState()
+  //    }
+  //  }
 
-  private var emojiIsSelected = false {
-    didSet {
-      updateFormState()
-    }
-  }
+  //  private var colorIsSelected = false {
+  //    didSet {
+  //      updateFormState()
+  //    }
+  //  }
 
-  private var colorIsSelected = false {
-    didSet {
-      updateFormState()
-    }
-  }
-
-  private var formIsFulfilled = false {
-    didSet {
-      if formIsFulfilled {
-        updateSaveButtonState()
-      }
-    }
-  }
+  //  private var formIsFulfilled = false {
+  //    didSet {
+  //      if formIsFulfilled {
+  //        updateSaveButtonState()
+  //      }
+  //    }
+  //  }
 
   // MARK: - Private global properties
   private let emojiCellID = "emojiCellId"
@@ -140,30 +138,33 @@ final class EditTrackerViewController: UIViewController {
 
   private let factory = TrackersCoreDataFactory.shared
   // private var isHabit = true
-  private var viewModel: EditTracker
+  private var viewModel: TrackerFulfilment
   // private var counter: Int
-  private var category: TrackerCategory
-  private var schedule: [Bool]
-  private var userInput = "" {
+  // private var category: TrackerCategory
+  private var newSchedule: [Bool]
+  private var trackerTitle: String {
     didSet {
-      trackerNameIsFulfilled = true
+      updateSaveButtonState()
     }
   }
-  private var selectedCategoryId: UUID {
-    didSet {
-      categoryIsSelected = true
-    }
-  }
-  private var emojiIndex: Int {
-    didSet {
-      emojiIsSelected = true
-    }
-  }
-  private var colorIndex: Int {
-    didSet {
-      colorIsSelected = true
-    }
-  }
+  private var selectedCategoryId: UUID
+  //  {
+  //    didSet {
+  //      categoryIsSelected = true
+  //    }
+  //  }
+  private var emojiIndex: Int
+  //  {
+  //    didSet {
+  //      emojiIsSelected = true
+  //    }
+  //  }
+  private var colorIndex: Int
+  //  {
+  //    didSet {
+  //      colorIsSelected = true
+  //    }
+  //  }
 
   // MARK: - Public properties
 
@@ -171,14 +172,13 @@ final class EditTrackerViewController: UIViewController {
 
   // MARK: - Inits
 
-  init(trackerToEdit viewModel: EditTracker) {
+  init(trackerToEdit viewModel: TrackerFulfilment) {
     self.viewModel = viewModel
     self.colorIndex = viewModel.tracker.color
     self.emojiIndex = viewModel.tracker.emoji
-    self.schedule = viewModel.tracker.schedule
-    self.category = viewModel.category
+    self.newSchedule = viewModel.tracker.schedule
+    self.trackerTitle = viewModel.tracker.title
     self.selectedCategoryId = viewModel.category.id
-    // self.counter = viewModel.counter
     print(#function, viewModel)
     super.init(nibName: nil, bundle: nil)
   }
@@ -192,14 +192,23 @@ final class EditTrackerViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     self.hideKeyboardWhenTappedAround()
-    //    if !isHabit {
-    //      schedule = schedule.map { $0 || true }
-    //      scheduleIsFulfilled = true
-    //    }
     configureUI()
     setupState()
     textField.delegate = self
-    // textField.becomeFirstResponder()
+  }
+
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    DispatchQueue.main.async {
+      let emojiIndexPath = IndexPath(item: self.viewModel.tracker.emoji, section: 0)
+      self.emojiCollectionView.selectItem(at: emojiIndexPath, animated: true, scrollPosition: .left)
+      self.emojiCollectionView.cellForItem(at: emojiIndexPath)?.backgroundColor = .ypLightGray
+
+      let colorIndexPath = IndexPath(item: self.viewModel.tracker.color, section: 0)
+      self.colorCollectionView.selectItem(at: colorIndexPath, animated: true, scrollPosition: .left)
+      self.colorCollectionView.cellForItem(at: colorIndexPath)?
+        .backgroundColor = Resources.colors[self.viewModel.tracker.color].withAlphaComponent(0.3)
+    }
   }
 }
 
@@ -215,24 +224,25 @@ private extension EditTrackerViewController {
     configureEmojiSection()
     configureColorSection()
     configureButtonsSection()
+    print(#function)
   }
 
   func setupState() {
     textField.text = viewModel.tracker.title
     fetch(schedule: viewModel.tracker.schedule)
     fetch(category: viewModel.category)
-    emojiCollectionView.selectItem(at: IndexPath(row: viewModel.tracker.emoji, section: 0), animated: false, scrollPosition: .left)
-    colorCollectionView.selectItem(at: IndexPath(row: viewModel.tracker.color, section: 0), animated: false, scrollPosition: .left)
   }
 
-  func updateFormState() {
-    formIsFulfilled = trackerNameIsFulfilled && categoryIsSelected && scheduleIsFulfilled && scheduleIsFulfilled
-    && emojiIsSelected && colorIsSelected
-  }
+  // func updateFormState() {
+    // formIsFulfilled = trackerTitleIsFulfilled
+    // && emojiIsSelected && colorIsSelected
+    //    formIsFulfilled = trackerTitleIsFulfilled && categoryIsSelected && scheduleIsFulfilled && scheduleIsFulfilled
+    //    && emojiIsSelected && colorIsSelected
+  // }
 
   func updateSaveButtonState() {
-    saveButton.backgroundColor = formIsFulfilled ? .ypBlack : .ypGray
-    saveButton.isEnabled = formIsFulfilled
+    saveButton.backgroundColor = trackerTitleIsFulfilled ? .ypBlack : .ypGray
+    saveButton.isEnabled = trackerTitleIsFulfilled
   }
 
   func fetch(category: TrackerCategory) {
@@ -241,7 +251,7 @@ private extension EditTrackerViewController {
   }
 
   func fetch(schedule: [Bool]) {
-    self.schedule = schedule
+    self.newSchedule = schedule
     let everyDays = [true, true, true, true, true, true, true]
     let weekDays = [true, true, true, true, true, false, false]
     let weekEnds = [false, false, false, false, false, true, true]
@@ -260,7 +270,7 @@ private extension EditTrackerViewController {
       let finalScheduleJoined = finalSchedule.joined(separator: ", ")
       scheduleButton.configure(value: finalScheduleJoined)
     }
-    scheduleIsFulfilled = true
+    // scheduleIsFulfilled = true
   }
 }
 
@@ -272,7 +282,7 @@ extension EditTrackerViewController: UITextFieldDelegate {
     shouldChangeCharactersIn range: NSRange,
     replacementString string: String
   ) -> Bool {
-    userInput = textField.text ?? ""
+    trackerTitle = textField.text ?? ""
     let currentCharacterCount = textField.text?.count ?? 0
     if range.length + range.location > currentCharacterCount {
       return false
@@ -288,12 +298,12 @@ extension EditTrackerViewController: UITextFieldDelegate {
 
   func textFieldShouldReturn(_ textField: UITextField) -> Bool {
     textField.resignFirstResponder()
-    userInput = textField.text ?? ""
+    trackerTitle = textField.text ?? ""
     return true
   }
 
   func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-    userInput = textField.text ?? ""
+    trackerTitle = textField.text ?? ""
     return true
   }
 }
@@ -308,11 +318,11 @@ private extension EditTrackerViewController {
   @objc func saveButtonClicked() {
     let updatedTracker = Tracker(
       id: viewModel.tracker.id,
-      title: userInput,
+      title: trackerTitle,
       emoji: emojiIndex,
       color: colorIndex,
       isPinned: viewModel.tracker.isPinned,
-      schedule: schedule
+      schedule: newSchedule
     )
     delegate?.editTrackerViewController(self, didChangedTracker: updatedTracker, with: selectedCategoryId)
   }
@@ -324,7 +334,7 @@ private extension EditTrackerViewController {
   }
 
   @objc func scheduleButtonClicked() {
-    let nextController = ScheduleViewController(with: schedule)
+    let nextController = ScheduleViewController(with: newSchedule)
     nextController.delegate = self
     present(nextController, animated: true)
   }
@@ -349,8 +359,6 @@ extension EditTrackerViewController: CategoryViewControllerDelegate {
       [weak self] in
       guard let self else { return }
       self.fetch(category: category)
-      //      self.selectedCategoryId = category.id
-      //      self.categoryButton.configure(value: category.name)
     }
   }
 }
@@ -372,20 +380,39 @@ extension EditTrackerViewController: UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     switch collectionView.tag {
     case 0:
-      guard
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: emojiCellID, for: indexPath)
-          as? EmojiCell else { return UICollectionViewCell() }
+      guard let cell = collectionView.dequeueReusableCell(
+        withReuseIdentifier: emojiCellID,
+        for: indexPath
+      ) as? EmojiCell else {
+        return UICollectionViewCell()
+      }
       cell.backgroundColor = .ypWhite
       cell.layer.cornerRadius = Resources.Dimensions.cornerRadius
       cell.layer.masksToBounds = true
-      cell.configureCell(emoji: Resources.emojis[indexPath.row])
+      cell.configureCell(emoji: Resources.emojis[indexPath.item])
+      //      print(#function, collectionView.tag, indexPath.item, emojiIndex)
+      //      if indexPath.item == emojiIndex {
+      //        collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .left)
+      //        cell.isSelected = true
+      //        print(#function, collectionView.tag, indexPath, emojiIndex, cell.isSelected)
+      //      }
       return cell
     case 1:
-      guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: colorCellID, for: indexPath)
-              as? ColorCell else { return UICollectionViewCell() }
+      guard let cell = collectionView.dequeueReusableCell(
+        withReuseIdentifier: colorCellID,
+        for: indexPath
+      ) as? ColorCell else {
+        return UICollectionViewCell()
+      }
       cell.layer.cornerRadius = Resources.Dimensions.smallCornerRadius
       cell.layer.masksToBounds = true
-      cell.configureCell(bgColor: Resources.colors[indexPath.row])
+      cell.configureCell(bgColor: Resources.colors[indexPath.item])
+      //      print(#function, collectionView.tag, indexPath.item, colorIndex)
+      //      if indexPath.item == colorIndex {
+      //        collectionView.selectItem(at: indexPath, animated: true, scrollPosition: .left)
+      //        cell.isSelected = true
+      //        print(#function, collectionView.tag, indexPath, colorIndex, cell.isSelected)
+      //      }
       return cell
     default:
       return UICollectionViewCell()
@@ -425,10 +452,10 @@ extension EditTrackerViewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     switch collectionView.tag {
     case 0:
-      emojiIndex = indexPath.row
+      emojiIndex = indexPath.item
       collectionView.cellForItem(at: indexPath)?.backgroundColor = .ypLightGray
     case 1:
-      colorIndex = indexPath.row
+      colorIndex = indexPath.item
       collectionView.cellForItem(at: indexPath)?.backgroundColor = Resources.colors[colorIndex].withAlphaComponent(0.3)
     default:
       break
@@ -526,7 +553,7 @@ private extension EditTrackerViewController {
 
       counterLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Resources.Layouts.vSpacingElement),
       counterLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
-      counterLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+      counterLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor)
     ])
   }
 }
