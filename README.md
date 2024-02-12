@@ -45,6 +45,8 @@ Tracker - приложение, которое помогает пользова
 ### Тесты
 `unit-tests`, `UI-tests`, `snapshot-tests`
 
+### Инструменты
+`Xcode`, `Figma`
 
 ### Список создателей
 [Сергей Кеменов](https://github.com/SKemenov)
