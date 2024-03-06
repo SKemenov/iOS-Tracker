@@ -1,0 +1,64 @@
+/* 
+  Localizable.strings
+  Tracker-ios
+
+  Created by Sergey Kemenov on 24.11.2023.
+  
+*/
+
+"labels.newTracker" = "Creating a tracker";
+"labels.newEvent" = "New Event";
+"labels.newHabit" = "New Habit";
+"labels.editHabit" = "Edit Habit";
+"labels.newCategory" = "New Category";
+"labels.addCategory" = "Add Category";
+"labels.editCategory" = "Edit Category";
+"labels.habit" = "Habit";
+"labels.event" = "Event";
+"labels.category" = "Category";
+"labels.schedule" = "Schedule";
+"labels.statistic" = "Statistics";
+"labels.trackers" = "Trackers";
+"labels.searchBar" = "Search";
+"labels.cancel" = "Cancel";
+"labels.create" = "Create";
+"labels.save" = "Save";
+"labels.textFieldPlaceholder" = "Enter tracker's name here";
+"labels.categoryNamePlaceholder" = "Enter category's name here";
+"labels.textFieldRestriction" = "No more than 38 characters";
+"labels.done" = "Done";
+"labels.emoji" = "Emoji";
+"labels.color" = "Color";
+"labels.filters" = "Filters";
+"labels.emptyStatistic" = "There is nothing to analyze yet";
+"labels.emptyTracker" = "What will we track?";
+"labels.emptySearch" = "Nothing found";
+"labels.emptyCategory" = "Habits and events \ncan be combined by meaning";
+"labels.oneDay" = "day";
+"labels.fewDays" = "days";
+"labels.manyDays" = "days";
+"labels.everyDays" = "Every day";
+"labels.weekDays" = "Weekdays";
+"labels.weekEnds" = "Weekend";
+"labels.onboardingPage1" = "Track only what you want";
+"labels.onboardingPage2" = "Even if it's not yoga \nand liters of water";
+"labels.onboardingButton" = "Those are the technologies!";
+"labels.pinCategoryName" = "Pinned";
+"labels.confirmTrackerDelete" = "Are you sure you want to delete the tracker?";
+"labels.confirmCategoryDelete" = "Are you sure this category is not needed?";
+"labels.cancelCategoryDelete" = "Impossible to delete - this category with trackers";
+
+"labels.context.0" = "Pin";
+"labels.context.1" = "Edit";
+"labels.context.2" = "Delete";
+"labels.context.3" = "Unpin";
+
+"labels.filter.0" = "All trackers";
+"labels.filter.1" = "Trackers for today";
+"labels.filter.2" = "Completed";
+"labels.filter.3" = "Unfinished";
+
+"labels.stat.0" = "Best Period";
+"labels.stat.1" = "Ideal Days";
+"labels.stat.2" = "Trackers Completed";
+"labels.stat.3" = "Average";

@@ -20,7 +20,7 @@ class OnboardingViewController: UIPageViewController {
     let pageControl = UIPageControl()
     pageControl.numberOfPages = pages.count
     pageControl.currentPage = 0
-    pageControl.currentPageIndicatorTintColor = .ypBlack
+    pageControl.currentPageIndicatorTintColor = .black
     pageControl.pageIndicatorTintColor = .ypGray
 
     pageControl.translatesAutoresizingMaskIntoConstraints = false
@@ -147,7 +147,7 @@ private extension OnboardingViewController {
     let label = UILabel()
     label.numberOfLines = 2
     label.textAlignment = .center
-    label.textColor = .ypBlack
+    label.textColor = .black
     label.text = title
     label.font = Resources.Fonts.emoji
     label.translatesAutoresizingMaskIntoConstraints = false
@@ -163,6 +163,8 @@ private extension OnboardingViewController {
   func addButton(to mainView: UIView) {
     let button = ActionButton()
     button.setTitle(Resources.Labels.onboardingButton, for: .normal)
+    button.backgroundColor = .black
+    button.setTitleColor(.white, for: .normal)
     button.addTarget(self, action: #selector(buttonClicked), for: .touchUpInside)
     button.translatesAutoresizingMaskIntoConstraints = false
     mainView.addSubview(button)

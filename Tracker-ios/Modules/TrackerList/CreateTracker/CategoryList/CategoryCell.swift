@@ -81,9 +81,9 @@ extension CategoryCell {
     } else {
       self.separatorInset = UIEdgeInsets(
         top: .zero,
-        left: Resources.Layouts.leadingButton,
+        left: Resources.Layouts.leadingElement,
         bottom: .zero,
-        right: Resources.Layouts.leadingButton
+        right: Resources.Layouts.leadingElement
       )
     }
   }

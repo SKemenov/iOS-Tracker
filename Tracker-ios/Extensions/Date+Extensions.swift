@@ -9,19 +9,9 @@ import Foundation
 
 extension Date {
 
-  func weekday() -> Int {
-    // Use this Int for Index -> Monday is 0
-    let systemWeekday = Calendar.current.component(.weekday, from: self)
-    if Calendar.current.firstWeekday == 1 {
-      switch systemWeekday {
-      case 2...7:
-        return systemWeekday - 2
-      default:
-        return 6
-      }
-    } else {
-      return systemWeekday - 2
-    }
+  func weekdayNumberMondayIsFirst() -> Int {
+    // Use this Int for Index -> Monday is 1
+    [0, 7, 1, 2, 3, 4, 5, 6][Calendar.current.component(.weekday, from: self)]
   }
 
   func sameDay(_ date: Date) -> Bool {

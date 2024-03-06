@@ -1,0 +1,64 @@
+/* 
+  Localizable.strings
+  Tracker-ios
+
+  Created by Sergey Kemenov on 24.11.2023.
+  
+*/
+
+"labels.newTracker" = "Creando un rastreador";
+"labels.newEvent" = "Nuevo evento";
+"labels.newHabit" = "Nuevo hábito";
+"labels.editHabit" = "Editar hábito";
+"labels.newCategory" = "Nueva categoría";
+"labels.addCategory" = "Agregar categoría";
+"labels.editCategory" = "Editar categoría";
+"labels.habit" = "Hábito";
+"labels.event" = "Evento";
+"labels.category" = "Categoría";
+"labels.schedule" = "Programación";
+"labels.statistic" = "Estadísticas";
+"labels.trackers" = "Rastreadores";
+"labels.searchBar" = "Buscar";
+"labels.cancel" = "Cancelar";
+"labels.create" = "Crear";
+"labels.save" = "Guardar";
+"labels.textFieldPlaceholder" = "Ingrese aquí el nombre del rastreador";
+"labels.categoryNamePlaceholder" = "Ingrese aquí el nombre de la categoría";
+"labels.textFieldRestriction" = "No más de 38 caracteres";
+"labels.done" = "Listo";
+"labels.emoji" = "Emoji";
+"etiquetas.color" = "Color";
+"labels.filters" = "Filtros";
+"labels.emptyStatistic" = "Aún no hay nada que analizar";
+"labels.emptyTracker" = "¿Qué rastrearemos?";
+"labels.emptySearch" = "No se encontró nada";
+"labels.emptyCategory" = "Los hábitos y eventos se pueden combinar según su significado";
+"labels.oneDay" = "día";
+"labels.fewDays" = "días";
+"labels.manyDays" = "días";
+"labels.everyDays" = "Todos los días";
+"labels.weekDays" = "Días laborables";
+"labels.weekEnds" = "Fin de semana";
+"labels.onboardingPage1" = "Seguimiento sólo de lo que desee";
+"labels.onboardingPage2" = "Aunque no sea yoga \ny litros de agua";
+"labels.onboardingButton" = "¡Esas son las tecnologías!";
+"labels.pinCategoryName" = "Fijado";
+"labels.confirmTrackerDelete" = "¿Está seguro de que desea eliminar el rastreador?";
+"labels.confirmCategoryDelete" = "¿Está seguro de que esta categoría no es necesaria?";
+"labels.cancelCategoryDelete" = "Imposible eliminar: esta categoría con rastreadores";
+
+"labels.context.0" = "Fijar";
+"labels.context.1" = "Editar";
+"labels.context.2" = "Eliminar";
+"labels.context.3" = "Desanclar";
+
+"labels.filter.0" = "Todos los rastreadores";
+"labels.filter.1" = "Rastreadores de hoy";
+"labels.filter.2" = "Completado";
+"labels.filter.3" = "Sin terminar";
+
+"labels.stat.0" = "Mejor período";
+"labels.stat.1" = "Días ideales";
+"labels.stat.2" = "Rastreadores completados";
+"labels.stat.3" = "Promedio";

@@ -59,14 +59,21 @@ final class TrackerStore: NSObject {
   deinit {
     print(#fileID, #function)
   }
+
+  var pinnedTrackers: [Tracker] {
+    guard
+      let objects = self.fetchedResultsController.fetchedObjects,
+      let trackers = try? objects.map({ try self.tracker(from: $0) })
+    else { return [] }
+    return trackers.filter { $0.isPinned }
+  }
 }
 
 // MARK: - Public Methods
 
 extension TrackerStore {
-  func addNew(tracker: Tracker, to category: TrackerCategoryCoreData) throws {
-    print(#fileID, #function)
-    let trackerInCoreData = TrackerCoreData(context: context)
+  func addNewOrUpdate(tracker: Tracker, to category: TrackerCategoryCoreData) throws {
+    let trackerInCoreData = fetchTrackerBy(id: tracker.id) ?? TrackerCoreData(context: context)
     trackerInCoreData.title = tracker.title
     trackerInCoreData.id = tracker.id
     trackerInCoreData.color = Int32(tracker.color)
@@ -78,35 +85,33 @@ extension TrackerStore {
     trackerInCoreData.friday = tracker.schedule[4]
     trackerInCoreData.saturday = tracker.schedule[5]
     trackerInCoreData.sunday = tracker.schedule[6]
+    trackerInCoreData.isPinned = tracker.isPinned
     trackerInCoreData.category = category
-    print("CategoryCoreData: Trying to add tracker with ID [\(tracker.id)] and title - \(tracker.title)")
     saveContext()
   }
 
-  private func countTrackers() -> Int {
-    let request = TrackerCoreData.fetchRequest()
-    request.resultType = .countResultType
-    guard
-      let objects = try? context.execute(request) as? NSAsynchronousFetchResult<NSFetchRequestResult>,
-      let counter = objects.finalResult?[0] as? Int32
-    else {
-      return .zero
-    }
-    return Int(counter)
+  func setPinFor(tracker: Tracker) throws {
+    guard let trackerInCoreData = fetchTrackerBy(id: tracker.id) else { return }
+    trackerInCoreData.isPinned = tracker.isPinned
+    saveContext()
   }
 
-  func fetchTracker(byID id: UUID) -> TrackerCoreData? {
-    let request = TrackerCoreData.fetchRequest()
-    request.returnsObjectsAsFaults = false
-    guard let trackers = try? context.fetch(request) else { return nil }
-    return trackers.first { $0.id == id }
+  func fetchTrackerBy(id: UUID) -> TrackerCoreData? {
+    self.fetchedResultsController.fetchedObjects?.first { $0.id == id }
   }
 
-  func deleteTrackersFromCoreData() { // TODO: - delete after Sprint 16
+  func fetchCategoryByTracker(id: UUID) -> TrackerCategoryCoreData? {
+    self.fetchedResultsController.fetchedObjects?.first { $0.id == id }?.category
+  }
+
+  func delete(tracker: TrackerCoreData) {
+    self.fetchedResultsController.fetchedObjects?.filter { $0 == tracker }.forEach { context.delete($0) }
+    saveContext()
+  }
+
+  func deleteTrackersFromCoreData() {
     print(#fileID, #function)
-    let request = TrackerCoreData.fetchRequest()
-    let trackers = try? context.fetch(request)
-    trackers?.forEach { context.delete($0) }
+    self.fetchedResultsController.fetchedObjects?.forEach { context.delete($0) }
     saveContext()
   }
 }
@@ -114,20 +119,16 @@ extension TrackerStore {
 // MARK: - Private methods
 
 private extension TrackerStore {
-  func isTrackerCoreDataEmpty() -> Bool { // TODO: - delete after Sprint 16
+  func isTrackerCoreDataEmpty() -> Bool {
     let checkRequest = TrackerCoreData.fetchRequest()
     guard
       let result = try? context.fetch(checkRequest),
       result.isEmpty
-    else {
-      print("isTrackerCoreDataEmpty = false")
-      return false
-    }
-    print("isTrackerCoreDataEmpty = true")
+    else { return false }
     return true
   }
 
-  func showTrackersFromCoreData() {  // TODO: - delete after Sprint 16
+  func showTrackersFromCoreData() {
     print(#fileID, #function)
     let request = TrackerCoreData.fetchRequest()
     request.returnsObjectsAsFaults = false
@@ -150,6 +151,31 @@ private extension TrackerStore {
       print("tracker's schedule: \(schedule)")
       print("tracker's category: \(category)")
     }
+  }
+
+  func tracker(from trackerFromCoreData: TrackerCoreData) throws -> Tracker {
+    guard let id = trackerFromCoreData.id else {
+      throw TrackerCategoryStoreError.decodingErrorInvalidId
+    }
+    guard let title = trackerFromCoreData.title else {
+      throw TrackerCategoryStoreError.decodingErrorInvalidName
+    }
+    return Tracker(
+      id: id,
+      title: title,
+      emoji: Int(trackerFromCoreData.emoji),
+      color: Int(trackerFromCoreData.color),
+      isPinned: trackerFromCoreData.isPinned,
+      schedule: [
+        trackerFromCoreData.monday,
+        trackerFromCoreData.tuesday,
+        trackerFromCoreData.wednesday,
+        trackerFromCoreData.thursday,
+        trackerFromCoreData.friday,
+        trackerFromCoreData.saturday,
+        trackerFromCoreData.sunday
+      ]
+    )
   }
 }
 

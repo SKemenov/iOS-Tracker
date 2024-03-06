@@ -26,15 +26,23 @@ final class CategoryViewModel {
   }
 
   func fetchCategoriesFromCoreData() {
-    categories = trackerCategoryStore.allCategories
+    categories = trackerCategoryStore.allCategories.filter { $0.name != Resources.pinCategoryName }
   }
 
   func addCategory(_ category: TrackerCategory) {
     try? trackerCategoryStore.addNew(category: category)
   }
+
+  func deleteCategoryBy(id: UUID) {
+    trackerCategoryStore.deleteCategoryBy(id: id)
+  }
+
+  func rename(id: UUID, newName: String) {
+    trackerCategoryStore.renameCategoryBy(id: id, newName: newName)
+  }
 }
 
-// MARK: - nameTrackerCategoryStoreDelegate
+// MARK: - TrackerCategoryStoreDelegate
 
 extension CategoryViewModel: TrackerCategoryStoreDelegate {
   func trackerCategoryStore(didUpdate store: TrackerCategoryStore) {

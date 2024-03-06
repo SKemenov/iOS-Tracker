@@ -49,7 +49,7 @@ final class ScheduleViewController: UIViewController {
     return Resources.Dimensions.fieldHeight / 3
   }()
 
-  private let daysOfWeek = 7
+  private let daysOfWeek = Calendar.current.weekdaySymbols.count
   private var schedule: [Bool]
 
   private lazy var formIsFulfilled = false {
@@ -57,6 +57,7 @@ final class ScheduleViewController: UIViewController {
       updateDoneButtonState()
     }
   }
+  private lazy var isRtl = UIView.userInterfaceLayoutDirection(for: titleLabel.semanticContentAttribute) == .rightToLeft
 
   // MARK: - Public properties
 
@@ -77,7 +78,6 @@ final class ScheduleViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    view.backgroundColor = .ypWhite
     configureUI()
   }
 }
@@ -86,6 +86,7 @@ final class ScheduleViewController: UIViewController {
 
 private extension ScheduleViewController {
   func configureUI() {
+    view.backgroundColor = .ypWhite
     configureTitleSection()
     configureOptionsSection()
     configureDoneButtonSection()
@@ -122,12 +123,6 @@ private extension ScheduleViewController {
     titleLabel.font = Resources.Fonts.titleUsual
     titleLabel.textAlignment = .center
     titleLabel.translatesAutoresizingMaskIntoConstraints = false
-    titleLabel.frame = CGRect(
-      x: 0,
-      y: 0,
-      width: view.frame.width,
-      height: Resources.Dimensions.titleHeight + Resources.Layouts.vSpacingTitle
-    )
 
     view.addSubview(titleLabel)
 
@@ -174,10 +169,10 @@ private extension ScheduleViewController {
   func configureOptionsLabel(index: Int) {
     let label = UILabel()
     label.textColor = .ypBlack
-    label.text = Resources.Labels.WeekDays.allCases[index].rawValue
+    label.text = Resources.Labels.fullWeekDays[index]
     label.textAlignment = .natural
     label.frame = CGRect(
-      x: leadSpacing,
+      x: isRtl ? -leadSpacing : leadSpacing,
       y: Resources.Dimensions.fieldHeight * CGFloat(index),
       width: optionsViewWidth,
       height: Resources.Dimensions.fieldHeight
@@ -189,11 +184,12 @@ private extension ScheduleViewController {
     let daySwitch = UISwitch()
     daySwitch.isOn = schedule[index]
     daySwitch.tag = index
-    daySwitch.thumbTintColor = .ypWhite
+    daySwitch.thumbTintColor = .white
     daySwitch.onTintColor = .ypBlue
+    daySwitch.tintColor = .ypLightGray
     daySwitch.addTarget(self, action: #selector(onSwitchChange(_:)), for: .touchUpInside)
     daySwitch.frame = CGRect(
-      x: optionsViewWidth - leadSpacing - switchWidth,
+      x: isRtl ? leadSpacing : optionsViewWidth - leadSpacing - switchWidth,
       y: Resources.Dimensions.fieldHeight * CGFloat(index) + switchHeight,
       width: switchWidth,
       height: switchHeight

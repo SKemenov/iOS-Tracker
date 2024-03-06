@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  Tracker-ios
+
+  Created by Sergey Kemenov on 27.11.2023.
+  
+*/
+
+"CFBundleDisplayName" = "Rastreador";

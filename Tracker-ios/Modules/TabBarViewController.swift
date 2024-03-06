@@ -24,7 +24,6 @@ final class TabBarViewController: UITabBarController {
 // MARK: - Private methods to setup UI
 
 private extension TabBarViewController {
-
   func setupTabBarView() {
     tabBar.barStyle = .default
     tabBar.tintColor = .ypBlue
@@ -32,7 +31,6 @@ private extension TabBarViewController {
   }
 
   func setupTabBarViewController() {
-
     let trackersVC = TrackersViewController()
     let navViewController = UINavigationController(rootViewController: trackersVC)
     setupTabBarItem(for: navViewController, with: Resources.Labels.trackers, image: Resources.SfSymbols.tracker)
@@ -54,7 +52,7 @@ private extension TabBarViewController {
 
   func setupBorder() {
     let subview = UIView()
-    subview.backgroundColor = .ypGray
+    subview.backgroundColor = traitCollection.userInterfaceStyle == .dark ? .black : .ypBackground
     subview.translatesAutoresizingMaskIntoConstraints = false
 
     tabBar.addSubview(subview)

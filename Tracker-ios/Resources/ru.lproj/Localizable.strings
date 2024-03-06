@@ -1,0 +1,64 @@
+/* 
+  Localizable.strings
+  Tracker-ios
+
+  Created by Sergey Kemenov on 24.11.2023.
+  
+*/
+
+"labels.newTracker" = "Создание трекера";
+"labels.newEvent" = "Новое нерегулярное событие";
+"labels.newHabit" = "Новая привычка";
+"labels.editHabit" = "Редактирование привычки";
+"labels.newCategory" = "Новая категория";
+"labels.addCategory" = "Добавить категорию";
+"labels.editCategory" = "Редактирование категории";
+"labels.habit" = "Привычка";
+"labels.event" = "Нерегулярное событие";
+"labels.category" = "Категория";
+"labels.schedule" = "Расписание";
+"labels.statistic" = "Статистика";
+"labels.trackers" = "Трекеры";
+"labels.searchBar" = "Поиск";
+"labels.cancel" = "Отменить";
+"labels.create" = "Создать";
+"labels.save" = "Сохранить";
+"labels.textFieldPlaceholder" = "Введите название трекера";
+"labels.categoryNamePlaceholder" = "Введите название категории";
+"labels.textFieldRestriction" = "Ограничение 38 символов";
+"labels.done" = "Готово";
+"labels.emoji" = "Emoji";
+"labels.color" = "Цвет";
+"labels.filters" = "Фильтры";
+"labels.emptyStatistic" = "Анализировать пока нечего";
+"labels.emptyTracker" = "Что будем отслеживать?";
+"labels.emptySearch" = "Ничего не найдено";
+"labels.emptyCategory" = "Привычки и события можно \nобъединить по смыслу";
+"labels.oneDay" = "день";
+"labels.fewDays" = "дня";
+"labels.manyDays" = "дней";
+"labels.everyDays" = "Каждый день";
+"labels.weekDays" = "Будни";
+"labels.weekEnds" = "Выходные";
+"labels.onboardingPage1" = "Отслеживайте только то, что хотите";
+"labels.onboardingPage2" = "Даже если это \nне литры воды и йога";
+"labels.onboardingButton" = "Вот это технологии!";
+"labels.pinCategoryName" = "Закрепленные";
+"labels.confirmTrackerDelete" = "Уверены что хотите удалить трекер?";
+"labels.confirmCategoryDelete" = "Эта категория точно не нужна?";
+"labels.cancelCategoryDelete" = "Не могу удалить категорию с трекерами";
+
+"labels.context.0" = "Закрепить";
+"labels.context.1" = "Редактировать";
+"labels.context.2" = "Удалить";
+"labels.context.3" = "Открепить";
+
+"labels.filter.0" = "Все трекеры";
+"labels.filter.1" = "Трекеры на сегодня";
+"labels.filter.2" = "Завершенные";
+"labels.filter.3" = "Незавершенные";
+
+"labels.stat.0" = "Лучший период";
+"labels.stat.1" = "Идеальные дни";
+"labels.stat.2" = "Трекеров завершено";
+"labels.stat.3" = "Среднее значение";

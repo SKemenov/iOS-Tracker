@@ -1,0 +1,64 @@
+/* 
+  Localizable.strings
+  Tracker-ios
+
+  Created by Sergey Kemenov on 24.11.2023.
+  
+*/
+
+"labels.newTracker" = "יצירת מעקב";
+"labels.newEvent" = "אירוע חדש";
+"labels.newHabit" = "הרגל חדש";
+"labels.editHabit" = "ערוך הרגל";
+"labels.newCategory" = "קטגוריה חדשה";
+"labels.addCategory" = "הוסף קטגוריה";
+"labels.editCategory" = "ערוך קטגוריה";
+"labels.habit" = "הרגל";
+"labels.event" = "אירוע";
+"labels.category" = "קטגוריה";
+"labels.schedule" = "לוח זמנים";
+"labels.statistic" = "סטטיסטיקה";
+"labels.trackers" = "עוקבים";
+"labels.searchBar" = "חיפוש";
+"labels.cancel" = "בטל";
+"labels.create" = "צור";
+"labels.save" = "שמור";
+"labels.textFieldPlaceholder" = "הזן את שם הגשש כאן";
+"labels.categoryNamePlaceholder" = "הזן את שם הקטגוריה כאן";
+"labels.textFieldRestriction" = "לא יותר מ-38 תווים";
+"labels.done" = "בוצע";
+"labels.emoji" = "אימוג'י";
+"labels.color" = "צבע";
+"labels.filters" = "מסננים";
+"labels.emptyStatistic" = "אין עדיין מה לנתח";
+"labels.emptyTracker" = "מה נעקוב?";
+"labels.emptySearch" = "לא נמצא דבר";
+"labels.emptyCategory" = "ניתן לשלב הרגלים ואירועים לפי משמעות";
+"labels.oneDay" = "יום";
+"labels.fewDays" = "ימים";
+"labels.manyDays" = "ימים";
+"labels.everyDays" = "כל יום";
+"labels.weekDays" = "ימי חול";
+"labels.weekEnds" = "סוף שבוע";
+"labels.onboardingPage1" = "עקוב רק אחר מה שאתה רוצה";
+"labels.onboardingPage2" = "גם אם זה לא יוגה וליטר מים";
+"labels.onboardingButton" = "אלו הן הטכנולוגיות!";
+"labels.pinCategoryName" = "מוצמד";
+"labels.confirmTrackerDelete" = "האם אתה בטוח שברצונך למחוק את הגשש?";
+"labels.confirmCategoryDelete" = "האם אתה בטוח שאין צורך בקטגוריה זו?";
+"labels.cancelCategoryDelete" = "אי אפשר למחוק - קטגוריה זו עם עוקבים";
+
+"labels.context.0" = "הצמדה";
+"labels.context.1" = "ערוך";
+"labels.context.2" = "מחק";
+"labels.context.3" = "בטל הצמדה";
+
+"labels.filter.0" = "כל העוקבים";
+"labels.filter.1" = "עוקבים להיום";
+"labels.filter.2" = "הושלם";
+"labels.filter.3" = "לא גמור";
+
+"labels.stat.0" = "התקופה הטובה ביותר";
+"labels.stat.1" = "ימים אידיאליים";
+"labels.stat.2" = "המעקבים הושלמו";
+"labels.stat.3" = "ממוצע";

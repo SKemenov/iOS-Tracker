@@ -19,8 +19,8 @@ final class EmptyView: UIView {
     let label = UILabel()
     label.textAlignment = .center
     label.textColor = .ypBlack
+    label.numberOfLines = 2
     label.font = Resources.Fonts.textNotification
-    label.translatesAutoresizingMaskIntoConstraints = false
     return label
   }()
 
@@ -29,7 +29,6 @@ final class EmptyView: UIView {
   override init(frame: CGRect) {
     super.init(frame: frame)
     configureUI()
-    configureEmptyViewConstraints()
   }
 
   required init?(coder: NSCoder) {
@@ -48,28 +47,19 @@ final class EmptyView: UIView {
 
 private extension EmptyView {
   func configureUI() {
-    configureEmptyView()
-    addSubview(fullView)
-    fullView.addSubview(centeredView)
-    centeredView.addSubview(iconImageView)
-    centeredView.addSubview(primaryLabel)
-    configureEmptyViewConstraints()
-  }
-
-  func configureEmptyView() {
-    primaryLabel.numberOfLines = 2
     fullView.translatesAutoresizingMaskIntoConstraints = false
     centeredView.translatesAutoresizingMaskIntoConstraints = false
     iconImageView.translatesAutoresizingMaskIntoConstraints = false
     primaryLabel.translatesAutoresizingMaskIntoConstraints = false
-  }
 
-  func configureEmptyViewConstraints() {
+    addSubview(fullView)
+    fullView.addSubview(centeredView)
+    centeredView.addSubview(iconImageView)
+    centeredView.addSubview(primaryLabel)
+
     let imageSize = Resources.Dimensions.bigIcon
     let titleHeight = Resources.Dimensions.notificationHeight * 2
     let spacing = Resources.Layouts.spacingElement
-    let height = imageSize + spacing + titleHeight
-    let width = Resources.Dimensions.iPhoneSeWidth - spacing * 2
 
     NSLayoutConstraint.activate([
       fullView.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -79,8 +69,8 @@ private extension EmptyView {
 
       centeredView.centerXAnchor.constraint(equalTo: fullView.centerXAnchor),
       centeredView.centerYAnchor.constraint(equalTo: fullView.centerYAnchor),
-      centeredView.widthAnchor.constraint(equalToConstant: width),
-      centeredView.heightAnchor.constraint(equalToConstant: height),
+      centeredView.widthAnchor.constraint(equalToConstant: Resources.Dimensions.iPhoneSeWidth - spacing * 2),
+      centeredView.heightAnchor.constraint(equalToConstant: imageSize + spacing + titleHeight),
 
       iconImageView.centerXAnchor.constraint(equalTo: centeredView.centerXAnchor),
       iconImageView.topAnchor.constraint(equalTo: centeredView.topAnchor),
@@ -91,5 +81,6 @@ private extension EmptyView {
       primaryLabel.trailingAnchor.constraint(equalTo: centeredView.trailingAnchor, constant: -spacing),
       primaryLabel.bottomAnchor.constraint(equalTo: centeredView.bottomAnchor),
       primaryLabel.heightAnchor.constraint(equalToConstant: titleHeight)
-    ])  }
+    ])
+  }
 }

@@ -23,18 +23,10 @@ final class NewTrackerViewController: UIViewController {
   // MARK: - Private properties
   private var titleLabel = UILabel()
   private var stackView = UIStackView()
+  private var newHabitButton = ActionButton()
+  private var newEventButton = ActionButton()
 
-  private lazy var safeArea: UILayoutGuide = {
-    view.safeAreaLayoutGuide
-  }()
-
-  private lazy var stackWidth: CGFloat = {
-    view.frame.width - 2 * Resources.Layouts.leadingButton
-  }()
-
-  private lazy var stackHeight: CGFloat = {
-    2 * Resources.Dimensions.buttonHeight + Resources.Layouts.vSpacingButton
-  }()
+  private let analyticsService = AnalyticsService()
 
   // MARK: - Public properties
 
@@ -44,10 +36,7 @@ final class NewTrackerViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    view.backgroundColor = .ypWhite
-
-    configureTitleLabelSection()
-    configureStackViewSection()
+    configureUI()
   }
 }
 
@@ -67,6 +56,7 @@ extension NewTrackerViewController: CreateTrackerViewControllerDelegate {
 
 private extension NewTrackerViewController {
   @objc func newHabitButtonClicked() {
+    analyticsService.report(event: "click", params: ["screen": "new", "item": "habit"])
     let nextController = CreateTrackerViewController(isHabit: true)
     nextController.delegate = self
     nextController.isModalInPresentation = true
@@ -74,6 +64,7 @@ private extension NewTrackerViewController {
   }
 
   @objc func newEventButtonClicked() {
+    analyticsService.report(event: "click", params: ["screen": "new", "item": "event"])
     let nextController = CreateTrackerViewController(isHabit: false)
     nextController.delegate = self
     nextController.isModalInPresentation = true
@@ -84,61 +75,45 @@ private extension NewTrackerViewController {
 // MARK: - Private methods to configure Title section
 
 private extension NewTrackerViewController {
-  func configureTitleLabelSection() {
+  func configureUI() {
+    configureUISettings()
+    view.backgroundColor = .ypWhite
+    view.addSubview(titleLabel)
+    view.addSubview(stackView)
+    stackView.addArrangedSubview(newHabitButton)
+    stackView.addArrangedSubview(newEventButton)
+
+    let safeArea = view.safeAreaLayoutGuide
+
+    NSLayoutConstraint.activate([
+      titleLabel.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: Resources.Layouts.vSpacingTitle),
+      titleLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+      titleLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+
+      stackView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
+      stackView.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor),
+      stackView.widthAnchor.constraint(equalToConstant: view.frame.width - 2 * Resources.Layouts.leadingButton),
+      stackView.heightAnchor.constraint(
+        equalToConstant: 2 * Resources.Dimensions.buttonHeight + Resources.Layouts.vSpacingButton
+      )
+    ])
+  }
+
+  func configureUISettings() {
     titleLabel.text = Resources.Labels.newTracker
     titleLabel.font = Resources.Fonts.titleUsual
     titleLabel.textAlignment = .center
     titleLabel.translatesAutoresizingMaskIntoConstraints = false
 
-    view.addSubview(titleLabel)
-
-    NSLayoutConstraint.activate([
-      titleLabel.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: Resources.Layouts.vSpacingTitle),
-      titleLabel.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
-      titleLabel.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor)
-    ])
-  }
-}
-
-// MARK: - Private methods to configure Stack section
-
-private extension NewTrackerViewController {
-
-  func configureStackViewSection() {
-    configureStackView()
-    view.addSubview(stackView)
-    addHabitButtonToStackView()
-    addEventButtonToStackView()
-    configureStackViewConstraints()
-  }
-
-  func configureStackView() {
     stackView.axis = .vertical
     stackView.distribution = .fillEqually
     stackView.spacing = Resources.Layouts.vSpacingButton
     stackView.translatesAutoresizingMaskIntoConstraints = false
-  }
 
-  func addHabitButtonToStackView() {
-    let newHabitButton = ActionButton()
     newHabitButton.setTitle(Resources.Labels.habit, for: .normal)
     newHabitButton.addTarget(self, action: #selector(newHabitButtonClicked), for: .touchUpInside)
-    stackView.addArrangedSubview(newHabitButton)
-  }
 
-  func addEventButtonToStackView() {
-    let newEventButton = ActionButton()
     newEventButton.setTitle(Resources.Labels.event, for: .normal)
     newEventButton.addTarget(self, action: #selector(newEventButtonClicked), for: .touchUpInside)
-    stackView.addArrangedSubview(newEventButton)
-  }
-
-  func configureStackViewConstraints() {
-    NSLayoutConstraint.activate([
-      stackView.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
-      stackView.centerYAnchor.constraint(equalTo: safeArea.centerYAnchor),
-      stackView.widthAnchor.constraint(equalToConstant: stackWidth),
-      stackView.heightAnchor.constraint(equalToConstant: stackHeight)
-    ])
   }
 }

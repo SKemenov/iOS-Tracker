@@ -40,6 +40,10 @@ final class OptionButton: UIButton {
     return imageView
   }()
 
+  private lazy var isRtl = UIView.userInterfaceLayoutDirection(
+    for: primaryLabel.semanticContentAttribute
+  ) == .rightToLeft
+
   // MARK: - Inits
 
   override init(frame: CGRect) {
@@ -73,7 +77,7 @@ final class OptionButton: UIButton {
     let labelHeight = iconSize
 
     iconImageView.frame = CGRect(
-      x: frame.size.width - iconSize - hSpacing,
+      x: isRtl ? iconSize : frame.size.width - iconSize - hSpacing,
       y: (frame.size.height - iconSize / 2 ) / 2,
       width: iconSize / 3,
       height: iconSize / 2
@@ -81,22 +85,22 @@ final class OptionButton: UIButton {
 
     if secondaryLabel.text == nil {
       primaryLabel.frame = CGRect(
-        x: hSpacing,
+        x: isRtl ? -hSpacing : hSpacing,
         y: (frame.size.height - labelHeight ) / 2,
-        width: frame.size.width - iconSize - hSpacing * 2,
+        width: isRtl ? frame.size.width : frame.size.width - iconSize - hSpacing * 2,
         height: labelHeight
       )
     } else {
       primaryLabel.frame = CGRect(
-        x: hSpacing,
+        x: isRtl ? -hSpacing : hSpacing,
         y: labelHeight / 2,
-        width: frame.size.width - iconSize - hSpacing * 2,
+        width: isRtl ? frame.size.width : frame.size.width - iconSize - hSpacing * 2,
         height: labelHeight
       )
       secondaryLabel.frame = CGRect(
-        x: hSpacing,
+        x: isRtl ? -hSpacing : hSpacing,
         y: labelHeight + labelHeight / 2,
-        width: frame.size.width - iconSize - hSpacing * 2,
+        width: isRtl ? frame.size.width : frame.size.width - iconSize - hSpacing * 2,
         height: labelHeight
       )
     }

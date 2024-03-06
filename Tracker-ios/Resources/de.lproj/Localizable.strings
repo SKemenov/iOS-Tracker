@@ -1,0 +1,64 @@
+/* 
+  Localizable.strings
+  Tracker-ios
+
+  Created by Sergey Kemenov on 24.11.2023.
+  
+*/
+
+"labels.newTracker" = "Tracker erstellen";
+"labels.newEvent" = "Neues Ereignis";
+"labels.newHabit" = "Neue Gewohnheit";
+"labels.editHabit" = "Gewohnheit bearbeiten";
+"labels.newCategory" = "Neue Kategorie";
+"labels.addCategory" = "Kategorie hinzufügen";
+"labels.editCategory" = "Kategorie bearbeiten";
+"labels.habit" = "Gewohnheit";
+"labels.event" = "Ereignis";
+"labels.category" = "Kategorie";
+"labels.schedule" = "Zeitplan";
+"labels.statistic" = "Statistik";
+"labels.trackers" = "Tracker";
+"labels.searchBar" = "Suchen";
+"labels.cancel" = "Abbrechen";
+"labels.create" = "Erstellen";
+"labels.save" = "Speichern";
+"labels.textFieldPlaceholder" = "Geben Sie hier den Namen des Trackers ein";
+"labels.categoryNamePlaceholder" = "Geben Sie hier den Namen der Kategorie ein";
+"labels.textFieldRestriction" = "Nicht mehr als 38 Zeichen";
+"labels.done" = "Fertig";
+"labels.emoji" = "Emoji";
+"labels.color" = "Farbe";
+"labels.filters" = "Filter";
+"labels.emptyStatistic" = "Es gibt noch nichts zu analysieren";
+"labels.emptyTracker" = "Was werden wir verfolgen?";
+"labels.emptySearch" = "Nichts gefunden";
+"labels.emptyCategory" = "Gewohnheiten und Ereignisse können nach Bedeutung kombiniert werden";
+"labels.oneDay" = "Tag";
+"labels.fewDays" = "Tage";
+"labels.manyDays" = "Tage";
+"labels.everyDays" = "Jeden Tag";
+"labels.weekDays" = "Wochentage";
+"labels.weekEnds" = "Wochenende";
+"labels.onboardingPage1" = "Verfolgen Sie nur das, was Sie wollen";
+"labels.onboardingPage2" = "Auch wenn es kein Liter Wasser ist und Yoga";
+"labels.onboardingButton" = "Das sind die Technologien!";
+"labels.pinCategoryName" = "Angepinnt";
+"labels.confirmTrackerDelete" = "Sind Sie sicher, dass Sie den Tracker löschen möchten?";
+"labels.confirmCategoryDelete" = "Sind Sie sicher, dass diese Kategorie nicht benötigt wird?";
+"labels.cancelCategoryDelete" = "Löschen nicht möglich – diese Kategorie mit Trackern";
+
+"labels.context.0" = "Pin";
+"labels.context.1" = "Bearbeiten";
+"labels.context.2" = "Löschen";
+"labels.context.3" = "Unpin";
+
+"labels.filter.0" = "Alle Tracker";
+"labels.filter.1" = "Tracker für heute";
+"labels.filter.2" = "Abgeschlossen";
+"labels.filter.3" = "Unvollendet";
+
+"labels.stat.0" = "Bester Zeitraum";
+"labels.stat.1" = "Ideale Tage";
+"labels.stat.2" = "Tracker abgeschlossen";
+"labels.stat.3" = "Durchschnitt";

@@ -12,6 +12,7 @@ struct Tracker: Hashable {
   let title: String
   let emoji: Int
   let color: Int
+  let isPinned: Bool
   let schedule: [Bool]
 }
 
@@ -21,9 +22,8 @@ struct TrackerCategory: Hashable {
   let items: [Tracker]
 }
 
-struct TrackerRecord: Hashable {
-  let id: UUID
+struct TrackerFulfilment: Hashable {
   let tracker: Tracker
-  let dates: [Date]
-  let days: Int
+  let counter: Int
+  let category: TrackerCategory
 }
